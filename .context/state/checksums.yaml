@@ -1,0 +1,8 @@
+# Checksums for drift detection
+requirements:
+  hash: "b1750dceb60ddd67b3efcd127d2cf48f8a0fa56b56645a94d6c5353ecbe89a6f"
+  last_sync: "2026-01-31T06:02:20Z"
+tasks:
+  hash: "44b4f5be12c4e22e499dc40501408cf72d7324e396eb23f2ceccf1ad5a7816b4"
+  generated_at: "2026-01-31T06:02:20Z"
+working_files: []

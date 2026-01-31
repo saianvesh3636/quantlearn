@@ -1,0 +1,16 @@
+# Current State - Auto-updated by Ralphy
+project:
+  name: "quantlearn"
+  started: "2026-01-31T06:02:20Z"
+  last_updated: "2026-01-31T06:02:20Z"
+progress:
+  current_phase: 1
+  current_task: "Not started"
+  total_tasks: 0
+  completed_tasks: 0
+position:
+  file: ""
+  anchor_type: "function"
+  anchor_name: ""
+  status: "not_started"
+recent_completions: []

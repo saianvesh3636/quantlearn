@@ -22,12 +22,12 @@ Interactive web-based learning platform with visual lessons, Google Colab notebo
 
 ## Phase 1: Project Setup
 
-- [ ] Create project with single `start.sh` script that runs `npx next dev` (one command to start)
-- [ ] Initialize Next.js 14 project with App Router
-- [ ] Configure TypeScript with strict mode
-- [ ] Install and configure MDX (`@next/mdx`, `@mdx-js/loader`)
-- [ ] Set up Tailwind CSS with clean, minimal theme
-- [ ] Create directory structure: `app/`, `components/`, `content/lessons/`, `lib/`
+- [x] Create project with single `start.sh` script that runs `npx next dev` (one command to start)
+- [x] Initialize Next.js 14 project with App Router
+- [x] Configure TypeScript with strict mode
+- [x] Install and configure MDX (`@next/mdx`, `@mdx-js/loader`)
+- [x] Set up Tailwind CSS with clean, minimal theme
+- [x] Create directory structure: `app/`, `components/`, `content/lessons/`, `lib/`
 
 ## Phase 2: Content & Lessons
 

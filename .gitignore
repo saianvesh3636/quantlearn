@@ -18,6 +18,8 @@ secrets.yaml
 # Build outputs
 dist/
 build/
+.next/
+out/
 *.o
 *.a
 *.so
