@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useProgress } from '@/providers/ProgressProvider';
@@ -10,6 +10,15 @@ import type { LessonStatus } from '@/lib/db';
 interface SidebarProps {
   curriculum: Curriculum;
 }
+
+// Icons for collapsed sidebar
+const moduleIcons: Record<string, string> = {
+  basics: '📊',
+  'risk-management': '⚠️',
+  strategies: '📈',
+  backtesting: '🔄',
+  default: '📚',
+};
 
 /**
  * Progress indicator component showing lesson status
@@ -184,11 +193,90 @@ function ModuleSection({
 }
 
 /**
+ * Toggle button for collapsing/expanding sidebar
+ */
+function CollapseToggle({ isCollapsed, onToggle }: { isCollapsed: boolean; onToggle: () => void }) {
+  return (
+    <button
+      onClick={onToggle}
+      className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+      aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+    >
+      <svg
+        className={`w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform duration-200 ${isCollapsed ? 'rotate-180' : ''}`}
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+      </svg>
+    </button>
+  );
+}
+
+/**
+ * Collapsed module item showing just an icon
+ */
+function CollapsedModuleItem({
+  module,
+  activeLessonSlug,
+}: {
+  module: Module;
+  activeLessonSlug: string | null;
+}) {
+  const { getStatus } = useProgress();
+  const isActiveModule = module.lessons.some(l => l.slug === activeLessonSlug);
+  const completedCount = module.lessons.filter(l => getStatus(l.slug) === 'completed').length;
+  const totalCount = module.lessons.length;
+  const icon = moduleIcons[module.id] || moduleIcons.default;
+
+  return (
+    <div className="relative group">
+      <Link
+        href={`/lesson/${module.lessons[0]?.slug}`}
+        className={`
+          flex items-center justify-center w-10 h-10 rounded-md transition-colors
+          ${isActiveModule
+            ? 'bg-primary-100 dark:bg-primary-900/30'
+            : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+          }
+        `}
+        title={`${module.name} (${completedCount}/${totalCount})`}
+      >
+        <span className="text-lg">{icon}</span>
+      </Link>
+      {/* Tooltip on hover */}
+      <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+        {module.name}
+        <span className="ml-2 text-gray-400">({completedCount}/{totalCount})</span>
+      </div>
+    </div>
+  );
+}
+
+/**
  * Main Sidebar component with module/lesson hierarchy
  */
 export function Sidebar({ curriculum }: SidebarProps) {
   const pathname = usePathname();
   const { isLoaded, lastAccessedLesson, isLessonUnlocked } = useProgress();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  // Load collapsed state from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('sidebar-collapsed');
+    if (saved !== null) {
+      setIsCollapsed(JSON.parse(saved));
+    }
+  }, []);
+
+  // Save collapsed state to localStorage
+  const toggleCollapsed = () => {
+    const newState = !isCollapsed;
+    setIsCollapsed(newState);
+    localStorage.setItem('sidebar-collapsed', JSON.stringify(newState));
+  };
 
   // Extract active lesson slug from pathname
   const activeLessonSlug = pathname?.startsWith('/lesson/')
@@ -198,14 +286,46 @@ export function Sidebar({ curriculum }: SidebarProps) {
   // Compute all lesson slugs in order for lock state calculation
   const allLessonSlugs = curriculum.modules.flatMap(m => m.lessons.map(l => l.slug));
 
+  // Collapsed sidebar view
+  if (isCollapsed) {
+    return (
+      <aside className="w-16 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col overflow-hidden transition-all duration-300">
+        {/* Header with logo */}
+        <div className="p-3 border-b border-gray-200 dark:border-gray-800 flex justify-center">
+          <Link href="/" className="font-bold text-xl text-primary-500" title="QuantLearn">
+            Q
+          </Link>
+        </div>
+
+        {/* Toggle button */}
+        <div className="p-3 border-b border-gray-200 dark:border-gray-800 flex justify-center">
+          <CollapseToggle isCollapsed={isCollapsed} onToggle={toggleCollapsed} />
+        </div>
+
+        {/* Module icons */}
+        <nav className="flex-1 overflow-y-auto p-3 space-y-2">
+          {curriculum.modules.map(module => (
+            <CollapsedModuleItem
+              key={module.id}
+              module={module}
+              activeLessonSlug={activeLessonSlug}
+            />
+          ))}
+        </nav>
+      </aside>
+    );
+  }
+
+  // Expanded sidebar view
   return (
-    <aside className="w-64 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col overflow-hidden">
+    <aside className="w-64 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col overflow-hidden transition-all duration-300">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+      <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-xl text-gray-900 dark:text-white">
           <span className="text-primary-500">Q</span>
           <span>QuantLearn</span>
         </Link>
+        <CollapseToggle isCollapsed={isCollapsed} onToggle={toggleCollapsed} />
       </div>
 
       {/* Continue where you left off */}
