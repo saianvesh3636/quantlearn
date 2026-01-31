@@ -79,3 +79,80 @@ None identified.
 ## Questions
 
 - Is the custom primary color palette intentionally identical to Tailwind's `sky` colors, or should it be customized for the QuantLearn brand?
+
+---
+
+## Phase Review: ## Phase 2: Content & Lessons
+**Date:** 2026-01-31 01:09:00
+**Files:** .context/history.md
+.context/sessions/20260131-010221-69db0500.jsonl
+TASKS.md
+lib/types.ts
+
+# PR Review Summary
+
+## Overview
+This PR adds TypeScript type definitions for MDX lesson frontmatter and curriculum structure. The types are clean, well-documented, and provide a solid foundation for the lesson loading system.
+
+**Risk Level:** Low
+**Recommendation:** Approve with Comments
+
+---
+
+## Critical Issues (Must Fix)
+
+None.
+
+---
+
+## Suggestions (Should Fix)
+
+- **Architecture**: Consider adding module order for curriculum navigation
+  - File: `lib/types.ts:37-44`
+  - Current: `Module` interface has no `order` property
+  - Better: Add `order: number` to control module display order in the curriculum, similar to how lessons have order within modules
+  ```typescript
+  export interface Module {
+    id: string;
+    name: string;
+    order: number;  // Add this
+    lessons: Lesson[];
+  }
+  ```
+
+- **Type Safety**: Consider a stricter type for module identifiers
+  - File: `lib/types.ts:12`
+  - Current: `module: string` allows any string value
+  - Better: If modules are predefined, consider a union type or branded type for compile-time validation:
+  ```typescript
+  // Option 1: Known modules
+  type ModuleId = 'basics' | 'intermediate' | 'advanced';
+  
+  // Option 2: Branded type for runtime validation
+  type ModuleId = string & { readonly brand: unique symbol };
+  ```
+  This is optional and depends on whether modules are dynamic or fixed.
+
+---
+
+## Nitpicks (Could Fix)
+
+- The `Lesson` interface has both `module: string` and `frontmatter.module` - this creates potential for inconsistency. Consider deriving `module` from the slug or frontmatter rather than storing it twice.
+
+- File: `lib/types.ts:25` - The slug example `'basics/01-introduction-to-returns'` includes the module prefix. If `module` is stored separately, you might want the slug to exclude it (just `'01-introduction-to-returns'`), though this is a design choice.
+
+---
+
+## Positives
+
+- Excellent JSDoc comments on all interfaces and properties - this will help with IDE autocomplete and developer onboarding
+- Clean separation of concerns: frontmatter (file metadata) vs. Lesson (runtime data) vs. Module (collection) vs. Curriculum (root)
+- Optional fields (`colabUrl`, `prerequisites`) correctly typed with `?`
+- Good use of 1-based ordering which is more intuitive for content authors
+
+---
+
+## Questions
+
+- Will `prerequisites` validation happen at build time or runtime? The current string-based approach requires resolving slugs to actual lessons elsewhere.
+- Is there a plan for handling invalid prerequisite references (e.g., circular dependencies or non-existent lesson slugs)?

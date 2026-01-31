@@ -34,3 +34,18 @@ This file contains summaries of all completed tasks.
 - `.gitignore` - Added `.next/` and `out/` directories
 
 ---
+
+## 2026-01-31: Create MDX frontmatter schema
+
+**Task:** Create MDX frontmatter schema in `lib/types.ts` (title, module, order, colabUrl, prerequisites)
+
+**Files created:**
+- `lib/types.ts` - TypeScript interfaces for lesson frontmatter, lessons, modules, and curriculum
+
+**Types defined:**
+- `LessonFrontmatter` - Metadata schema (title, module, order, colabUrl?, prerequisites?)
+- `Lesson` - Full lesson data including slug, module, frontmatter, and content
+- `Module` - Module containing id, name, and sorted lessons
+- `Curriculum` - Root structure containing all modules
+
+---

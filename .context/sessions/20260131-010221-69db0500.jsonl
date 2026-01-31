@@ -2,3 +2,7 @@
 {"type":"phase_start","runId":"20260131-010221-69db0500","timestamp":"2026-01-31T06:02:21Z","phase":1,"name":"## Phase 1: Project Setup","tasks":6}
 {"type":"task_start","runId":"20260131-010221-69db0500","timestamp":"2026-01-31T06:02:21Z","task":"Create project with single `start.sh` script that runs `npx next dev` (one command to start)","phase":0}
 {"type":"task_complete","runId":"20260131-010221-69db0500","timestamp":"2026-01-31T06:07:07Z","task":"Create project with single `start.sh` script that runs `npx next dev` (one command to start)","phase":0}
+{"type":"phase_complete","runId":"20260131-010221-69db0500","timestamp":"2026-01-31T06:07:27Z","phase":1,"name":"## Phase 1: Project Setup","tasksCompleted":6}
+{"type":"phase_start","runId":"20260131-010221-69db0500","timestamp":"2026-01-31T06:07:28Z","phase":2,"name":"## Phase 2: Content & Lessons","tasks":6}
+{"type":"task_start","runId":"20260131-010221-69db0500","timestamp":"2026-01-31T06:07:28Z","task":"Create MDX frontmatter schema in `lib/types.ts` (title, module, order, colabUrl, prerequisites)","phase":0}
+{"type":"task_complete","runId":"20260131-010221-69db0500","timestamp":"2026-01-31T06:08:42Z","task":"Create MDX frontmatter schema in `lib/types.ts` (title, module, order, colabUrl, prerequisites)","phase":0}

@@ -31,7 +31,7 @@ Interactive web-based learning platform with visual lessons, Google Colab notebo
 
 ## Phase 2: Content & Lessons
 
-- [ ] Create MDX frontmatter schema in `lib/types.ts` (title, module, order, colabUrl, prerequisites)
+- [x] Create MDX frontmatter schema in `lib/types.ts` (title, module, order, colabUrl, prerequisites)
 - [ ] Implement lesson loader in `lib/lessons.ts` to parse MDX files and build curriculum tree
 - [ ] Create GitHub repo `quantlearn-notebooks` for Colab notebooks
 - [ ] Write pilot lessons with matching Colab notebooks:
