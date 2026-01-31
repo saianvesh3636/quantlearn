@@ -1,0 +1,102 @@
+---
+title: Regime Detection
+module: advanced
+order: 2
+colabUrl: ""
+prerequisites:
+  - advanced/01-adaptive-strategies
+---
+
+# Regime Detection
+
+Markets cycle through different regimes: bull, bear, high volatility, low volatility. Detecting regimes allows strategies to adapt their behavior.
+
+<ConceptCard title="Market Regimes" type="definition">
+A **regime** is a persistent market state with distinct statistical properties. Bull markets have positive drift and low volatility. Crisis periods have negative drift and high volatility. Different strategies work in different regimes.
+</ConceptCard>
+
+## Hidden Markov Models
+
+<FormulaDisplay
+  formula="P(S_t | S_{t-1}, Observations)"
+  explanation="HMMs infer hidden states (regimes) from observable data (returns)."
+  variables={[
+    { symbol: "S_t", meaning: "Hidden state (regime) at time t" },
+    { symbol: "S_{t-1}", meaning: "Previous state" },
+    { symbol: "Observations", meaning: "Return series" }
+  ]}
+/>
+
+<ConceptCard title="Two-State HMM" type="example">
+**State 1 (Bull)**: μ = +0.05%/day, σ = 0.8%
+**State 2 (Bear)**: μ = -0.1%/day, σ = 2.0%
+
+The model learns transition probabilities: P(Bull→Bear), P(Bear→Bull)
+</ConceptCard>
+
+<InteractiveExample title="Price with Regime Overlay" description="HMM-detected bull and bear regimes">
+  <RegimeChart
+    data={[
+      { date: "2020-01", price: 100, regime: "bull" },
+      { date: "2020-02", price: 105, regime: "bull" },
+      { date: "2020-03", price: 85, regime: "bear" },
+      { date: "2020-04", price: 80, regime: "bear" },
+      { date: "2020-05", price: 90, regime: "recovery" },
+      { date: "2020-06", price: 100, regime: "bull" },
+      { date: "2020-07", price: 108, regime: "bull" },
+      { date: "2020-08", price: 115, regime: "bull" },
+      { date: "2020-09", price: 110, regime: "bull" },
+      { date: "2020-10", price: 105, regime: "bear" },
+      { date: "2020-11", price: 115, regime: "bull" },
+      { date: "2020-12", price: 125, regime: "bull" }
+    ]}
+    title="S&P 500 with Detected Regimes"
+    regimes={[
+      { name: "bull", color: "#10b981", label: "Bull Market" },
+      { name: "bear", color: "#ef4444", label: "Bear Market" },
+      { name: "recovery", color: "#f59e0b", label: "Recovery" }
+    ]}
+  />
+</InteractiveExample>
+
+## Volatility Regimes
+
+<ConceptCard title="VIX-Based Regimes" type="tip">
+Simple but effective:
+- **VIX < 15**: Low vol regime (trend strategies work)
+- **VIX 15-25**: Normal regime
+- **VIX > 25**: High vol regime (mean reversion works)
+
+No fancy model needed - just conditional on observable volatility.
+</ConceptCard>
+
+<InteractiveExample title="Strategy Performance by Regime" description="Different strategies excel in different regimes">
+  <Heatmap
+    data={[
+      { x: "Trend", y: "Low Vol", value: 1.8 },
+      { x: "Trend", y: "Normal", value: 1.2 },
+      { x: "Trend", y: "High Vol", value: 0.4 },
+      { x: "Mean Rev", y: "Low Vol", value: 0.6 },
+      { x: "Mean Rev", y: "Normal", value: 1.0 },
+      { x: "Mean Rev", y: "High Vol", value: 1.5 },
+      { x: "Carry", y: "Low Vol", value: 1.4 },
+      { x: "Carry", y: "Normal", value: 0.9 },
+      { x: "Carry", y: "High Vol", value: -0.5 }
+    ]}
+    xLabel="Strategy"
+    yLabel="Volatility Regime"
+    title="Sharpe Ratio by Strategy and Regime"
+  />
+</InteractiveExample>
+
+## Regime-Switching Strategies
+
+<ConceptCard title="Implementation" type="warning">
+**Challenge**: Regime detection has lag. By the time you detect a bear market, much of the damage is done.
+
+**Solution**: Use probabilistic weights rather than hard switches. If P(bear) = 70%, run 70% defensive, 30% aggressive.
+</ConceptCard>
+
+<KeyTakeaway>
+Markets move through distinct regimes with different return/risk characteristics. Use **Hidden Markov Models** or simple **volatility thresholds** to detect regimes. Apply **regime-conditional strategies** but account for detection lag by using probabilistic weights.
+</KeyTakeaway>

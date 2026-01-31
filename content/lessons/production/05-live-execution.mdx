@@ -1,0 +1,157 @@
+---
+title: Live Execution Case Study
+module: production
+order: 5
+colabUrl: ""
+prerequisites:
+  - production/04-options-basics
+---
+
+# Live Execution Case Study
+
+The gap between backtest and live trading is where most strategies die. This lesson covers the realities of running a strategy with real money.
+
+<ConceptCard title="The Live Trading Gap" type="warning">
+**Why live results differ from backtests:**
+- Slippage: You don't get the price you expected
+- Latency: By the time you trade, the signal is stale
+- Partial fills: You wanted 1000 shares, got 500
+- Market impact: Your own orders move the price
+- Operational errors: Bugs, network issues, fat fingers
+</ConceptCard>
+
+## Execution Quality
+
+<FormulaDisplay
+  formula="Slippage = Execution\;Price - Decision\;Price"
+  explanation="The cost of not getting the price you wanted."
+  variables={[
+    { symbol: "Execution\\;Price", meaning: "Actual fill price" },
+    { symbol: "Decision\\;Price", meaning: "Price when signal fired" }
+  ]}
+/>
+
+<InteractiveExample title="Execution Quality Analysis" description="Tracking slippage over time">
+  <Histogram
+    data={[
+      { bin: "-0.10%", count: 5 },
+      { bin: "-0.05%", count: 15 },
+      { bin: "0.00%", count: 25 },
+      { bin: "+0.05%", count: 30 },
+      { bin: "+0.10%", count: 18 },
+      { bin: "+0.15%", count: 7 }
+    ]}
+    xLabel="Slippage"
+    yLabel="Number of Trades"
+    title="Slippage Distribution (+ = Paid More Than Expected)"
+  />
+</InteractiveExample>
+
+## Position Management
+
+<ConceptCard title="Live Position Tracking" type="definition">
+**Reconciliation** ensures your system's view of positions matches the broker's. Discrepancies can occur from:
+- Partial fills
+- Rejected orders
+- Corporate actions
+- System crashes
+
+Run reconciliation at least daily, ideally real-time.
+</ConceptCard>
+
+<InteractiveExample title="Live Strategy Dashboard" description="Real-time monitoring metrics">
+  <EquityCurve
+    data={[
+      { date: "Mon 09:30", equity: 100000, drawdown: 0 },
+      { date: "Mon 12:00", equity: 100500, drawdown: 0 },
+      { date: "Mon 16:00", equity: 100300, drawdown: -0.2 },
+      { date: "Tue 09:30", equity: 100800, drawdown: 0 },
+      { date: "Tue 12:00", equity: 100200, drawdown: -0.6 },
+      { date: "Tue 16:00", equity: 101000, drawdown: 0 },
+      { date: "Wed 09:30", equity: 100700, drawdown: -0.3 },
+      { date: "Wed 12:00", equity: 101500, drawdown: 0 },
+      { date: "Wed 16:00", equity: 101200, drawdown: -0.3 }
+    ]}
+    title="Live Strategy P&L (3 Days)"
+  />
+</InteractiveExample>
+
+## Risk Controls
+
+<ConceptCard title="Kill Switches" type="tip">
+**Essential safeguards:**
+- **Max position size**: Never exceed X% in one asset
+- **Max daily loss**: Stop trading if down Y% today
+- **Order size limits**: No single order > Z shares
+- **Fat finger protection**: Reject orders outside price bands
+- **Heartbeat monitoring**: Alert if system stops responding
+</ConceptCard>
+
+## The First Month Live
+
+<ConceptCard title="Ramping Up" type="example">
+**Week 1**: Paper trade (no real money)
+- Verify signals match backtest
+- Test order routing
+- Monitor execution quality
+
+**Week 2-3**: Tiny size (1-5% of target)
+- Real money, minimal risk
+- Compare live vs backtest
+- Debug issues
+
+**Week 4+**: Gradual increase to target size
+- Scale up only if results match expectations
+- Never rush to full size
+</ConceptCard>
+
+<InteractiveExample title="Position Sizing Ramp-Up" description="Gradual scaling to full position">
+  <LineChart
+    data={[
+      { x: 1, y: 0, y2: 100 },
+      { x: 2, y: 5, y2: 100 },
+      { x: 3, y: 10, y2: 100 },
+      { x: 4, y: 25, y2: 100 },
+      { x: 5, y: 50, y2: 100 },
+      { x: 6, y: 75, y2: 100 },
+      { x: 7, y: 100, y2: 100 }
+    ]}
+    xLabel="Week"
+    yLabel="Position Size (% of Target)"
+    title="Conservative Ramp-Up Schedule"
+    series={[
+      { key: "y", name: "Actual Size", color: "#3b82f6" },
+      { key: "y2", name: "Target", color: "#d1d5db" }
+    ]}
+  />
+</InteractiveExample>
+
+## Learning from Live Trading
+
+<ConceptCard title="Post-Trade Analysis" type="definition">
+**After every trade:**
+1. Compare execution to backtest assumption
+2. Calculate slippage and market impact
+3. Log any operational issues
+4. Update slippage model for future backtests
+
+Live trading is the ultimate feedback loop. Use it to improve your models.
+</ConceptCard>
+
+<KeyTakeaway>
+Live trading is harder than backtesting. Budget for **slippage**, implement **risk controls**, and **ramp up slowly**. The first month should focus on validating your system works, not making money. Treat every live discrepancy as a learning opportunity.
+</KeyTakeaway>
+
+---
+
+## Congratulations!
+
+You've completed the QuantLearn curriculum. You now have the foundation to:
+- Understand market statistics and returns
+- Build and validate trading strategies
+- Avoid common pitfalls
+- Deploy strategies in production
+
+**Remember**: The real learning starts when you build your own strategies. Use Colab notebooks to practice, and don't risk money you can't afford to lose.
+
+Good luck on your quant journey!

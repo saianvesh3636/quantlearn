@@ -1,0 +1,106 @@
+---
+title: Time Series Basics
+module: trading
+order: 3
+colabUrl: ""
+prerequisites:
+  - trading/02-market-microstructure
+---
+
+# Time Series Basics
+
+Financial data is inherently time-ordered. Understanding time series properties is crucial for building predictive models.
+
+<ConceptCard title="Time Series" type="definition">
+A **time series** is a sequence of data points indexed by time. Stock prices, returns, and trading volumes are all time series. The order matters - you can't shuffle the data!
+</ConceptCard>
+
+## Stationarity
+
+<FormulaDisplay
+  formula="Y_t = \mu + \epsilon_t"
+  explanation="A stationary series has constant mean and variance over time."
+  variables={[
+    { symbol: "Y_t", meaning: "Value at time t" },
+    { symbol: "\\mu", meaning: "Constant mean" },
+    { symbol: "\\epsilon_t", meaning: "Random noise (constant variance)" }
+  ]}
+/>
+
+<ConceptCard title="Why Stationarity Matters" type="warning">
+Most statistical techniques assume stationarity. Raw prices are **non-stationary** (they trend up/down), but returns are typically stationary. Always transform prices to returns before modeling!
+</ConceptCard>
+
+<InteractiveExample title="Prices vs Returns" description="Compare non-stationary prices with stationary returns">
+  <LineChart
+    data={[
+      { x: 1, y: 100, y2: 0 },
+      { x: 2, y: 102, y2: 2.0 },
+      { x: 3, y: 105, y2: 2.9 },
+      { x: 4, y: 103, y2: -1.9 },
+      { x: 5, y: 108, y2: 4.9 },
+      { x: 6, y: 112, y2: 3.7 },
+      { x: 7, y: 110, y2: -1.8 },
+      { x: 8, y: 115, y2: 4.5 },
+      { x: 9, y: 118, y2: 2.6 },
+      { x: 10, y: 120, y2: 1.7 }
+    ]}
+    xLabel="Time"
+    yLabel="Value"
+    title="Price (Non-Stationary) vs Returns (Stationary)"
+    series={[
+      { key: "y", name: "Price", color: "#3b82f6" },
+      { key: "y2", name: "Return %", color: "#10b981" }
+    ]}
+  />
+</InteractiveExample>
+
+## Autocorrelation
+
+<FormulaDisplay
+  formula="ACF(k) = \frac{Cov(Y_t, Y_{t-k})}{Var(Y_t)}"
+  explanation="Autocorrelation measures how today's value relates to past values."
+  variables={[
+    { symbol: "ACF(k)", meaning: "Autocorrelation at lag k" },
+    { symbol: "Y_t", meaning: "Current value" },
+    { symbol: "Y_{t-k}", meaning: "Value k periods ago" }
+  ]}
+/>
+
+<ConceptCard title="Trading Implications" type="tip">
+**Positive autocorrelation** → momentum (trends continue)
+**Negative autocorrelation** → mean reversion (moves reverse)
+**Zero autocorrelation** → random walk (unpredictable)
+
+Most liquid markets show near-zero autocorrelation in returns, making prediction difficult!
+</ConceptCard>
+
+## Seasonality and Trends
+
+<InteractiveExample title="Decomposing Time Series" description="See trend, seasonality, and noise components">
+  <LineChart
+    data={[
+      { x: 1, y: 100, y2: 98 },
+      { x: 2, y: 105, y2: 102 },
+      { x: 3, y: 103, y2: 106 },
+      { x: 4, y: 110, y2: 108 },
+      { x: 5, y: 108, y2: 112 },
+      { x: 6, y: 115, y2: 114 },
+      { x: 7, y: 112, y2: 118 },
+      { x: 8, y: 120, y2: 120 },
+      { x: 9, y: 118, y2: 124 },
+      { x: 10, y: 125, y2: 126 }
+    ]}
+    xLabel="Time"
+    yLabel="Price"
+    title="Actual Price vs Trend"
+    series={[
+      { key: "y", name: "Actual", color: "#3b82f6" },
+      { key: "y2", name: "Trend", color: "#ef4444" }
+    ]}
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Financial time series require special handling. Always check for **stationarity** before modeling, understand **autocorrelation** structure, and be aware of **seasonality** effects (time of day, day of week, month of year patterns).
+</KeyTakeaway>

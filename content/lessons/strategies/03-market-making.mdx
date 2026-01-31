@@ -1,0 +1,104 @@
+---
+title: Market Making Basics
+module: strategies
+order: 3
+colabUrl: ""
+prerequisites:
+  - strategies/02-mean-reversion
+---
+
+# Market Making Basics
+
+Market makers provide liquidity by continuously quoting buy and sell prices. They profit from the bid-ask spread while managing inventory risk.
+
+<ConceptCard title="What is Market Making?" type="definition">
+A **market maker** posts both bid (buy) and ask (sell) orders simultaneously. They earn the spread when they buy at the bid and sell at the ask. They're always willing to trade - that's their service to the market.
+</ConceptCard>
+
+## The Spread as Profit
+
+<FormulaDisplay
+  formula="Profit_{per\;round\;trip} = Ask - Bid = Spread"
+  explanation="Market makers earn the spread on each completed round trip (buy then sell)."
+  variables={[
+    { symbol: "Ask", meaning: "Price at which MM sells" },
+    { symbol: "Bid", meaning: "Price at which MM buys" },
+    { symbol: "Spread", meaning: "Profit per share (before costs)" }
+  ]}
+/>
+
+<InteractiveExample title="Market Maker Order Book" description="Posting liquidity on both sides">
+  <OrderBook
+    data={{
+      bids: [
+        { price: 99.95, size: 500 },
+        { price: 99.90, size: 800 },
+        { price: 99.85, size: 1200 },
+        { price: 99.80, size: 1500 },
+        { price: 99.75, size: 2000 }
+      ],
+      asks: [
+        { price: 100.05, size: 500 },
+        { price: 100.10, size: 800 },
+        { price: 100.15, size: 1200 },
+        { price: 100.20, size: 1500 },
+        { price: 100.25, size: 2000 }
+      ]
+    }}
+    title="Market Maker Quotes: 10¢ Spread"
+  />
+</InteractiveExample>
+
+## Inventory Risk
+
+<ConceptCard title="The Core Challenge" type="warning">
+Market makers don't choose when to trade - customers do. If many people want to sell, the MM accumulates long inventory. If the price then drops, they lose money. **Inventory management** is the key skill.
+</ConceptCard>
+
+<FormulaDisplay
+  formula="Bid_{adj} = Mid - \frac{Spread}{2} - \gamma \times Inventory"
+  explanation="Skew quotes based on inventory to encourage balancing trades."
+  variables={[
+    { symbol: "Bid_{adj}", meaning: "Adjusted bid price" },
+    { symbol: "Mid", meaning: "Fair mid-price" },
+    { symbol: "\\gamma", meaning: "Inventory aversion parameter" },
+    { symbol: "Inventory", meaning: "Current position (+ = long)" }
+  ]}
+/>
+
+<ConceptCard title="Quote Skewing" type="tip">
+**When long inventory**: Lower both bid and ask to encourage sells (and discourage buys)
+**When short inventory**: Raise both bid and ask to encourage buys (and discourage sells)
+
+This naturally pushes inventory back toward zero.
+</ConceptCard>
+
+## Adverse Selection
+
+<ConceptCard title="Trading Against Informed Traders" type="definition">
+**Adverse selection** occurs when someone trades with you because they know something you don't. If an insider knows bad news is coming, they sell to you before the price drops. Market makers must widen spreads to compensate for this risk.
+</ConceptCard>
+
+<InteractiveExample title="Market Making P&L" description="Many small wins, occasional inventory losses">
+  <EquityCurve
+    data={[
+      { date: "09:30", equity: 100000, drawdown: 0 },
+      { date: "10:00", equity: 100050, drawdown: 0 },
+      { date: "10:30", equity: 100120, drawdown: 0 },
+      { date: "11:00", equity: 100080, drawdown: -0.04 },
+      { date: "11:30", equity: 100150, drawdown: 0 },
+      { date: "12:00", equity: 100200, drawdown: 0 },
+      { date: "12:30", equity: 99900, drawdown: -0.3 },
+      { date: "13:00", equity: 99950, drawdown: -0.25 },
+      { date: "13:30", equity: 100100, drawdown: 0 },
+      { date: "14:00", equity: 100180, drawdown: 0 },
+      { date: "14:30", equity: 100250, drawdown: 0 },
+      { date: "15:00", equity: 100320, drawdown: 0 }
+    ]}
+    title="Intraday Market Making P&L"
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Market making earns the bid-ask spread by providing liquidity. Success requires managing **inventory risk** through quote skewing and protecting against **adverse selection** from informed traders. It's a high-frequency, low-margin business requiring sophisticated technology.
+</KeyTakeaway>

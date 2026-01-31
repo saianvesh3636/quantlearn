@@ -1,0 +1,134 @@
+---
+title: Options Strategy Basics
+module: production
+order: 4
+colabUrl: ""
+prerequisites:
+  - production/03-tradfi-data
+---
+
+# Options Strategy Basics
+
+Options add a new dimension to trading: you can profit from direction, volatility, or time decay. This lesson introduces key concepts for quant options strategies.
+
+<ConceptCard title="What Are Options?" type="definition">
+An **option** gives you the right (not obligation) to buy or sell an asset at a specific price by a specific date.
+
+**Call**: Right to BUY at strike price
+**Put**: Right to SELL at strike price
+</ConceptCard>
+
+## The Greeks
+
+<FormulaDisplay
+  formula="\Delta = \frac{\partial V}{\partial S}, \quad \Gamma = \frac{\partial^2 V}{\partial S^2}, \quad \Theta = \frac{\partial V}{\partial t}, \quad Vega = \frac{\partial V}{\partial \sigma}"
+  explanation="The Greeks measure option sensitivity to different factors."
+  variables={[
+    { symbol: "\\Delta", meaning: "Sensitivity to underlying price" },
+    { symbol: "\\Gamma", meaning: "Rate of change of delta" },
+    { symbol: "\\Theta", meaning: "Time decay (usually negative)" },
+    { symbol: "Vega", meaning: "Sensitivity to volatility" }
+  ]}
+/>
+
+<ConceptCard title="Greek Intuition" type="example">
+**Delta = 0.5**: Option moves $0.50 for every $1 move in stock
+**Theta = -0.05**: Option loses $0.05 per day from time decay
+**Vega = 0.10**: Option gains $0.10 for 1% increase in implied vol
+</ConceptCard>
+
+<InteractiveExample title="Option Payoff Diagram" description="Call option profit/loss at expiration">
+  <LineChart
+    data={[
+      { x: 80, y: -5 },
+      { x: 85, y: -5 },
+      { x: 90, y: -5 },
+      { x: 95, y: -5 },
+      { x: 100, y: -5 },
+      { x: 105, y: 0 },
+      { x: 110, y: 5 },
+      { x: 115, y: 10 },
+      { x: 120, y: 15 }
+    ]}
+    xLabel="Stock Price at Expiry"
+    yLabel="Profit/Loss ($)"
+    title="Long Call Option (Strike = $100, Premium = $5)"
+    series={[
+      { key: "y", name: "P&L", color: "#3b82f6" }
+    ]}
+  />
+</InteractiveExample>
+
+## Volatility Trading
+
+<ConceptCard title="Implied vs Realized" type="tip">
+**Implied volatility (IV)**: Market's forecast of future vol (from option prices)
+**Realized volatility (RV)**: Actual historical vol
+
+**If IV > RV**: Options are "expensive" → sell options
+**If IV < RV**: Options are "cheap" → buy options
+
+This is the basis of volatility arbitrage strategies.
+</ConceptCard>
+
+<InteractiveExample title="IV vs RV Over Time" description="Volatility premium creates trading opportunities">
+  <LineChart
+    data={[
+      { x: 1, y: 20, y2: 18 },
+      { x: 2, y: 22, y2: 19 },
+      { x: 3, y: 35, y2: 28 },
+      { x: 4, y: 30, y2: 32 },
+      { x: 5, y: 25, y2: 22 },
+      { x: 6, y: 18, y2: 15 },
+      { x: 7, y: 20, y2: 17 },
+      { x: 8, y: 24, y2: 20 }
+    ]}
+    xLabel="Time"
+    yLabel="Volatility (%)"
+    title="Implied vs Realized Volatility"
+    series={[
+      { key: "y", name: "Implied Vol", color: "#ef4444" },
+      { key: "y2", name: "Realized Vol", color: "#3b82f6" }
+    ]}
+  />
+</InteractiveExample>
+
+## Common Strategies
+
+<ConceptCard title="Strategy Building Blocks" type="example">
+**Directional:**
+- Long call/put: Bet on direction with limited downside
+
+**Volatility:**
+- Straddle: Long call + long put (profit from big moves)
+- Iron condor: Profit from low volatility (range-bound)
+
+**Income:**
+- Covered call: Own stock + sell call (earn premium)
+- Cash-secured put: Sell put (get paid to buy at lower price)
+</ConceptCard>
+
+<InteractiveExample title="Iron Condor Payoff" description="Profit from range-bound markets">
+  <LineChart
+    data={[
+      { x: 80, y: -8 },
+      { x: 85, y: -3 },
+      { x: 90, y: 2 },
+      { x: 95, y: 2 },
+      { x: 100, y: 2 },
+      { x: 105, y: 2 },
+      { x: 110, y: -3 },
+      { x: 115, y: -8 }
+    ]}
+    xLabel="Stock Price at Expiry"
+    yLabel="Profit/Loss ($)"
+    title="Iron Condor: Max Profit if Price Stays in Range"
+    series={[
+      { key: "y", name: "P&L", color: "#10b981" }
+    ]}
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Options enable strategies impossible with stocks alone: profit from **volatility**, **time decay**, or **range-bound** markets. Master the **Greeks** to understand risk, and compare **implied vs realized vol** to find edges. Options add complexity but also opportunity.
+</KeyTakeaway>

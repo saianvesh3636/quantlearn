@@ -1,0 +1,133 @@
+---
+title: Notebooks to Production Scripts
+module: production
+order: 1
+colabUrl: ""
+prerequisites:
+  - advanced/05-portfolio-optimization
+---
+
+# Notebooks to Production Scripts
+
+Jupyter notebooks are great for research but terrible for production. This lesson covers the transition from exploratory code to robust, deployable systems.
+
+<ConceptCard title="The Notebook Problem" type="warning">
+**Notebooks encourage bad habits:**
+- Out-of-order cell execution
+- Hidden state between cells
+- No version control friendly
+- Hard to test
+- Can't schedule or automate
+
+Production code needs to be **reproducible, testable, and automatable**.
+</ConceptCard>
+
+## Refactoring for Production
+
+<ConceptCard title="The Transformation" type="example">
+**From notebook mess:**
+```python
+# Cell 1
+df = pd.read_csv('data.csv')
+# Cell 5 (run after cell 7!)
+df = df.dropna()
+# Cell 3
+signal = df['close'].rolling(20).mean()
+```
+
+**To clean module:**
+```python
+def load_data(path: str) -> pd.DataFrame:
+    df = pd.read_csv(path)
+    return df.dropna()
+
+def calculate_signal(df: pd.DataFrame, window: int = 20):
+    return df['close'].rolling(window).mean()
+```
+</ConceptCard>
+
+<InteractiveExample title="Code Quality Metrics" description="Notebook vs production code characteristics">
+  <Heatmap
+    data={[
+      { x: "Notebook", y: "Testability", value: 2 },
+      { x: "Notebook", y: "Reproducibility", value: 3 },
+      { x: "Notebook", y: "Maintainability", value: 2 },
+      { x: "Notebook", y: "Performance", value: 4 },
+      { x: "Production", y: "Testability", value: 9 },
+      { x: "Production", y: "Reproducibility", value: 9 },
+      { x: "Production", y: "Maintainability", value: 8 },
+      { x: "Production", y: "Performance", value: 8 }
+    ]}
+    xLabel="Code Type"
+    yLabel="Quality Metric"
+    title="Code Quality: Notebook vs Production (1-10)"
+  />
+</InteractiveExample>
+
+## Project Structure
+
+<ConceptCard title="Standard Layout" type="tip">
+```
+strategy/
+├── src/
+│   ├── data/          # Data loading & cleaning
+│   ├── signals/       # Signal generation
+│   ├── portfolio/     # Position sizing
+│   └── execution/     # Order management
+├── tests/             # Unit & integration tests
+├── configs/           # Parameter files (YAML)
+├── scripts/           # Entry points
+└── requirements.txt   # Dependencies
+```
+</ConceptCard>
+
+## Configuration Management
+
+<FormulaDisplay
+  formula="Code + Config = Behavior"
+  explanation="Separate what changes (config) from what doesn't (code)."
+  variables={[
+    { symbol: "Code", meaning: "Logic that rarely changes" },
+    { symbol: "Config", meaning: "Parameters, paths, thresholds" }
+  ]}
+/>
+
+<ConceptCard title="Config Files" type="example">
+**config.yaml:**
+```yaml
+strategy:
+  lookback_window: 20
+  threshold: 0.02
+  max_position: 1000
+
+data:
+  source: "yahoo"
+  symbols: ["AAPL", "GOOGL", "MSFT"]
+```
+
+Now you can change parameters without touching code!
+</ConceptCard>
+
+<InteractiveExample title="Development Workflow" description="From research to production pipeline">
+  <LineChart
+    data={[
+      { x: 1, y: 10, y2: 0 },
+      { x: 2, y: 30, y2: 5 },
+      { x: 3, y: 50, y2: 20 },
+      { x: 4, y: 65, y2: 45 },
+      { x: 5, y: 75, y2: 70 },
+      { x: 6, y: 80, y2: 90 }
+    ]}
+    xLabel="Development Stage"
+    yLabel="Completion %"
+    title="Research vs Production Code Progress"
+    series={[
+      { key: "y", name: "Research Complete", color: "#3b82f6" },
+      { key: "y2", name: "Production Ready", color: "#10b981" }
+    ]}
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Production code requires discipline: **modular functions**, **configuration files**, **proper testing**, and **version control**. Budget 2-3x the research time for productionization. The goal is code that runs reliably without human intervention.
+</KeyTakeaway>

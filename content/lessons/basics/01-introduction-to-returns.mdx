@@ -1,0 +1,96 @@
+---
+title: Introduction to Returns
+module: basics
+order: 1
+colabUrl: "https://colab.research.google.com/github/saianvesh3636/quantlearn/blob/main/notebooks/basics/01-introduction-to-returns.ipynb"
+prerequisites: []
+---
+
+# Introduction to Returns
+
+Understanding returns is fundamental to quantitative finance. In this lesson, we'll explore different types of returns and how to calculate them.
+
+<ConceptCard title="What is a Return?" type="definition">
+A **return** measures the percentage change in the value of an investment over a period of time. Returns allow us to compare investments of different sizes on an equal footing.
+</ConceptCard>
+
+## Types of Returns
+
+There are two main ways to calculate returns: **Simple Returns** and **Log Returns**. Each has its own advantages.
+
+### Simple Returns
+
+Simple (or arithmetic) returns represent the straightforward percentage change:
+
+<FormulaDisplay
+  formula="R_t = \frac{P_t - P_{t-1}}{P_{t-1}} = \frac{P_t}{P_{t-1}} - 1"
+  explanation="This formula calculates the percentage gain or loss from one period to the next."
+  variables={[
+    { symbol: "R_t", meaning: "Return at time t" },
+    { symbol: "P_t", meaning: "Price at time t" },
+    { symbol: "P_{t-1}", meaning: "Price at previous time period" }
+  ]}
+/>
+
+<ConceptCard title="Example: Calculating Simple Returns" type="example">
+If a stock price moves from $100 to $110:
+
+**Simple Return** = ($110 - $100) / $100 = **10%**
+
+If it then moves from $110 to $99:
+
+**Simple Return** = ($99 - $110) / $110 = **-10%**
+</ConceptCard>
+
+### Log Returns
+
+Logarithmic (or continuously compounded) returns use natural logarithms:
+
+<FormulaDisplay
+  formula="r_t = \ln\left(\frac{P_t}{P_{t-1}}\right) = \ln(P_t) - \ln(P_{t-1})"
+  explanation="Log returns have special mathematical properties that make them useful for statistical analysis."
+  variables={[
+    { symbol: "r_t", meaning: "Log return at time t" },
+    { symbol: "\\ln", meaning: "Natural logarithm" },
+    { symbol: "P_t", meaning: "Price at time t" }
+  ]}
+/>
+
+## Why Use Log Returns?
+
+<ConceptCard title="Advantages of Log Returns" type="tip">
+1. **Additivity**: Log returns can be summed over time periods
+2. **Symmetry**: A +10% gain and -10% loss are symmetric
+3. **Statistical Properties**: Better suited for statistical modeling (approximately normal distribution)
+</ConceptCard>
+
+<InteractiveExample
+  title="Compare Simple vs Log Returns"
+  description="See how cumulative returns differ between simple and log methods over time"
+>
+  <SimpleChart
+    data={[
+      { label: "T=0", value1: 0, value2: 0 },
+      { label: "T=1", value1: 10, value2: 9.53 },
+      { label: "T=2", value1: 21, value2: 19.06 },
+      { label: "T=3", value1: 33.1, value2: 28.6 },
+      { label: "T=4", value1: 46.41, value2: 38.13 },
+      { label: "T=5", value1: 61.05, value2: 47.67 }
+    ]}
+    xLabel="Time Period"
+    yLabel="Cumulative Return (%)"
+    title="Simple vs Log Returns Over Time"
+    series1Name="Simple Return"
+    series2Name="Log Return"
+    series1Color="#3b82f6"
+    series2Color="#10b981"
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+For small returns (under 10%), simple and log returns are nearly identical. For larger returns or longer time periods, the difference becomes significant. Quant professionals typically use **log returns** for statistical analysis.
+</KeyTakeaway>
+
+## Practice
+
+Open the Colab notebook to practice calculating returns with real stock data!

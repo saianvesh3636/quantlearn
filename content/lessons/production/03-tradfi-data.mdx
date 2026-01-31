@@ -1,0 +1,135 @@
+---
+title: TradFi Data Nuances
+module: production
+order: 3
+colabUrl: ""
+prerequisites:
+  - production/02-fast-backtesting
+---
+
+# TradFi Data Nuances
+
+Real financial data is messy. This lesson covers the gotchas that can invalidate your backtest if you're not careful.
+
+<ConceptCard title="Data Quality Issues" type="warning">
+**Common problems:**
+- Missing data points
+- Incorrect prices (bad ticks)
+- Corporate actions (splits, dividends)
+- Survivorship bias
+- Time zone confusion
+- Look-ahead in adjusted prices
+
+A single data error can make a losing strategy look profitable!
+</ConceptCard>
+
+## Adjusted vs Unadjusted Prices
+
+<FormulaDisplay
+  formula="Adj\;Price = Price \times \prod_{i} Split\;Ratio_i \times Dividend\;Factor"
+  explanation="Adjusted prices account for splits and dividends."
+  variables={[
+    { symbol: "Adj\\;Price", meaning: "Price adjusted for corporate actions" },
+    { symbol: "Split\\;Ratio", meaning: "Stock split adjustment (e.g., 2-for-1 = 0.5)" },
+    { symbol: "Dividend\\;Factor", meaning: "Dividend reinvestment adjustment" }
+  ]}
+/>
+
+<ConceptCard title="When to Use Which" type="tip">
+**Use adjusted prices for:**
+- Return calculations
+- Moving averages
+- Backtesting signals
+
+**Use unadjusted prices for:**
+- Order execution (actual prices)
+- Support/resistance levels
+- Options pricing
+</ConceptCard>
+
+<InteractiveExample title="Adjusted vs Unadjusted" description="How a 2-for-1 split affects prices">
+  <CandlestickChart
+    data={[
+      { date: "Pre-Split", open: 200, high: 205, low: 198, close: 202 },
+      { date: "Split Day", open: 101, high: 103, low: 100, close: 102 },
+      { date: "Post-Split", open: 102, high: 105, low: 101, close: 104 }
+    ]}
+    signals={[
+      { date: "Split Day", type: "info", price: 101, label: "2:1 Split" }
+    ]}
+    title="Stock Split: Unadjusted Prices"
+  />
+</InteractiveExample>
+
+## Point-in-Time Data
+
+<ConceptCard title="Look-Ahead Bias" type="definition">
+**Point-in-time** data shows what you would have known at each historical moment. Financial statements get revised - using the revised version in backtests is cheating!
+
+Example: Q1 earnings released April 15. Using Q1 data on March 31 is look-ahead bias.
+</ConceptCard>
+
+<InteractiveExample title="Point-in-Time vs Revised Data" description="Fundamental data availability timeline">
+  <LineChart
+    data={[
+      { x: 1, y: 2.10, y2: 2.10 },
+      { x: 2, y: 2.10, y2: 2.15 },
+      { x: 3, y: 2.15, y2: 2.15 },
+      { x: 4, y: 2.15, y2: 2.18 },
+      { x: 5, y: 2.18, y2: 2.18 }
+    ]}
+    xLabel="Time"
+    yLabel="Reported EPS"
+    title="EPS: As-Reported vs Revised"
+    series={[
+      { key: "y", name: "Point-in-Time", color: "#3b82f6" },
+      { key: "y2", name: "Revised (Look-Ahead)", color: "#ef4444" }
+    ]}
+  />
+</InteractiveExample>
+
+## Time Zones and Timestamps
+
+<ConceptCard title="Timestamp Hell" type="warning">
+**Common issues:**
+- NYSE closes 4pm ET, futures trade 23 hours
+- Is "daily" data end-of-day or start-of-day?
+- Daylight saving time shifts
+- Different exchanges, different hours
+
+Always convert to UTC internally and be explicit about what each timestamp means.
+</ConceptCard>
+
+## Data Validation
+
+<ConceptCard title="Sanity Checks" type="example">
+**Always validate:**
+- No returns > 50% in a day (probably bad data)
+- No negative prices
+- No gaps in dates (except weekends/holidays)
+- Volume makes sense
+- Open ≤ High, Low ≤ Close
+</ConceptCard>
+
+<InteractiveExample title="Data Quality Dashboard" description="Automated checks for common issues">
+  <Heatmap
+    data={[
+      { x: "AAPL", y: "Missing", value: 0 },
+      { x: "AAPL", y: "Outliers", value: 2 },
+      { x: "AAPL", y: "Splits", value: 3 },
+      { x: "GOOGL", y: "Missing", value: 1 },
+      { x: "GOOGL", y: "Outliers", value: 0 },
+      { x: "GOOGL", y: "Splits", value: 1 },
+      { x: "MSFT", y: "Missing", value: 0 },
+      { x: "MSFT", y: "Outliers", value: 1 },
+      { x: "MSFT", y: "Splits", value: 2 }
+    ]}
+    xLabel="Symbol"
+    yLabel="Issue Type"
+    title="Data Quality Issues by Symbol"
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Financial data requires careful handling. Use **adjusted prices** for returns, **point-in-time** data for fundamentals, and **UTC timestamps** internally. Always **validate** data before trusting backtest results. One bad data point can create phantom alpha.
+</KeyTakeaway>

@@ -1,0 +1,104 @@
+---
+title: Orthogonal Dimensions
+module: advanced
+order: 4
+colabUrl: ""
+prerequisites:
+  - advanced/03-signal-blending
+---
+
+# Orthogonal Dimensions
+
+Finding truly independent alpha sources requires understanding the dimensionality of returns. Most "new" factors are just repackaged versions of existing ones.
+
+<ConceptCard title="Factor Crowding" type="definition">
+**Factor crowding** occurs when many strategies load on the same underlying factors. "Value" and "quality" strategies may both be betting on the same dimension. True diversification requires **orthogonal** (independent) return sources.
+</ConceptCard>
+
+## Principal Component Analysis
+
+<FormulaDisplay
+  formula="Returns = \sum_{i=1}^{n} \beta_i \times PC_i + \epsilon"
+  explanation="PCA decomposes returns into independent components."
+  variables={[
+    { symbol: "PC_i", meaning: "Principal Component i (orthogonal factor)" },
+    { symbol: "\\beta_i", meaning: "Loading on component i" },
+    { symbol: "\\epsilon", meaning: "Idiosyncratic return (unexplained)" }
+  ]}
+/>
+
+<ConceptCard title="What PCA Reveals" type="example">
+For equity returns:
+- **PC1** (~40%): Market factor (beta to S&P)
+- **PC2** (~15%): Size factor (small vs large)
+- **PC3** (~10%): Value/Growth
+- **PC4+**: Sector, momentum, other factors
+
+Most "alpha" is actually exposure to these few dimensions.
+</ConceptCard>
+
+<InteractiveExample title="Variance Explained by Components" description="Most return variation comes from few factors">
+  <Histogram
+    data={[
+      { bin: "PC1", count: 40 },
+      { bin: "PC2", count: 15 },
+      { bin: "PC3", count: 10 },
+      { bin: "PC4", count: 8 },
+      { bin: "PC5", count: 5 },
+      { bin: "Other", count: 22 }
+    ]}
+    xLabel="Principal Component"
+    yLabel="Variance Explained (%)"
+    title="Return Variance by Principal Component"
+  />
+</InteractiveExample>
+
+## Finding True Alpha
+
+<ConceptCard title="Residual Returns" type="tip">
+**True alpha** is what remains after removing exposure to known factors:
+
+1. Regress strategy returns on factor returns
+2. The intercept (alpha) is pure skill
+3. The residuals are idiosyncratic bets
+
+If alpha disappears after factor adjustment, you were just harvesting risk premia, not generating alpha.
+</ConceptCard>
+
+<InteractiveExample title="Strategy Decomposition" description="Breaking down returns into factor exposures">
+  <ScatterPlot
+    data={[
+      { x: -2, y: -4, label: "Crisis Month" },
+      { x: -1, y: -1.5, label: "" },
+      { x: 0, y: 0.5, label: "" },
+      { x: 0.5, y: 1.2, label: "" },
+      { x: 1, y: 2.3, label: "" },
+      { x: 1.5, y: 3, label: "" },
+      { x: 2, y: 4.5, label: "Bull Month" },
+      { x: 2.5, y: 5.2, label: "" }
+    ]}
+    xLabel="Market Return (%)"
+    yLabel="Strategy Return (%)"
+    title="Strategy vs Market: Beta = 1.8, Alpha = 0.3%"
+    showTrendline={true}
+  />
+</InteractiveExample>
+
+## Constructing Orthogonal Portfolios
+
+<FormulaDisplay
+  formula="Portfolio_{orthogonal} = Portfolio - \beta \times Factor"
+  explanation="Remove factor exposure to isolate pure alpha."
+  variables={[
+    { symbol: "\\beta", meaning: "Factor loading" },
+    { symbol: "Factor", meaning: "Factor return (market, size, etc.)" }
+  ]}
+/>
+
+<ConceptCard title="Market Neutral" type="warning">
+**Market neutral** strategies have zero beta to the market. But they may still have exposure to other factors (size, value, momentum). True factor-neutral strategies hedge ALL known factors, not just market.
+</ConceptCard>
+
+<KeyTakeaway>
+Most return variation comes from a few common factors. Use **PCA** to identify the true dimensions of returns. **Factor-adjust** your strategies to measure true alpha. Build **orthogonal portfolios** by hedging out factor exposures for genuine diversification.
+</KeyTakeaway>

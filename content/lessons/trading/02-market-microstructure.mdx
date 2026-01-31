@@ -1,0 +1,97 @@
+---
+title: Market Microstructure
+module: trading
+order: 2
+colabUrl: ""
+prerequisites:
+  - trading/01-returns-and-risk
+---
+
+# Market Microstructure
+
+Market microstructure studies how orders become trades. Understanding this is essential for building strategies that actually work in live markets.
+
+<ConceptCard title="The Order Book" type="definition">
+The **order book** is the list of all pending buy and sell orders for an asset. It shows supply and demand at each price level and determines where trades occur.
+</ConceptCard>
+
+## Bids and Asks
+
+<FormulaDisplay
+  formula="Spread = Ask - Bid"
+  explanation="The bid-ask spread is the cost of immediately entering and exiting a position."
+  variables={[
+    { symbol: "Ask", meaning: "Lowest price sellers will accept" },
+    { symbol: "Bid", meaning: "Highest price buyers will pay" },
+    { symbol: "Spread", meaning: "Transaction cost for market orders" }
+  ]}
+/>
+
+<InteractiveExample title="Live Order Book" description="See how buy and sell orders stack up at different price levels">
+  <OrderBook
+    data={{
+      bids: [
+        { price: 99.50, size: 1500 },
+        { price: 99.45, size: 2200 },
+        { price: 99.40, size: 3100 },
+        { price: 99.35, size: 1800 },
+        { price: 99.30, size: 4500 },
+        { price: 99.25, size: 2800 },
+        { price: 99.20, size: 3500 }
+      ],
+      asks: [
+        { price: 99.55, size: 1200 },
+        { price: 99.60, size: 1900 },
+        { price: 99.65, size: 2500 },
+        { price: 99.70, size: 3200 },
+        { price: 99.75, size: 2100 },
+        { price: 99.80, size: 4000 },
+        { price: 99.85, size: 2700 }
+      ]
+    }}
+    title="Order Book Depth"
+  />
+</InteractiveExample>
+
+## Price Impact
+
+<ConceptCard title="Market Impact" type="warning">
+Large orders move prices. If you try to buy 10,000 shares but only 1,000 are offered at the best ask, you'll "walk up the book" and pay higher prices. This **slippage** can destroy strategy profitability.
+</ConceptCard>
+
+## Order Types
+
+<ConceptCard title="Market vs Limit Orders" type="example">
+**Market Order**: Execute immediately at best available price. You're a "taker" who pays the spread.
+
+**Limit Order**: Wait in the book until someone trades with you. You're a "maker" who earns the spread (or part of it).
+</ConceptCard>
+
+<InteractiveExample title="Price Action with Order Flow" description="Watch how large orders impact price">
+  <CandlestickChart
+    data={[
+      { date: "09:30", open: 100.0, high: 100.5, low: 99.8, close: 100.2 },
+      { date: "09:35", open: 100.2, high: 100.8, low: 100.1, close: 100.7 },
+      { date: "09:40", open: 100.7, high: 101.2, low: 100.5, close: 100.9 },
+      { date: "09:45", open: 100.9, high: 101.0, low: 100.0, close: 100.2 },
+      { date: "09:50", open: 100.2, high: 100.5, low: 99.5, close: 99.6 },
+      { date: "09:55", open: 99.6, high: 100.0, low: 99.3, close: 99.8 },
+      { date: "10:00", open: 99.8, high: 100.3, low: 99.7, close: 100.1 }
+    ]}
+    signals={[
+      { date: "09:40", type: "buy", price: 100.7, label: "Large Buy" },
+      { date: "09:50", type: "sell", price: 99.6, label: "Large Sell" }
+    ]}
+    title="Price Impact of Large Orders"
+  />
+</InteractiveExample>
+
+## Liquidity
+
+<ConceptCard title="Liquidity" type="definition">
+**Liquidity** measures how easily you can trade without moving the price. High liquidity means tight spreads and deep order books. Low liquidity means wide spreads and high impact costs.
+</ConceptCard>
+
+<KeyTakeaway>
+Market microstructure determines your **real execution costs**. A strategy that looks profitable in backtests can fail live due to spread costs and market impact. Always account for realistic transaction costs when evaluating strategies.
+</KeyTakeaway>

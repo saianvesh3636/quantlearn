@@ -3,6 +3,8 @@
  * Defines the structure for lesson metadata in MDX files
  */
 
+import type { QuizQuestion } from '@/types/curriculum';
+
 /**
  * Frontmatter for individual lessons
  */
@@ -17,6 +19,8 @@ export interface LessonFrontmatter {
   colabUrl?: string;
   /** Array of lesson slugs that should be completed before this one */
   prerequisites?: string[];
+  /** Quiz questions for this lesson (need 2/3 correct to pass and unlock next lesson) */
+  quiz?: QuizQuestion[];
 }
 
 /**

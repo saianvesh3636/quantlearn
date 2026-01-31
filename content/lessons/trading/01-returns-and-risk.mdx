@@ -1,0 +1,100 @@
+---
+title: Returns & Risk Measurement
+module: trading
+order: 1
+colabUrl: ""
+prerequisites:
+  - basics/05-volatility-measurement
+---
+
+# Returns & Risk Measurement
+
+Understanding how to measure returns and risk is fundamental to quantitative trading. This lesson connects the math foundations to real trading applications.
+
+<ConceptCard title="Risk-Adjusted Returns" type="definition">
+Raw returns don't tell the whole story. A 20% return with 5% volatility is very different from 20% return with 40% volatility. **Risk-adjusted metrics** help us compare strategies fairly.
+</ConceptCard>
+
+## The Sharpe Ratio
+
+The most common risk-adjusted return metric:
+
+<FormulaDisplay
+  formula="SR = \frac{R_p - R_f}{\sigma_p}"
+  explanation="The Sharpe Ratio measures excess return per unit of risk."
+  variables={[
+    { symbol: "SR", meaning: "Sharpe Ratio" },
+    { symbol: "R_p", meaning: "Portfolio return" },
+    { symbol: "R_f", meaning: "Risk-free rate" },
+    { symbol: "\\sigma_p", meaning: "Portfolio standard deviation" }
+  ]}
+/>
+
+<InteractiveExample title="Risk vs Return Tradeoff" description="See how different strategies compare on risk-adjusted basis">
+  <ScatterPlot
+    data={[
+      { x: 5, y: 8, label: "Treasury Bonds" },
+      { x: 12, y: 15, label: "S&P 500" },
+      { x: 18, y: 22, label: "Growth Stocks" },
+      { x: 25, y: 18, label: "Crypto" },
+      { x: 8, y: 12, label: "Balanced Fund" },
+      { x: 15, y: 20, label: "Momentum Strategy" }
+    ]}
+    xLabel="Risk (Volatility %)"
+    yLabel="Return (%)"
+    title="Risk-Return Profile of Different Assets"
+    showTrendline={true}
+  />
+</InteractiveExample>
+
+## Maximum Drawdown
+
+<ConceptCard title="Drawdown" type="warning">
+**Maximum Drawdown (MDD)** measures the largest peak-to-trough decline. A strategy with 50% MDD means you could lose half your capital before recovering. Most traders can't psychologically handle more than 20-30% drawdown.
+</ConceptCard>
+
+<FormulaDisplay
+  formula="MDD = \frac{Trough - Peak}{Peak}"
+  explanation="Drawdown measures the decline from the highest point to the lowest point."
+  variables={[
+    { symbol: "MDD", meaning: "Maximum Drawdown" },
+    { symbol: "Peak", meaning: "Highest portfolio value" },
+    { symbol: "Trough", meaning: "Lowest value after the peak" }
+  ]}
+/>
+
+<InteractiveExample title="Equity Curve with Drawdown" description="Visualize how drawdowns occur during a strategy's lifecycle">
+  <EquityCurve
+    data={[
+      { date: "2023-01", equity: 100000, drawdown: 0 },
+      { date: "2023-02", equity: 108000, drawdown: 0 },
+      { date: "2023-03", equity: 115000, drawdown: 0 },
+      { date: "2023-04", equity: 105000, drawdown: -8.7 },
+      { date: "2023-05", equity: 98000, drawdown: -14.8 },
+      { date: "2023-06", equity: 112000, drawdown: -2.6 },
+      { date: "2023-07", equity: 120000, drawdown: 0 },
+      { date: "2023-08", equity: 118000, drawdown: -1.7 },
+      { date: "2023-09", equity: 125000, drawdown: 0 },
+      { date: "2023-10", equity: 130000, drawdown: 0 }
+    ]}
+    title="Strategy Performance with Drawdown Periods"
+  />
+</InteractiveExample>
+
+## Sortino Ratio
+
+<ConceptCard title="Downside Risk" type="tip">
+The **Sortino Ratio** only penalizes downside volatility, not upside. This makes more sense because investors don't mind upside "risk"!
+</ConceptCard>
+
+<FormulaDisplay
+  formula="Sortino = \frac{R_p - R_f}{\sigma_d}"
+  explanation="Like Sharpe, but uses downside deviation instead of total standard deviation."
+  variables={[
+    { symbol: "\\sigma_d", meaning: "Downside deviation (volatility of negative returns only)" }
+  ]}
+/>
+
+<KeyTakeaway>
+Always evaluate strategies using **risk-adjusted metrics** like Sharpe and Sortino ratios. A strategy with lower absolute returns but better risk-adjusted returns is often preferable. Maximum drawdown tells you the worst-case scenario you need to survive.
+</KeyTakeaway>

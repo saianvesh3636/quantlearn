@@ -1,0 +1,126 @@
+---
+title: Moving Averages
+module: basics
+order: 4
+colabUrl: ""
+prerequisites:
+  - basics/03-correlation-analysis
+---
+
+# Moving Averages
+
+Moving averages smooth price data to identify trends and generate trading signals. They're the foundation of many quantitative strategies.
+
+<ConceptCard title="Why Smooth Prices?" type="definition">
+Raw prices are noisy - daily fluctuations obscure the underlying trend. **Moving averages** filter out noise by averaging recent prices, revealing whether the overall direction is up, down, or sideways.
+</ConceptCard>
+
+## Simple Moving Average (SMA)
+
+<FormulaDisplay
+  formula="SMA_n = \frac{1}{n}\sum_{i=0}^{n-1} P_{t-i}"
+  explanation="The SMA is the arithmetic mean of the last n prices."
+  variables={[
+    { symbol: "SMA_n", meaning: "Simple Moving Average over n periods" },
+    { symbol: "P_{t-i}", meaning: "Price i periods ago" },
+    { symbol: "n", meaning: "Lookback window (e.g., 20, 50, 200 days)" }
+  ]}
+/>
+
+<ConceptCard title="Common MA Periods" type="tip">
+- **20-day**: Short-term trend (about 1 month of trading)
+- **50-day**: Medium-term trend
+- **200-day**: Long-term trend (institutional benchmark)
+
+The 200-day MA is closely watched - breaks above/below are significant events.
+</ConceptCard>
+
+<InteractiveExample title="Price with Moving Averages" description="Short and long-term trends revealed">
+  <CandlestickChart
+    data={[
+      { date: "Jan", open: 100, high: 105, low: 98, close: 103, volume: 1200000 },
+      { date: "Feb", open: 103, high: 108, low: 101, close: 106, volume: 1400000 },
+      { date: "Mar", open: 106, high: 112, low: 104, close: 110, volume: 1600000 },
+      { date: "Apr", open: 110, high: 115, low: 108, close: 113, volume: 1800000 },
+      { date: "May", open: 113, high: 116, low: 109, close: 111, volume: 1500000 },
+      { date: "Jun", open: 111, high: 114, low: 105, close: 107, volume: 1700000 },
+      { date: "Jul", open: 107, high: 110, low: 102, close: 104, volume: 1300000 },
+      { date: "Aug", open: 104, high: 109, low: 100, close: 108, volume: 1100000 }
+    ]}
+    signals={[
+      { date: "Apr", type: "buy", price: 113, label: "Golden Cross" },
+      { date: "Jun", type: "sell", price: 107, label: "Death Cross" }
+    ]}
+    title="Price with 20-day and 50-day Moving Averages"
+    movingAverages={[3, 5]}
+    showVolume={true}
+  />
+</InteractiveExample>
+
+## Exponential Moving Average (EMA)
+
+<FormulaDisplay
+  formula="EMA_t = \alpha \cdot P_t + (1 - \alpha) \cdot EMA_{t-1}"
+  explanation="EMA gives more weight to recent prices, responding faster to changes."
+  variables={[
+    { symbol: "\\alpha", meaning: "Smoothing factor = 2/(n+1)" },
+    { symbol: "P_t", meaning: "Current price" },
+    { symbol: "EMA_{t-1}", meaning: "Previous EMA value" }
+  ]}
+/>
+
+<ConceptCard title="SMA vs EMA" type="example">
+**SMA**: Equal weight to all prices in window
+- Pro: Smoother, less noise
+- Con: Slower to react to changes
+
+**EMA**: More weight to recent prices
+- Pro: Faster response
+- Con: More false signals
+</ConceptCard>
+
+## Trading Signals
+
+<ConceptCard title="Moving Average Crossovers" type="definition">
+**Golden Cross**: Short-term MA crosses ABOVE long-term MA → Bullish signal (uptrend starting)
+
+**Death Cross**: Short-term MA crosses BELOW long-term MA → Bearish signal (downtrend starting)
+</ConceptCard>
+
+<InteractiveExample title="MA Crossover Performance" description="Equity curve from trading MA crossover signals">
+  <EquityCurve
+    data={[
+      { date: "2019", equity: 100000, drawdown: 0 },
+      { date: "2020-Q1", equity: 95000, drawdown: -5 },
+      { date: "2020-Q2", equity: 105000, drawdown: 0 },
+      { date: "2020-Q3", equity: 115000, drawdown: 0 },
+      { date: "2021-Q1", equity: 125000, drawdown: 0 },
+      { date: "2021-Q3", equity: 120000, drawdown: -4 },
+      { date: "2022-Q1", equity: 110000, drawdown: -12 },
+      { date: "2022-Q3", equity: 115000, drawdown: -8 },
+      { date: "2023", equity: 130000, drawdown: 0 }
+    ]}
+    title="50/200 MA Crossover Strategy Performance"
+  />
+</InteractiveExample>
+
+## MACD
+
+<FormulaDisplay
+  formula="MACD = EMA_{12} - EMA_{26}"
+  explanation="MACD measures the convergence/divergence of two EMAs."
+  variables={[
+    { symbol: "MACD", meaning: "Moving Average Convergence Divergence" },
+    { symbol: "Signal", meaning: "9-period EMA of MACD line" }
+  ]}
+/>
+
+<ConceptCard title="MACD Signals" type="tip">
+- **MACD crosses above Signal**: Bullish
+- **MACD crosses below Signal**: Bearish
+- **MACD crosses zero**: Confirms trend direction
+</ConceptCard>
+
+<KeyTakeaway>
+Moving averages smooth price noise to reveal trends. **SMA** weights all prices equally; **EMA** emphasizes recent prices. **Crossover signals** (Golden/Death Cross) identify trend changes. The 200-day MA is the key long-term trend indicator watched by institutions.
+</KeyTakeaway>

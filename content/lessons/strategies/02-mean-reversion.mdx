@@ -1,0 +1,103 @@
+---
+title: Mean Reversion
+module: strategies
+order: 2
+colabUrl: "https://colab.research.google.com/github/saianvesh3636/quantlearn/blob/main/notebooks/strategies/02-mean-reversion.ipynb"
+prerequisites:
+  - strategies/01-trend-following
+---
+
+# Mean Reversion
+
+Mean reversion is the opposite of trend following. The core idea: prices that deviate from their average tend to return to it.
+
+<ConceptCard title="Mean Reversion Philosophy" type="definition">
+**"What goes up must come down."** Mean reversion traders bet that extreme moves will reverse. They buy dips and sell rallies, profiting from prices returning to "normal" levels.
+</ConceptCard>
+
+## Z-Score Trading
+
+<FormulaDisplay
+  formula="Z = \frac{Price - MA}{\sigma}"
+  explanation="Z-score measures how many standard deviations price is from its mean."
+  variables={[
+    { symbol: "Z", meaning: "Z-score (standardized deviation)" },
+    { symbol: "Price", meaning: "Current price" },
+    { symbol: "MA", meaning: "Moving average (mean)" },
+    { symbol: "\\sigma", meaning: "Standard deviation" }
+  ]}
+/>
+
+<ConceptCard title="Z-Score Signals" type="example">
+- **Z > 2**: Price is 2 std devs above mean → Sell (overbought)
+- **Z < -2**: Price is 2 std devs below mean → Buy (oversold)
+- **Z → 0**: Price returning to mean → Exit position
+</ConceptCard>
+
+<InteractiveExample title="Mean Reversion Signals" description="Buy oversold, sell overbought conditions">
+  <CandlestickChart
+    data={[
+      { date: "Mon", open: 100, high: 101, low: 99, close: 100.5 },
+      { date: "Tue", open: 100.5, high: 102, low: 100, close: 101.5 },
+      { date: "Wed", open: 101.5, high: 105, low: 101, close: 104.5 },
+      { date: "Thu", open: 104.5, high: 106, low: 104, close: 105.5 },
+      { date: "Fri", open: 105.5, high: 106, low: 102, close: 102.5 },
+      { date: "Mon2", open: 102.5, high: 103, low: 100, close: 100.5 },
+      { date: "Tue2", open: 100.5, high: 101, low: 97, close: 97.5 },
+      { date: "Wed2", open: 97.5, high: 100, low: 97, close: 99.5 }
+    ]}
+    signals={[
+      { date: "Thu", type: "sell", price: 105.5, label: "Z > 2 (Overbought)" },
+      { date: "Tue2", type: "buy", price: 97.5, label: "Z < -2 (Oversold)" }
+    ]}
+    title="Mean Reversion Entry Points"
+  />
+</InteractiveExample>
+
+## Pairs Trading
+
+<ConceptCard title="Statistical Arbitrage" type="definition">
+**Pairs trading** finds two correlated assets and trades their spread. When the spread widens beyond normal, bet on convergence. This is market-neutral (no exposure to overall market direction).
+</ConceptCard>
+
+<InteractiveExample title="Pairs Trading Spread" description="Trade the spread between two correlated assets">
+  <LineChart
+    data={[
+      { x: 1, y: 0, y2: 2, y3: -2 },
+      { x: 2, y: 0.5, y2: 2, y3: -2 },
+      { x: 3, y: 1.5, y2: 2, y3: -2 },
+      { x: 4, y: 2.5, y2: 2, y3: -2 },
+      { x: 5, y: 1.8, y2: 2, y3: -2 },
+      { x: 6, y: 0.8, y2: 2, y3: -2 },
+      { x: 7, y: -0.5, y2: 2, y3: -2 },
+      { x: 8, y: -1.5, y2: 2, y3: -2 },
+      { x: 9, y: -2.3, y2: 2, y3: -2 },
+      { x: 10, y: -1.2, y2: 2, y3: -2 },
+      { x: 11, y: -0.3, y2: 2, y3: -2 },
+      { x: 12, y: 0.2, y2: 2, y3: -2 }
+    ]}
+    xLabel="Time"
+    yLabel="Spread (Z-Score)"
+    title="Pairs Spread with Entry/Exit Bands"
+    series={[
+      { key: "y", name: "Spread", color: "#3b82f6" },
+      { key: "y2", name: "Upper Band", color: "#ef4444" },
+      { key: "y3", name: "Lower Band", color: "#10b981" }
+    ]}
+  />
+</InteractiveExample>
+
+## Risks of Mean Reversion
+
+<ConceptCard title="The Danger" type="warning">
+Mean reversion fails when:
+- **Regime change**: The "mean" shifts permanently
+- **Trending markets**: What looks oversold keeps falling
+- **Leverage**: Small adverse moves can wipe out capital
+
+Famous blow-ups (LTCM, 2008 quant crisis) often involved mean reversion strategies that faced unprecedented moves.
+</ConceptCard>
+
+<KeyTakeaway>
+Mean reversion profits from prices returning to average. It has **high win rates** but **occasional large losses** when means shift. Use z-scores to identify extremes, pairs trading for market neutrality, and always have stop losses for when "cheap" gets cheaper.
+</KeyTakeaway>

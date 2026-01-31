@@ -1,0 +1,87 @@
+---
+title: Walk-Forward Analysis
+module: backtesting
+order: 4
+colabUrl: ""
+prerequisites:
+  - backtesting/03-common-pitfalls
+---
+
+# Walk-Forward Analysis
+
+Walk-forward testing simulates how a strategy would be developed and traded in real-time, avoiding many backtesting pitfalls.
+
+<ConceptCard title="Walk-Forward Testing" type="definition">
+**Walk-forward analysis** repeatedly trains a model on past data, then tests on the next period. This mimics real trading where you only have historical data to learn from.
+</ConceptCard>
+
+## The Process
+
+<ConceptCard title="Rolling Windows" type="example">
+1. Train on 2015-2017, test on 2018
+2. Train on 2016-2018, test on 2019
+3. Train on 2017-2019, test on 2020
+4. Combine all test periods for true out-of-sample performance
+</ConceptCard>
+
+<InteractiveExample title="Walk-Forward Windows" description="Rolling train/test periods through time">
+  <LineChart
+    data={[
+      { x: 2015, y: 0, y2: 0 },
+      { x: 2016, y: 1, y2: 0 },
+      { x: 2017, y: 1, y2: 0 },
+      { x: 2018, y: 0, y2: 1 },
+      { x: 2019, y: 0, y2: 0 }
+    ]}
+    xLabel="Year"
+    yLabel="Window Type"
+    title="Walk-Forward Window 1: Train 2015-2017, Test 2018"
+    series={[
+      { key: "y", name: "Training", color: "#3b82f6" },
+      { key: "y2", name: "Testing", color: "#10b981" }
+    ]}
+  />
+</InteractiveExample>
+
+## Anchored vs Rolling
+
+<FormulaDisplay
+  formula="Train: [t_0, t_i] \rightarrow Test: [t_i, t_{i+1}]"
+  explanation="Anchored walk-forward keeps the start date fixed, expanding the training window."
+  variables={[
+    { symbol: "t_0", meaning: "Fixed start date" },
+    { symbol: "t_i", meaning: "Current cutoff" },
+    { symbol: "t_{i+1}", meaning: "Next test period end" }
+  ]}
+/>
+
+<ConceptCard title="Anchored vs Rolling" type="tip">
+**Anchored**: Training window grows over time (more data)
+- Better for: Stable relationships, more data helps
+
+**Rolling**: Fixed-size training window moves forward
+- Better for: Regime changes, recent data more relevant
+</ConceptCard>
+
+## Combining Results
+
+<InteractiveExample title="Combined Walk-Forward Results" description="Stitching together all out-of-sample test periods">
+  <EquityCurve
+    data={[
+      { date: "2018-01", equity: 100000, drawdown: 0 },
+      { date: "2018-06", equity: 105000, drawdown: 0 },
+      { date: "2018-12", equity: 102000, drawdown: -2.9 },
+      { date: "2019-06", equity: 110000, drawdown: 0 },
+      { date: "2019-12", equity: 115000, drawdown: 0 },
+      { date: "2020-06", equity: 108000, drawdown: -6.1 },
+      { date: "2020-12", equity: 125000, drawdown: 0 },
+      { date: "2021-06", equity: 130000, drawdown: 0 },
+      { date: "2021-12", equity: 128000, drawdown: -1.5 }
+    ]}
+    title="Walk-Forward Out-of-Sample Equity"
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Walk-forward analysis provides **realistic performance estimates** by simulating real-time strategy development. It's slower than simple backtesting but much more reliable. Always use walk-forward before committing real capital.
+</KeyTakeaway>

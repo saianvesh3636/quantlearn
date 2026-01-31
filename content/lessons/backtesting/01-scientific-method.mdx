@@ -1,0 +1,92 @@
+---
+title: Scientific Method in Trading
+module: backtesting
+order: 1
+colabUrl: ""
+prerequisites:
+  - trading/03-time-series-basics
+---
+
+# Scientific Method in Trading
+
+Quantitative trading is applied science. We form hypotheses, test them against data, and let evidence guide our decisions.
+
+<ConceptCard title="The Scientific Approach" type="definition">
+A **trading hypothesis** is a testable claim about market behavior. "Stocks that go up tend to keep going up" is a hypothesis (momentum). We test it with data, not gut feelings.
+</ConceptCard>
+
+## Hypothesis Formation
+
+<ConceptCard title="Good vs Bad Hypotheses" type="example">
+**Good**: "Stocks with earnings surprises > 5% outperform by 2% over the next month"
+- Specific, measurable, falsifiable
+
+**Bad**: "The market will go up because it feels oversold"
+- Vague, subjective, not testable
+</ConceptCard>
+
+## The Research Pipeline
+
+<InteractiveExample title="From Idea to Strategy" description="The systematic process of strategy development">
+  <LineChart
+    data={[
+      { x: 1, y: 100, y2: 100 },
+      { x: 2, y: 60, y2: 95 },
+      { x: 3, y: 30, y2: 85 },
+      { x: 4, y: 15, y2: 70 },
+      { x: 5, y: 8, y2: 50 },
+      { x: 6, y: 3, y2: 25 }
+    ]}
+    xLabel="Research Stage"
+    yLabel="Ideas Remaining (%)"
+    title="Strategy Funnel: Most Ideas Fail Testing"
+    series={[
+      { key: "y", name: "Ideas Remaining", color: "#3b82f6" },
+      { key: "y2", name: "Cumulative Effort", color: "#f59e0b" }
+    ]}
+  />
+</InteractiveExample>
+
+<ConceptCard title="Research Stages" type="tip">
+1. **Hypothesis** - Form testable idea
+2. **Initial Test** - Quick backtest on subset of data
+3. **Refinement** - Adjust parameters, add filters
+4. **Out-of-Sample** - Test on held-out data
+5. **Paper Trading** - Test in live market (no money)
+6. **Live Trading** - Real capital, small size first
+</ConceptCard>
+
+## Avoiding Data Snooping
+
+<ConceptCard title="Data Snooping Bias" type="warning">
+If you test 100 strategies, 5 will look great by pure chance (at 5% significance). This is **multiple hypothesis testing bias**. The more you look, the more "patterns" you'll find that aren't real.
+</ConceptCard>
+
+<FormulaDisplay
+  formula="P(false\;positive) = 1 - (1 - \alpha)^n"
+  explanation="The probability of at least one false positive increases with the number of tests."
+  variables={[
+    { symbol: "\\alpha", meaning: "Significance level (e.g., 0.05)" },
+    { symbol: "n", meaning: "Number of hypotheses tested" }
+  ]}
+/>
+
+<InteractiveExample title="Multiple Testing Problem" description="Probability of finding fake patterns by chance">
+  <ScatterPlot
+    data={[
+      { x: 1, y: 5 },
+      { x: 5, y: 23 },
+      { x: 10, y: 40 },
+      { x: 20, y: 64 },
+      { x: 50, y: 92 },
+      { x: 100, y: 99 }
+    ]}
+    xLabel="Number of Strategies Tested"
+    yLabel="Probability of False Positive (%)"
+    title="False Discovery Rate vs Number of Tests"
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Treat trading like science: form **testable hypotheses**, use **out-of-sample data** for validation, and account for **multiple testing bias**. Be skeptical of results that seem too good - they usually are.
+</KeyTakeaway>

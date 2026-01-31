@@ -1,0 +1,96 @@
+---
+title: Backtesting Fundamentals
+module: backtesting
+order: 2
+colabUrl: "https://colab.research.google.com/github/saianvesh3636/quantlearn/blob/main/notebooks/backtesting/02-backtesting-fundamentals.ipynb"
+prerequisites:
+  - backtesting/01-scientific-method
+---
+
+# Backtesting Fundamentals
+
+Backtesting simulates how a strategy would have performed historically. It's our primary tool for strategy evaluation - but it's easy to do wrong.
+
+<ConceptCard title="What is Backtesting?" type="definition">
+**Backtesting** applies trading rules to historical data to see what returns would have been generated. It answers: "If I had traded this strategy from 2010-2020, what would have happened?"
+</ConceptCard>
+
+## The Backtesting Loop
+
+<FormulaDisplay
+  formula="PnL_t = Position_{t-1} \times (Price_t - Price_{t-1})"
+  explanation="Daily profit/loss from holding a position."
+  variables={[
+    { symbol: "PnL_t", meaning: "Profit/Loss on day t" },
+    { symbol: "Position_{t-1}", meaning: "Position size (shares/contracts)" },
+    { symbol: "Price_t", meaning: "Today's price" }
+  ]}
+/>
+
+<InteractiveExample title="Backtest Results" description="A sample strategy equity curve with key metrics">
+  <EquityCurve
+    data={[
+      { date: "2020-01", equity: 100000, drawdown: 0 },
+      { date: "2020-03", equity: 95000, drawdown: -5 },
+      { date: "2020-06", equity: 110000, drawdown: 0 },
+      { date: "2020-09", equity: 108000, drawdown: -1.8 },
+      { date: "2020-12", equity: 125000, drawdown: 0 },
+      { date: "2021-03", equity: 118000, drawdown: -5.6 },
+      { date: "2021-06", equity: 140000, drawdown: 0 },
+      { date: "2021-09", equity: 135000, drawdown: -3.6 },
+      { date: "2021-12", equity: 155000, drawdown: 0 },
+      { date: "2022-03", equity: 145000, drawdown: -6.5 },
+      { date: "2022-06", equity: 160000, drawdown: 0 },
+      { date: "2022-09", equity: 175000, drawdown: 0 }
+    ]}
+    title="Strategy Equity Curve (2020-2022)"
+  />
+</InteractiveExample>
+
+## Key Metrics
+
+<ConceptCard title="Essential Backtest Metrics" type="tip">
+- **Total Return**: Overall profit/loss percentage
+- **CAGR**: Compound Annual Growth Rate
+- **Sharpe Ratio**: Risk-adjusted return (target > 1.5)
+- **Max Drawdown**: Worst peak-to-trough decline
+- **Win Rate**: Percentage of winning trades
+- **Profit Factor**: Gross profit / Gross loss
+</ConceptCard>
+
+## Realistic Assumptions
+
+<ConceptCard title="Transaction Costs" type="warning">
+Always include:
+- **Commissions**: Per-trade fees
+- **Slippage**: Difference between expected and actual execution price
+- **Spread**: Bid-ask cost
+- **Market Impact**: Price movement from your own orders
+
+A strategy with 0.5% annual return before costs often has -2% return after costs!
+</ConceptCard>
+
+<InteractiveExample title="Impact of Transaction Costs" description="Same strategy with different cost assumptions">
+  <LineChart
+    data={[
+      { x: 0, y: 100, y2: 100, y3: 100 },
+      { x: 1, y: 115, y2: 112, y3: 108 },
+      { x: 2, y: 132, y2: 125, y3: 116 },
+      { x: 3, y: 152, y2: 140, y3: 125 },
+      { x: 4, y: 175, y2: 156, y3: 135 },
+      { x: 5, y: 201, y2: 174, y3: 146 }
+    ]}
+    xLabel="Years"
+    yLabel="Portfolio Value ($K)"
+    title="Transaction Cost Impact Over Time"
+    series={[
+      { key: "y", name: "No Costs", color: "#10b981" },
+      { key: "y2", name: "Low Costs (0.1%)", color: "#f59e0b" },
+      { key: "y3", name: "High Costs (0.5%)", color: "#ef4444" }
+    ]}
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+A backtest is only as good as its assumptions. Always use **realistic transaction costs**, account for **slippage**, and remember that past performance doesn't guarantee future results. The goal is to avoid obviously bad strategies, not to predict exact future returns.
+</KeyTakeaway>

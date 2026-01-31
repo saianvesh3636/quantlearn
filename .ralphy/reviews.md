@@ -156,3 +156,123 @@ None.
 
 - Will `prerequisites` validation happen at build time or runtime? The current string-based approach requires resolving slugs to actual lessons elsewhere.
 - Is there a plan for handling invalid prerequisite references (e.g., circular dependencies or non-existent lesson slugs)?
+
+---
+
+## Phase Review: ## Phase 3: Navigation & Progress
+**Date:** 2026-01-31 01:17:06
+**Files:** .context/history.md
+.context/sessions/20260131-010221-69db0500.jsonl
+TASKS.md
+app/layout.tsx
+app/lessons/[...slug]/LessonContent.tsx
+app/lessons/[...slug]/page.tsx
+app/page.tsx
+components/Sidebar.tsx
+content/lessons/.gitkeep
+content/lessons/basics/01-introduction-to-returns.mdx
+content/lessons/basics/02-descriptive-statistics.mdx
+content/lessons/basics/03-correlation-analysis.mdx
+content/lessons/basics/04-moving-averages.mdx
+content/lessons/basics/05-volatility-measurement.mdx
+lib/db.ts
+lib/lessons.ts
+package-lock.json
+package.json
+providers/ProgressProvider.tsx
+
+Now I have all the context needed to provide a thorough review.
+
+# PR Review Summary
+
+## Overview
+This PR implements Phase 3: Navigation & Progress tracking, adding a sidebar with curriculum navigation, IndexedDB-based progress persistence via Dexie.js, and "continue where you left off" functionality. The implementation is well-structured with proper separation of concerns.
+
+**Risk Level:** Medium
+**Recommendation:** Request Changes
+
+---
+
+## Critical Issues (Must Fix)
+
+- **Security (XSS Vulnerability)**: Raw MDX content rendered with `dangerouslySetInnerHTML`
+  - File: `app/lessons/[...slug]/LessonContent.tsx:83`
+  - Problem: The lesson content (raw MDX) is rendered directly via `dangerouslySetInnerHTML={{ __html: lesson.content }}`. The `content` from gray-matter is raw MDX text, not HTML. This won't render properly and if any HTML is in the MDX, it creates XSS risk.
+  - Fix: Use a proper MDX renderer like `@mdx-js/react` with `MDXRemote` from `next-mdx-remote` to safely compile and render MDX content, or at minimum sanitize with DOMPurify before rendering.
+
+- **Architecture (Server/Client Mismatch)**: Synchronous file operations in layout may cause hydration issues
+  - File: `app/layout.tsx:23`
+  - Problem: `getCurriculum()` uses synchronous `fs.readFileSync` and is called in a Server Component (layout), but `Sidebar` is a `'use client'` component. While this works, passing server-fetched data to client components can cause serialization issues with complex objects.
+  - Fix: Ensure the curriculum data is plain JSON-serializable objects (it appears to be, but verify `content` field serialization).
+
+---
+
+## Suggestions (Should Fix)
+
+- **Performance**: Full progress reload on every status change
+  - File: `providers/ProgressProvider.tsx:57-65`
+  - Current: Both `markViewed` and `markCompleted` call `loadProgress()` which fetches ALL records from IndexedDB.
+  - Better: Update state optimistically or use Dexie's live queries (`useLiveQuery`) for reactive updates without full refetch:
+    ```typescript
+    const markViewed = useCallback(async (slug: string) => {
+      await dbMarkViewed(slug);
+      const updated = await getProgress(slug);
+      if (updated) {
+        setProgress(prev => new Map(prev).set(slug, updated));
+      }
+    }, []);
+    ```
+
+- **Error Handling**: Missing error handling in async handlers
+  - File: `app/lessons/[...slug]/LessonContent.tsx:23-25`
+  - Current: `handleMarkComplete` doesn't handle errors; if IndexedDB fails, user gets no feedback.
+  - Better: Wrap in try-catch with user feedback (toast notification or error state).
+
+- **Accessibility**: Unused `hasActiveLesson` variable
+  - File: `components/Sidebar.tsx:97`
+  - Current: `hasActiveLesson` is computed but never used.
+  - Better: Remove unused variable, or use it to auto-expand the module containing the active lesson on initial render.
+
+- **Architecture**: Sidebar hardcoded to 64 width without responsive behavior
+  - File: `components/Sidebar.tsx:149`
+  - Current: `w-64 h-screen` with no mobile/responsive handling.
+  - Better: Add a hamburger toggle for mobile or use responsive classes (`hidden md:flex`).
+
+- **Code Quality**: Progress indicator SVG not visible in completed state
+  - File: `components/Sidebar.tsx:22-42`
+  - Current: The SVG checkmark is inside a 12px (w-3 h-3) span but the SVG uses a 24x24 viewBox. The span has no `flex` or centering, so the SVG may overflow invisibly.
+  - Better: Add `flex items-center justify-center` to the span or adjust dimensions.
+
+- **Type Safety**: Unchecked type assertion for frontmatter
+  - File: `lib/lessons.ts:26`
+  - Current: `const frontmatter = data as LessonFrontmatter` - trusts gray-matter output blindly.
+  - Better: Use a validation library like Zod to parse and validate frontmatter structure at runtime.
+
+---
+
+## Nitpicks (Could Fix)
+
+- `ModuleSection` uses `useState(true)` for `isExpanded` - consider persisting expansion state to localStorage for better UX across page refreshes.
+
+- The `getStats` function in `lib/db.ts:145` returns `notStarted: 0` with a comment "Will be calculated by the caller" - this is misleading; either calculate it properly or remove from the return type.
+
+- Duplicate export pattern in `components/Sidebar.tsx:194-196` - both named export and default export of same component is redundant.
+
+---
+
+## Positives
+
+- Clean separation between data layer (`lib/db.ts`), state management (`ProgressProvider`), and UI components.
+- Good use of Dexie.js for IndexedDB with proper indexing (`slug, status, lastAccessedAt`).
+- Progress state correctly prevents "downgrading" from completed to in_progress in `markViewed`.
+- Proper use of `useCallback` to prevent unnecessary re-renders in context provider.
+- Good accessibility basics with `aria-label` and `title` attributes on progress indicators.
+- MDX lessons include proper frontmatter schema with prerequisites support for future use.
+
+---
+
+## Questions
+
+- Is the raw MDX content rendering intentional as a placeholder? The current implementation won't render MDX features like math equations (`$$`) - these will show as raw text.
+
+- Should the sidebar be hideable/collapsible for better lesson reading experience on smaller screens?

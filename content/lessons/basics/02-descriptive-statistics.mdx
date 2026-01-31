@@ -1,0 +1,114 @@
+---
+title: Descriptive Statistics
+module: basics
+order: 2
+colabUrl: "https://colab.research.google.com/github/saianvesh3636/quantlearn/blob/main/notebooks/basics/02-descriptive-statistics.ipynb"
+prerequisites:
+  - basics/01-introduction-to-returns
+---
+
+# Descriptive Statistics
+
+Descriptive statistics help us summarize and understand the characteristics of return distributions.
+
+<ConceptCard title="Why Statistics Matter" type="definition">
+Financial returns are random variables. **Descriptive statistics** summarize their behavior with just a few numbers: mean, variance, skewness, kurtosis. These metrics form the foundation of risk management.
+</ConceptCard>
+
+## Measures of Central Tendency
+
+### Mean (Expected Return)
+
+<FormulaDisplay
+  formula="\bar{R} = \frac{1}{n}\sum_{i=1}^{n} R_i"
+  explanation="The arithmetic mean is the simple average of all returns."
+  variables={[
+    { symbol: "\\bar{R}", meaning: "Mean return" },
+    { symbol: "R_i", meaning: "Return in period i" },
+    { symbol: "n", meaning: "Number of observations" }
+  ]}
+/>
+
+<ConceptCard title="Mean vs Median" type="tip">
+The **mean** is sensitive to outliers. One huge loss can drag down the average. The **median** (middle value) is more robust. Compare both to understand your data.
+</ConceptCard>
+
+## Measures of Dispersion
+
+### Variance and Standard Deviation
+
+<FormulaDisplay
+  formula="\sigma^2 = \frac{1}{n-1}\sum_{i=1}^{n} (R_i - \bar{R})^2"
+  explanation="Variance measures the average squared deviation from the mean."
+  variables={[
+    { symbol: "\\sigma^2", meaning: "Variance" },
+    { symbol: "\\sigma", meaning: "Standard deviation (square root of variance)" }
+  ]}
+/>
+
+<InteractiveExample title="Return Distribution" description="Histogram of daily returns showing spread">
+  <Histogram
+    data={[
+      { bin: "-3%", count: 2 },
+      { bin: "-2%", count: 8 },
+      { bin: "-1%", count: 22 },
+      { bin: "0%", count: 35 },
+      { bin: "+1%", count: 20 },
+      { bin: "+2%", count: 10 },
+      { bin: "+3%", count: 3 }
+    ]}
+    xLabel="Daily Return"
+    yLabel="Frequency"
+    title="S&P 500 Daily Return Distribution"
+  />
+</InteractiveExample>
+
+## Higher Moments
+
+### Skewness
+
+<ConceptCard title="Distribution Asymmetry" type="warning">
+**Negative skewness** means the left tail is longer - there are more extreme losses than extreme gains. Most financial returns are negatively skewed, meaning crashes are more severe than rallies.
+</ConceptCard>
+
+<FormulaDisplay
+  formula="Skew = \frac{E[(R - \mu)^3]}{\sigma^3}"
+  explanation="Skewness measures asymmetry in the distribution."
+  variables={[
+    { symbol: "Skew > 0", meaning: "Right tail is longer (positive skew)" },
+    { symbol: "Skew < 0", meaning: "Left tail is longer (negative skew)" }
+  ]}
+/>
+
+### Kurtosis
+
+<ConceptCard title="Fat Tails" type="definition">
+**Kurtosis** measures how much probability is in the tails vs the center. High kurtosis ("leptokurtic") means more extreme events than a normal distribution predicts. Financial returns typically have kurtosis > 3, meaning "fat tails."
+</ConceptCard>
+
+<InteractiveExample title="Normal vs Fat Tails" description="Actual returns have more extreme events than normal distribution predicts">
+  <LineChart
+    data={[
+      { x: -4, y: 0.5, y2: 2 },
+      { x: -3, y: 2, y2: 5 },
+      { x: -2, y: 10, y2: 12 },
+      { x: -1, y: 25, y2: 22 },
+      { x: 0, y: 35, y2: 30 },
+      { x: 1, y: 25, y2: 22 },
+      { x: 2, y: 10, y2: 12 },
+      { x: 3, y: 2, y2: 5 },
+      { x: 4, y: 0.5, y2: 2 }
+    ]}
+    xLabel="Standard Deviations from Mean"
+    yLabel="Frequency"
+    title="Normal Distribution vs Actual Returns (Fat Tails)"
+    series={[
+      { key: "y", name: "Normal", color: "#3b82f6" },
+      { key: "y2", name: "Actual Returns", color: "#ef4444" }
+    ]}
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Financial returns are characterized by: **positive mean** (stocks go up on average), **significant variance** (daily swings are large), **negative skewness** (crashes are worse than rallies), and **high kurtosis** (extreme events happen more than normal distribution predicts).
+</KeyTakeaway>

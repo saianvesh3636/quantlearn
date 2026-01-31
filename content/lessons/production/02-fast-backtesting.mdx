@@ -1,0 +1,134 @@
+---
+title: Fast Backtesting Techniques
+module: production
+order: 2
+colabUrl: ""
+prerequisites:
+  - production/01-notebooks-to-production
+---
+
+# Fast Backtesting Techniques
+
+Slow backtests kill productivity. This lesson covers techniques to make backtests run 10-100x faster.
+
+<ConceptCard title="Why Speed Matters" type="definition">
+**Research velocity** depends on backtest speed. If a backtest takes 10 minutes, you run 6 experiments per hour. If it takes 10 seconds, you run 360. Faster iteration = faster learning = better strategies.
+</ConceptCard>
+
+## Vectorization
+
+<ConceptCard title="Avoid Loops" type="warning">
+**Slow (Python loop):**
+```python
+for i in range(len(prices)):
+    returns[i] = prices[i] / prices[i-1] - 1
+```
+
+**Fast (NumPy vectorized):**
+```python
+returns = prices[1:] / prices[:-1] - 1
+```
+
+Vectorized operations are 100-1000x faster because they run in optimized C code, not Python.
+</ConceptCard>
+
+<InteractiveExample title="Loop vs Vectorized Performance" description="Execution time comparison">
+  <Histogram
+    data={[
+      { bin: "Loop", count: 100 },
+      { bin: "Vectorized", count: 1 }
+    ]}
+    xLabel="Implementation"
+    yLabel="Relative Time"
+    title="Execution Time: Loop vs Vectorized"
+  />
+</InteractiveExample>
+
+## Caching & Memoization
+
+<FormulaDisplay
+  formula="Time_{total} = Time_{cached} + Time_{new}"
+  explanation="Only compute what hasn't been computed before."
+  variables={[
+    { symbol: "Time_{cached}", meaning: "Time to load cached results (~0)" },
+    { symbol: "Time_{new}", meaning: "Time for new computations only" }
+  ]}
+/>
+
+<ConceptCard title="What to Cache" type="tip">
+**Cache these (expensive, reusable):**
+- Downloaded data
+- Feature computations
+- Covariance matrices
+
+**Don't cache (fast or changes often):**
+- Signal generation with new parameters
+- Portfolio weights
+</ConceptCard>
+
+## Parallel Processing
+
+<ConceptCard title="Embarrassingly Parallel" type="example">
+Many backtest tasks are independent:
+- Testing different parameter combinations
+- Running on different assets
+- Walk-forward windows
+
+Use `multiprocessing` or `joblib` to run these in parallel across CPU cores.
+
+```python
+from joblib import Parallel, delayed
+
+results = Parallel(n_jobs=-1)(
+    delayed(backtest)(params)
+    for params in param_grid
+)
+```
+</ConceptCard>
+
+<InteractiveExample title="Parallel Speedup" description="Time reduction with multiple cores">
+  <LineChart
+    data={[
+      { x: 1, y: 100 },
+      { x: 2, y: 52 },
+      { x: 4, y: 27 },
+      { x: 8, y: 15 },
+      { x: 16, y: 9 }
+    ]}
+    xLabel="Number of CPU Cores"
+    yLabel="Execution Time (% of single core)"
+    title="Backtest Time vs CPU Cores"
+    series={[
+      { key: "y", name: "Time", color: "#3b82f6" }
+    ]}
+  />
+</InteractiveExample>
+
+## Event-Driven vs Vectorized
+
+<ConceptCard title="Two Approaches" type="definition">
+**Vectorized**: Process all data at once using array operations
+- Pros: Very fast, simple code
+- Cons: Hard to model complex logic, look-ahead risk
+
+**Event-driven**: Process bar-by-bar simulating real-time
+- Pros: Realistic, handles complex logic
+- Cons: Slower, more code
+
+**Use vectorized for research, event-driven for final validation.**
+</ConceptCard>
+
+<InteractiveExample title="Backtest Architecture Performance" description="Speed vs realism tradeoff">
+  <EquityCurve
+    data={[
+      { date: "Vectorized", equity: 100, drawdown: 0 },
+      { date: "Event-Basic", equity: 50, drawdown: 0 },
+      { date: "Event-Full", equity: 10, drawdown: 0 }
+    ]}
+    title="Relative Speed by Architecture (Vectorized = 100)"
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Fast backtests accelerate research. **Vectorize** operations, **cache** expensive computations, and **parallelize** independent tasks. Use vectorized backtests for exploration and event-driven for final validation with realistic execution modeling.
+</KeyTakeaway>

@@ -1,0 +1,92 @@
+---
+title: Making Strategies Adaptive
+module: advanced
+order: 1
+colabUrl: ""
+prerequisites:
+  - strategies/03-market-making
+---
+
+# Making Strategies Adaptive
+
+Static strategies decay as markets evolve. Adaptive strategies adjust their parameters based on changing market conditions.
+
+<ConceptCard title="Strategy Decay" type="definition">
+**Alpha decay** is the gradual loss of strategy profitability over time. As more traders discover a pattern, they compete it away. Adaptive strategies fight decay by continuously evolving.
+</ConceptCard>
+
+## Dynamic Parameter Adjustment
+
+<FormulaDisplay
+  formula="Param_t = Param_{t-1} + \eta \times \nabla Performance"
+  explanation="Adjust parameters in the direction that improves recent performance."
+  variables={[
+    { symbol: "Param_t", meaning: "Parameter value at time t" },
+    { symbol: "\\eta", meaning: "Learning rate (how fast to adapt)" },
+    { symbol: "\\nabla Performance", meaning: "Gradient of performance metric" }
+  ]}
+/>
+
+<ConceptCard title="Adaptation Methods" type="example">
+**Rolling optimization**: Re-optimize parameters on recent data window
+**Online learning**: Update parameters after each trade
+**Regime-conditional**: Use different parameters for different market states
+</ConceptCard>
+
+<InteractiveExample title="Adaptive vs Static Strategy" description="Adaptive strategy maintains performance as market changes">
+  <LineChart
+    data={[
+      { x: 2018, y: 100, y2: 100 },
+      { x: 2019, y: 115, y2: 112 },
+      { x: 2020, y: 125, y2: 118 },
+      { x: 2021, y: 145, y2: 120 },
+      { x: 2022, y: 160, y2: 115 },
+      { x: 2023, y: 180, y2: 110 }
+    ]}
+    xLabel="Year"
+    yLabel="Cumulative Return"
+    title="Adaptive Strategy Outperforms Over Time"
+    series={[
+      { key: "y", name: "Adaptive", color: "#10b981" },
+      { key: "y2", name: "Static", color: "#ef4444" }
+    ]}
+  />
+</InteractiveExample>
+
+## Volatility Scaling
+
+<FormulaDisplay
+  formula="Position = \frac{Target\;Vol}{\sigma_{realized}} \times Base\;Position"
+  explanation="Scale position size inversely to current volatility."
+  variables={[
+    { symbol: "Target\\;Vol", meaning: "Desired portfolio volatility" },
+    { symbol: "\\sigma_{realized}", meaning: "Current realized volatility" }
+  ]}
+/>
+
+<ConceptCard title="Why Scale by Volatility?" type="tip">
+Markets alternate between calm and volatile periods. **Volatility targeting** reduces position size when risk is high and increases it when risk is low. This smooths returns and improves Sharpe ratio.
+</ConceptCard>
+
+<InteractiveExample title="Volatility-Scaled Returns" description="More consistent returns through position sizing">
+  <Histogram
+    data={[
+      { bin: "-4%", count: 2, category: "Unscaled" },
+      { bin: "-3%", count: 5, category: "Unscaled" },
+      { bin: "-2%", count: 12, category: "Unscaled" },
+      { bin: "-1%", count: 20, category: "Unscaled" },
+      { bin: "0%", count: 25, category: "Unscaled" },
+      { bin: "1%", count: 18, category: "Unscaled" },
+      { bin: "2%", count: 10, category: "Unscaled" },
+      { bin: "3%", count: 5, category: "Unscaled" },
+      { bin: "4%", count: 3, category: "Unscaled" }
+    ]}
+    xLabel="Daily Return"
+    yLabel="Frequency"
+    title="Return Distribution: Volatility Scaling Reduces Tails"
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Adaptive strategies combat alpha decay by adjusting to market changes. Key techniques include **rolling parameter optimization**, **volatility scaling** for consistent risk, and **regime-conditional parameters**. The goal is robust performance across different market environments.
+</KeyTakeaway>

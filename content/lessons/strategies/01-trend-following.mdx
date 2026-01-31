@@ -1,0 +1,98 @@
+---
+title: Trend Following
+module: strategies
+order: 1
+colabUrl: "https://colab.research.google.com/github/saianvesh3636/quantlearn/blob/main/notebooks/strategies/01-trend-following.ipynb"
+prerequisites:
+  - backtesting/06-sample-size
+---
+
+# Trend Following
+
+Trend following is one of the oldest and most robust trading strategies. The core idea: prices that are going up tend to keep going up.
+
+<ConceptCard title="The Trend Following Philosophy" type="definition">
+**"The trend is your friend."** Trend followers don't predict where prices will go - they react to what prices are doing. When a trend starts, they get on board. When it ends, they get off.
+</ConceptCard>
+
+## Moving Average Crossovers
+
+<FormulaDisplay
+  formula="Signal = \begin{cases} Buy & \text{if } SMA_{fast} > SMA_{slow} \\ Sell & \text{if } SMA_{fast} < SMA_{slow} \end{cases}"
+  explanation="The classic dual moving average crossover system."
+  variables={[
+    { symbol: "SMA_{fast}", meaning: "Short-term moving average (e.g., 20-day)" },
+    { symbol: "SMA_{slow}", meaning: "Long-term moving average (e.g., 50-day)" }
+  ]}
+/>
+
+<InteractiveExample title="Moving Average Crossover Strategy" description="Buy when fast MA crosses above slow MA, sell when it crosses below">
+  <CandlestickChart
+    data={[
+      { date: "Jan", open: 100, high: 103, low: 99, close: 102 },
+      { date: "Feb", open: 102, high: 106, low: 101, close: 105 },
+      { date: "Mar", open: 105, high: 110, low: 104, close: 109 },
+      { date: "Apr", open: 109, high: 115, low: 108, close: 114 },
+      { date: "May", open: 114, high: 118, low: 112, close: 116 },
+      { date: "Jun", open: 116, high: 117, low: 110, close: 111 },
+      { date: "Jul", open: 111, high: 113, low: 105, close: 106 },
+      { date: "Aug", open: 106, high: 108, low: 100, close: 102 }
+    ]}
+    signals={[
+      { date: "Mar", type: "buy", price: 109, label: "Golden Cross" },
+      { date: "Jul", type: "sell", price: 106, label: "Death Cross" }
+    ]}
+    title="Price with MA Crossover Signals"
+  />
+</InteractiveExample>
+
+## Breakout Systems
+
+<ConceptCard title="Channel Breakout" type="example">
+**Donchian Channel**: Buy when price breaks above the 20-day high, sell when it breaks below the 20-day low. This was the system used by the famous Turtle Traders.
+</ConceptCard>
+
+<FormulaDisplay
+  formula="Upper = \max(High_{t-n}, ..., High_{t-1})"
+  explanation="The upper channel is the highest high over the lookback period."
+  variables={[
+    { symbol: "Upper", meaning: "Upper breakout level" },
+    { symbol: "n", meaning: "Lookback period (e.g., 20 days)" }
+  ]}
+/>
+
+## Why Trends Exist
+
+<ConceptCard title="Behavioral Basis" type="tip">
+Trends persist because of:
+- **Anchoring**: Investors slow to update beliefs
+- **Herding**: People follow others
+- **Confirmation bias**: We seek info that confirms our positions
+- **Slow information diffusion**: News takes time to fully reflect in prices
+</ConceptCard>
+
+<InteractiveExample title="Trend Strategy Equity Curve" description="Trend following performance over multiple market cycles">
+  <EquityCurve
+    data={[
+      { date: "2018-01", equity: 100000, drawdown: 0 },
+      { date: "2018-06", equity: 95000, drawdown: -5 },
+      { date: "2019-01", equity: 105000, drawdown: 0 },
+      { date: "2019-06", equity: 120000, drawdown: 0 },
+      { date: "2020-01", equity: 115000, drawdown: -4.2 },
+      { date: "2020-06", equity: 140000, drawdown: 0 },
+      { date: "2021-01", equity: 165000, drawdown: 0 },
+      { date: "2021-06", equity: 155000, drawdown: -6.1 },
+      { date: "2022-01", equity: 145000, drawdown: -12.1 },
+      { date: "2022-06", equity: 170000, drawdown: 0 }
+    ]}
+    title="Trend Following: Big Wins, Many Small Losses"
+  />
+</InteractiveExample>
+
+<ConceptCard title="The Trend Following Profile" type="warning">
+Trend following has a **low win rate** (often 30-40%) but **large winners**. You'll have many small losses waiting for trends, then occasional big wins when trends develop. Psychologically difficult but mathematically sound.
+</ConceptCard>
+
+<KeyTakeaway>
+Trend following works because markets trend due to behavioral biases. The strategy has low win rates but high reward-to-risk. Use moving averages or breakouts to identify trends, and always use stop losses to limit the many small losses.
+</KeyTakeaway>

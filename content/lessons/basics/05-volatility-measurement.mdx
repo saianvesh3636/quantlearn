@@ -1,0 +1,147 @@
+---
+title: Volatility Measurement
+module: basics
+order: 5
+colabUrl: ""
+prerequisites:
+  - basics/04-moving-averages
+---
+
+# Volatility Measurement
+
+Volatility measures the degree of variation in asset prices. It's the most important risk metric and a key input for position sizing, options pricing, and risk management.
+
+<ConceptCard title="What is Volatility?" type="definition">
+**Volatility** is the standard deviation of returns. High volatility means large price swings (risky). Low volatility means stable prices (safer). Unlike return (uncertain), volatility is somewhat predictable.
+</ConceptCard>
+
+## Historical Volatility
+
+<FormulaDisplay
+  formula="\sigma = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n} (r_i - \bar{r})^2}"
+  explanation="Calculate volatility from historical returns."
+  variables={[
+    { symbol: "\\sigma", meaning: "Standard deviation (volatility)" },
+    { symbol: "r_i", meaning: "Return in period i" },
+    { symbol: "\\bar{r}", meaning: "Mean return" }
+  ]}
+/>
+
+<FormulaDisplay
+  formula="\sigma_{annual} = \sigma_{daily} \times \sqrt{252}"
+  explanation="Annualize daily volatility (252 trading days per year)."
+  variables={[
+    { symbol: "\\sigma_{annual}", meaning: "Annualized volatility" },
+    { symbol: "252", meaning: "Trading days per year" }
+  ]}
+/>
+
+<InteractiveExample title="Rolling Volatility Over Time" description="Use the slider to zoom into specific periods">
+  <LineChart
+    data={[
+      { x: "2019-Q1", y: 12 },
+      { x: "2019-Q2", y: 14 },
+      { x: "2019-Q3", y: 16 },
+      { x: "2019-Q4", y: 11 },
+      { x: "2020-Q1", y: 45 },
+      { x: "2020-Q2", y: 32 },
+      { x: "2020-Q3", y: 22 },
+      { x: "2020-Q4", y: 18 },
+      { x: "2021-Q1", y: 20 },
+      { x: "2021-Q2", y: 14 }
+    ]}
+    xLabel="Quarter"
+    yLabel="Annualized Volatility (%)"
+    title="S&P 500 Rolling 30-Day Volatility"
+    series={[
+      { key: "y", name: "Volatility", color: "#ef4444" }
+    ]}
+    enableSlider={true}
+    showArea={true}
+  />
+</InteractiveExample>
+
+## EWMA Volatility
+
+<FormulaDisplay
+  formula="\sigma_t^2 = \lambda \sigma_{t-1}^2 + (1 - \lambda) r_{t-1}^2"
+  explanation="Exponentially weighted volatility gives more weight to recent observations."
+  variables={[
+    { symbol: "\\lambda", meaning: "Decay factor (typically 0.94 for daily)" },
+    { symbol: "r_{t-1}", meaning: "Most recent return" }
+  ]}
+/>
+
+<ConceptCard title="Why EWMA?" type="tip">
+**EWMA** reacts faster to volatility changes than simple historical volatility. When markets suddenly get volatile, EWMA adjusts quickly. RiskMetrics uses λ = 0.94 for daily data.
+</ConceptCard>
+
+## Volatility Clustering
+
+<ConceptCard title="Volatility is Persistent" type="warning">
+**Key insight**: High volatility tends to follow high volatility. Low volatility tends to follow low volatility. This **clustering** means tomorrow's volatility is somewhat predictable from today's.
+</ConceptCard>
+
+<InteractiveExample title="Volatility Clustering" description="Calm and volatile periods tend to persist">
+  <Histogram
+    data={[
+      { bin: "5-10%", count: 35 },
+      { bin: "10-15%", count: 40 },
+      { bin: "15-20%", count: 30 },
+      { bin: "20-25%", count: 20 },
+      { bin: "25-30%", count: 10 },
+      { bin: "30%+", count: 5 }
+    ]}
+    xLabel="Volatility Range"
+    yLabel="% of Trading Days"
+    title="Distribution of Volatility Regimes"
+  />
+</InteractiveExample>
+
+## GARCH Models
+
+<FormulaDisplay
+  formula="\sigma_t^2 = \omega + \alpha r_{t-1}^2 + \beta \sigma_{t-1}^2"
+  explanation="GARCH captures volatility clustering and mean reversion."
+  variables={[
+    { symbol: "\\omega", meaning: "Long-run variance baseline" },
+    { symbol: "\\alpha", meaning: "Reaction to recent shock" },
+    { symbol: "\\beta", meaning: "Persistence of volatility" }
+  ]}
+/>
+
+<ConceptCard title="GARCH Intuition" type="example">
+- **α** controls how much a big move today affects tomorrow's volatility
+- **β** controls how long elevated volatility persists
+- **α + β < 1** ensures volatility eventually returns to normal
+</ConceptCard>
+
+## Implied Volatility
+
+<ConceptCard title="Market's Forecast" type="definition">
+**Implied volatility (IV)** is backed out from option prices. It represents what the market expects future volatility to be. The VIX index is the implied volatility of S&P 500 options.
+</ConceptCard>
+
+<InteractiveExample title="VIX vs Realized Volatility" description="Implied volatility usually exceeds realized">
+  <LineChart
+    data={[
+      { x: 2018, y: 18, y2: 14 },
+      { x: 2019, y: 16, y2: 12 },
+      { x: 2020, y: 35, y2: 28 },
+      { x: 2021, y: 20, y2: 15 },
+      { x: 2022, y: 28, y2: 22 },
+      { x: 2023, y: 18, y2: 13 }
+    ]}
+    xLabel="Year"
+    yLabel="Volatility (%)"
+    title="VIX (Implied) vs Realized Volatility"
+    series={[
+      { key: "y", name: "VIX (Implied)", color: "#f59e0b" },
+      { key: "y2", name: "Realized", color: "#3b82f6" }
+    ]}
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Volatility measures risk through return variability. Use **historical volatility** for simple calculations, **EWMA** for faster reaction, and **GARCH** for sophisticated forecasting. **Implied volatility** from options reflects market expectations. Remember: volatility clusters - high vol follows high vol.
+</KeyTakeaway>

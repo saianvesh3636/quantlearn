@@ -1,0 +1,110 @@
+---
+title: Blending Uncorrelated Signals
+module: advanced
+order: 3
+colabUrl: ""
+prerequisites:
+  - advanced/02-regime-detection
+---
+
+# Blending Uncorrelated Signals
+
+Combining multiple uncorrelated signals creates more robust strategies than any single signal alone.
+
+<ConceptCard title="Diversification of Alpha" type="definition">
+Just as you diversify assets, you should **diversify signals**. If you have three signals with Sharpe 0.5 and zero correlation, combining them can achieve Sharpe ~0.87. Diversification works on alpha too!
+</ConceptCard>
+
+## The Math of Combination
+
+<FormulaDisplay
+  formula="SR_{combined} = \sqrt{SR_1^2 + SR_2^2 + ... + SR_n^2}"
+  explanation="Combined Sharpe ratio when signals are uncorrelated."
+  variables={[
+    { symbol: "SR_{combined}", meaning: "Sharpe ratio of combined strategy" },
+    { symbol: "SR_i", meaning: "Sharpe ratio of individual signal i" },
+    { symbol: "n", meaning: "Number of signals" }
+  ]}
+/>
+
+<ConceptCard title="Why This Works" type="tip">
+When signals are uncorrelated:
+- They make mistakes at different times
+- Errors partially cancel out
+- Combined signal is more stable
+
+This is the quant's free lunch - if you can find uncorrelated alpha sources.
+</ConceptCard>
+
+<InteractiveExample title="Signal Correlation Matrix" description="Lower correlation = better diversification">
+  <Heatmap
+    data={[
+      { x: "Momentum", y: "Momentum", value: 1.0 },
+      { x: "Momentum", y: "Value", value: -0.3 },
+      { x: "Momentum", y: "Quality", value: 0.1 },
+      { x: "Momentum", y: "Volatility", value: 0.2 },
+      { x: "Value", y: "Momentum", value: -0.3 },
+      { x: "Value", y: "Value", value: 1.0 },
+      { x: "Value", y: "Quality", value: 0.4 },
+      { x: "Value", y: "Volatility", value: 0.0 },
+      { x: "Quality", y: "Momentum", value: 0.1 },
+      { x: "Quality", y: "Value", value: 0.4 },
+      { x: "Quality", y: "Quality", value: 1.0 },
+      { x: "Quality", y: "Volatility", value: -0.1 },
+      { x: "Volatility", y: "Momentum", value: 0.2 },
+      { x: "Volatility", y: "Value", value: 0.0 },
+      { x: "Volatility", y: "Quality", value: -0.1 },
+      { x: "Volatility", y: "Volatility", value: 1.0 }
+    ]}
+    xLabel="Signal"
+    yLabel="Signal"
+    title="Factor Correlation Matrix"
+  />
+</InteractiveExample>
+
+## Weighting Schemes
+
+<ConceptCard title="How to Combine" type="example">
+**Equal weight**: Simple, robust, no estimation error
+**Sharpe-weighted**: Weight by historical Sharpe ratio
+**Inverse-vol weighted**: Weight by 1/volatility
+**Optimized**: Mean-variance optimal (but beware overfitting!)
+</ConceptCard>
+
+<FormulaDisplay
+  formula="w_i = \frac{SR_i / \sigma_i}{\sum_j SR_j / \sigma_j}"
+  explanation="Information-ratio weighted combination."
+  variables={[
+    { symbol: "w_i", meaning: "Weight on signal i" },
+    { symbol: "SR_i", meaning: "Sharpe ratio of signal i" },
+    { symbol: "\\sigma_i", meaning: "Volatility of signal i" }
+  ]}
+/>
+
+<InteractiveExample title="Combined vs Individual Signals" description="Blended signal is more stable">
+  <LineChart
+    data={[
+      { x: 1, y: 100, y2: 100, y3: 100, y4: 100 },
+      { x: 2, y: 105, y2: 98, y3: 103, y4: 102 },
+      { x: 3, y: 102, y2: 104, y3: 101, y4: 103 },
+      { x: 4, y: 108, y2: 101, y3: 106, y4: 105 },
+      { x: 5, y: 104, y2: 107, y3: 104, y4: 106 },
+      { x: 6, y: 110, y2: 105, y3: 109, y4: 109 },
+      { x: 7, y: 108, y2: 112, y3: 107, y4: 110 },
+      { x: 8, y: 115, y2: 109, y3: 113, y4: 113 }
+    ]}
+    xLabel="Time"
+    yLabel="Cumulative Return"
+    title="Individual Signals vs Blend"
+    series={[
+      { key: "y", name: "Signal A", color: "#3b82f6" },
+      { key: "y2", name: "Signal B", color: "#f59e0b" },
+      { key: "y3", name: "Signal C", color: "#8b5cf6" },
+      { key: "y4", name: "Blended", color: "#10b981" }
+    ]}
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Combining uncorrelated signals improves risk-adjusted returns through **alpha diversification**. The combined Sharpe ratio can exceed any individual signal's Sharpe. Use correlation analysis to find diverse signals, then blend with simple weighting schemes to avoid overfitting.
+</KeyTakeaway>

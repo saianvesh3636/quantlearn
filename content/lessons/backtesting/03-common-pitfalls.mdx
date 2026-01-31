@@ -1,0 +1,98 @@
+---
+title: Common Pitfalls
+module: backtesting
+order: 3
+colabUrl: ""
+prerequisites:
+  - backtesting/02-backtesting-fundamentals
+---
+
+# Common Backtesting Pitfalls
+
+Most backtests are wrong. Understanding common mistakes will save you from building strategies that only work in simulation.
+
+<ConceptCard title="The Cardinal Sin" type="warning">
+**Lookahead Bias** is using information that wouldn't have been available at the time of the trade. This makes backtests look amazing but strategies fail live.
+</ConceptCard>
+
+## Lookahead Bias
+
+<ConceptCard title="Examples of Lookahead" type="example">
+- Using end-of-day prices to make decisions that had to be made intraday
+- Including companies in your universe that you only know survived because you're looking backward
+- Using adjusted prices without accounting for when adjustments were announced
+</ConceptCard>
+
+<InteractiveExample title="Lookahead vs Reality" description="Strategy performance with and without lookahead bias">
+  <EquityCurve
+    data={[
+      { date: "2020-01", equity: 100000, drawdown: 0 },
+      { date: "2020-04", equity: 125000, drawdown: 0 },
+      { date: "2020-07", equity: 150000, drawdown: 0 },
+      { date: "2020-10", equity: 180000, drawdown: 0 },
+      { date: "2021-01", equity: 220000, drawdown: 0 },
+      { date: "2021-04", equity: 270000, drawdown: 0 }
+    ]}
+    title="With Lookahead Bias (Fake Results)"
+  />
+</InteractiveExample>
+
+<InteractiveExample title="Same Strategy Without Lookahead" description="Reality is much less impressive">
+  <EquityCurve
+    data={[
+      { date: "2020-01", equity: 100000, drawdown: 0 },
+      { date: "2020-04", equity: 98000, drawdown: -2 },
+      { date: "2020-07", equity: 105000, drawdown: 0 },
+      { date: "2020-10", equity: 102000, drawdown: -2.9 },
+      { date: "2021-01", equity: 108000, drawdown: 0 },
+      { date: "2021-04", equity: 103000, drawdown: -4.6 }
+    ]}
+    title="Without Lookahead Bias (Real Results)"
+  />
+</InteractiveExample>
+
+## Survivorship Bias
+
+<ConceptCard title="Survivorship Bias" type="definition">
+Testing only on stocks that still exist today ignores all the companies that went bankrupt. This systematically overstates returns because you're only seeing the winners.
+</ConceptCard>
+
+## Overfitting
+
+<FormulaDisplay
+  formula="In\text{-}Sample\;R^2 >> Out\text{-}Sample\;R^2"
+  explanation="A classic sign of overfitting: great fit on training data, poor fit on new data."
+  variables={[
+    { symbol: "R^2", meaning: "Coefficient of determination (goodness of fit)" }
+  ]}
+/>
+
+<ConceptCard title="Signs of Overfitting" type="warning">
+- Strategy has many parameters (more than 3-4 is suspicious)
+- Performance is amazing in-sample but poor out-of-sample
+- Strategy only works on specific date ranges
+- Tiny changes in parameters cause huge performance swings
+</ConceptCard>
+
+<InteractiveExample title="Overfitting Visualization" description="Too many parameters fit noise, not signal">
+  <SensitivityHeatmap
+    data={[
+      { x: 5, y: 10, value: 0.8 },
+      { x: 5, y: 20, value: 1.2 },
+      { x: 5, y: 30, value: 0.5 },
+      { x: 10, y: 10, value: 1.5 },
+      { x: 10, y: 20, value: 2.8 },
+      { x: 10, y: 30, value: 0.9 },
+      { x: 15, y: 10, value: 0.7 },
+      { x: 15, y: 20, value: 1.1 },
+      { x: 15, y: 30, value: 0.4 }
+    ]}
+    xLabel="Parameter A"
+    yLabel="Parameter B"
+    title="Sharpe Ratio by Parameter Values"
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+The three deadly sins of backtesting: **Lookahead bias** (using future information), **Survivorship bias** (ignoring failures), and **Overfitting** (fitting noise). Always ask: "Would I have known this at the time?"
+</KeyTakeaway>

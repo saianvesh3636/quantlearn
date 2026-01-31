@@ -1,0 +1,128 @@
+---
+title: Portfolio Optimization
+module: advanced
+order: 5
+colabUrl: ""
+prerequisites:
+  - advanced/04-orthogonal-dimensions
+---
+
+# Portfolio Optimization
+
+Portfolio optimization finds the best allocation across assets or strategies. The goal: maximize return for a given level of risk.
+
+<ConceptCard title="Mean-Variance Optimization" type="definition">
+**Markowitz optimization** finds portfolios that maximize expected return for a given volatility (or minimize volatility for a given return). The set of optimal portfolios forms the **efficient frontier**.
+</ConceptCard>
+
+## The Efficient Frontier
+
+<FormulaDisplay
+  formula="\max_w \; w^T \mu - \frac{\lambda}{2} w^T \Sigma w"
+  explanation="Maximize return minus a penalty for variance."
+  variables={[
+    { symbol: "w", meaning: "Portfolio weights" },
+    { symbol: "\\mu", meaning: "Expected returns vector" },
+    { symbol: "\\Sigma", meaning: "Covariance matrix" },
+    { symbol: "\\lambda", meaning: "Risk aversion parameter" }
+  ]}
+/>
+
+<InteractiveExample title="Efficient Frontier" description="Optimal portfolios for different risk levels">
+  <EfficientFrontier
+    data={{
+      frontier: [
+        { risk: 5, return: 4 },
+        { risk: 6, return: 5.5 },
+        { risk: 7, return: 6.8 },
+        { risk: 8, return: 7.8 },
+        { risk: 10, return: 9 },
+        { risk: 12, return: 10 },
+        { risk: 15, return: 11 },
+        { risk: 18, return: 11.5 }
+      ],
+      assets: [
+        { risk: 8, return: 5, name: "Bonds" },
+        { risk: 15, return: 9, name: "Stocks" },
+        { risk: 20, return: 11, name: "EM" },
+        { risk: 12, return: 7, name: "REIT" }
+      ],
+      optimal: { risk: 10, return: 9, name: "Tangency" }
+    }}
+    title="Efficient Frontier with Individual Assets"
+  />
+</InteractiveExample>
+
+## The Perils of Optimization
+
+<ConceptCard title="Estimation Error" type="warning">
+Optimization is only as good as your inputs. Small errors in expected returns cause **huge changes** in optimal weights. The optimizer "maximizes errors" - putting big bets on assets with overestimated returns.
+
+**Result**: Optimized portfolios often perform worse than simple equal-weight!
+</ConceptCard>
+
+<InteractiveExample title="Estimation Error Impact" description="How input errors affect optimal weights">
+  <SensitivityHeatmap
+    data={[
+      { x: -0.5, y: "Asset A", value: 60 },
+      { x: 0, y: "Asset A", value: 40 },
+      { x: 0.5, y: "Asset A", value: 20 },
+      { x: -0.5, y: "Asset B", value: 20 },
+      { x: 0, y: "Asset B", value: 30 },
+      { x: 0.5, y: "Asset B", value: 45 },
+      { x: -0.5, y: "Asset C", value: 20 },
+      { x: 0, y: "Asset C", value: 30 },
+      { x: 0.5, y: "Asset C", value: 35 }
+    ]}
+    xLabel="Return Estimate Error (%)"
+    yLabel="Asset"
+    title="Optimal Weights vs Return Estimate Errors"
+  />
+</InteractiveExample>
+
+## Robust Approaches
+
+<ConceptCard title="Better Than MVO" type="tip">
+**Practical alternatives to mean-variance:**
+- **Equal weight**: No estimation, surprisingly hard to beat
+- **Risk parity**: Weight by inverse volatility
+- **Minimum variance**: Ignore returns, just minimize vol
+- **Shrinkage**: Pull estimates toward a prior (e.g., equal returns)
+- **Black-Litterman**: Combine market equilibrium with views
+</ConceptCard>
+
+<FormulaDisplay
+  formula="w_i^{RP} = \frac{1/\sigma_i}{\sum_j 1/\sigma_j}"
+  explanation="Risk parity weights by inverse volatility."
+  variables={[
+    { symbol: "w_i^{RP}", meaning: "Risk parity weight" },
+    { symbol: "\\sigma_i", meaning: "Asset volatility" }
+  ]}
+/>
+
+<InteractiveExample title="Optimization Method Comparison" description="Simple methods often beat complex optimization">
+  <LineChart
+    data={[
+      { x: 2015, y: 100, y2: 100, y3: 100 },
+      { x: 2016, y: 108, y2: 106, y3: 110 },
+      { x: 2017, y: 118, y2: 115, y3: 122 },
+      { x: 2018, y: 112, y2: 111, y3: 115 },
+      { x: 2019, y: 130, y2: 125, y3: 132 },
+      { x: 2020, y: 145, y2: 138, y3: 140 },
+      { x: 2021, y: 165, y2: 155, y3: 158 },
+      { x: 2022, y: 155, y2: 150, y3: 148 }
+    ]}
+    xLabel="Year"
+    yLabel="Portfolio Value"
+    title="Equal Weight vs MVO vs Risk Parity"
+    series={[
+      { key: "y", name: "Equal Weight", color: "#10b981" },
+      { key: "y2", name: "Mean-Variance", color: "#ef4444" },
+      { key: "y3", name: "Risk Parity", color: "#3b82f6" }
+    ]}
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Mean-variance optimization is theoretically elegant but practically fragile due to **estimation error**. Simpler approaches like **equal weight** or **risk parity** often outperform. If using optimization, apply **shrinkage** and **constraints** to improve robustness.
+</KeyTakeaway>

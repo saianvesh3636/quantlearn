@@ -1,0 +1,117 @@
+---
+title: Correlation Analysis
+module: basics
+order: 3
+colabUrl: ""
+prerequisites:
+  - basics/02-descriptive-statistics
+---
+
+# Correlation Analysis
+
+Correlation measures how assets move together. Understanding correlation is essential for portfolio diversification and risk management.
+
+<ConceptCard title="Why Correlation Matters" type="definition">
+If two assets are perfectly correlated, owning both gives no diversification benefit. **Diversification works when correlations are low** - your losses in one asset are offset by gains in another.
+</ConceptCard>
+
+## Covariance
+
+<FormulaDisplay
+  formula="Cov(X, Y) = \frac{1}{n-1}\sum_{i=1}^{n}(X_i - \bar{X})(Y_i - \bar{Y})"
+  explanation="Covariance measures how two variables move together."
+  variables={[
+    { symbol: "Cov(X,Y)", meaning: "Covariance between X and Y" },
+    { symbol: "Cov > 0", meaning: "Variables move in same direction" },
+    { symbol: "Cov < 0", meaning: "Variables move in opposite directions" }
+  ]}
+/>
+
+<ConceptCard title="Covariance Problem" type="warning">
+Covariance is hard to interpret because it depends on the units/scale of the variables. A covariance of 50 - is that high or low? We need **correlation** to standardize.
+</ConceptCard>
+
+## Correlation Coefficient
+
+<FormulaDisplay
+  formula="\rho_{X,Y} = \frac{Cov(X, Y)}{\sigma_X \sigma_Y}"
+  explanation="Correlation standardizes covariance to range from -1 to +1."
+  variables={[
+    { symbol: "\\rho = +1", meaning: "Perfect positive correlation" },
+    { symbol: "\\rho = 0", meaning: "No linear relationship" },
+    { symbol: "\\rho = -1", meaning: "Perfect negative correlation" }
+  ]}
+/>
+
+<InteractiveExample title="Correlation Examples" description="Scatter plots showing different correlation levels">
+  <ScatterPlot
+    data={[
+      { x: -2, y: -1.8, label: "" },
+      { x: -1, y: -0.5, label: "" },
+      { x: 0, y: 0.2, label: "" },
+      { x: 1, y: 1.1, label: "" },
+      { x: 2, y: 2.3, label: "" },
+      { x: -1.5, y: -1.2, label: "" },
+      { x: 0.5, y: 0.8, label: "" },
+      { x: 1.5, y: 1.7, label: "" }
+    ]}
+    xLabel="Asset A Return (%)"
+    yLabel="Asset B Return (%)"
+    title="High Positive Correlation (ρ ≈ 0.9)"
+    showRegression={true}
+    showCorrelation={true}
+  />
+</InteractiveExample>
+
+## Correlation Matrix
+
+<ConceptCard title="Multi-Asset Correlations" type="tip">
+With multiple assets, we use a **correlation matrix** to see all pairwise correlations at once. The diagonal is always 1 (asset correlated with itself). Look for low/negative correlations for diversification.
+</ConceptCard>
+
+<InteractiveExample title="Asset Correlation Matrix" description="Pairwise correlations between asset classes">
+  <Heatmap
+    data={{
+      rowLabels: ["US Stocks", "Int'l Stocks", "Bonds", "Gold"],
+      columnLabels: ["US Stocks", "Int'l Stocks", "Bonds", "Gold"],
+      data: [
+        [1.0, 0.85, -0.2, 0.05],
+        [0.85, 1.0, -0.1, 0.15],
+        [-0.2, -0.1, 1.0, 0.3],
+        [0.05, 0.15, 0.3, 1.0]
+      ]
+    }}
+    title="Asset Class Correlation Matrix"
+    diverging={true}
+    showValues={true}
+  />
+</InteractiveExample>
+
+## Correlation Instability
+
+<ConceptCard title="Correlations Change" type="warning">
+**Correlation is not constant!** During market crises, correlations spike - everything falls together. This is exactly when you need diversification most, but it fails. This is called **correlation breakdown**.
+</ConceptCard>
+
+<InteractiveExample title="Correlation During Crisis" description="Correlations spike during market stress">
+  <LineChart
+    data={[
+      { x: 2018, y: 0.65 },
+      { x: 2019, y: 0.60 },
+      { x: 2020, y: 0.92 },
+      { x: 2021, y: 0.70 },
+      { x: 2022, y: 0.75 },
+      { x: 2023, y: 0.62 }
+    ]}
+    xLabel="Year"
+    yLabel="Stock-Bond Correlation"
+    title="Stock-Bond Correlation Spikes in Crisis (2020)"
+    series={[
+      { key: "y", name: "Correlation", color: "#ef4444" }
+    ]}
+  />
+</InteractiveExample>
+
+<KeyTakeaway>
+Correlation measures co-movement between assets. **Low correlations** enable diversification. Use **correlation matrices** to visualize relationships. But beware: **correlations spike during crises** when you need diversification most.
+</KeyTakeaway>
