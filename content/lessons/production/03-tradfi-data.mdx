@@ -113,19 +113,15 @@ Always convert to UTC internally and be explicit about what each timestamp means
 
 <InteractiveExample title="Data Quality Dashboard" description="Automated checks for common issues">
   <Heatmap
-    data={[
-      { x: "AAPL", y: "Missing", value: 0 },
-      { x: "AAPL", y: "Outliers", value: 2 },
-      { x: "AAPL", y: "Splits", value: 3 },
-      { x: "GOOGL", y: "Missing", value: 1 },
-      { x: "GOOGL", y: "Outliers", value: 0 },
-      { x: "GOOGL", y: "Splits", value: 1 },
-      { x: "MSFT", y: "Missing", value: 0 },
-      { x: "MSFT", y: "Outliers", value: 1 },
-      { x: "MSFT", y: "Splits", value: 2 }
-    ]}
-    xLabel="Symbol"
-    yLabel="Issue Type"
+    data={{
+      rowLabels: ["AAPL", "GOOGL", "MSFT"],
+      columnLabels: ["Missing", "Outliers", "Splits"],
+      data: [
+        [0, 2, 3],
+        [1, 0, 1],
+        [0, 1, 2]
+      ]
+    }}
     title="Data Quality Issues by Symbol"
   />
 </InteractiveExample>

@@ -48,18 +48,14 @@ def calculate_signal(df: pd.DataFrame, window: int = 20):
 
 <InteractiveExample title="Code Quality Metrics" description="Notebook vs production code characteristics">
   <Heatmap
-    data={[
-      { x: "Notebook", y: "Testability", value: 2 },
-      { x: "Notebook", y: "Reproducibility", value: 3 },
-      { x: "Notebook", y: "Maintainability", value: 2 },
-      { x: "Notebook", y: "Performance", value: 4 },
-      { x: "Production", y: "Testability", value: 9 },
-      { x: "Production", y: "Reproducibility", value: 9 },
-      { x: "Production", y: "Maintainability", value: 8 },
-      { x: "Production", y: "Performance", value: 8 }
-    ]}
-    xLabel="Code Type"
-    yLabel="Quality Metric"
+    data={{
+      rowLabels: ["Notebook", "Production"],
+      columnLabels: ["Testability", "Reproducibility", "Maintainability", "Performance"],
+      data: [
+        [2, 3, 2, 4],
+        [9, 9, 8, 8]
+      ]
+    }}
     title="Code Quality: Notebook vs Production (1-10)"
   />
 </InteractiveExample>

@@ -36,29 +36,21 @@ When signals are uncorrelated:
 This is the quant's free lunch - if you can find uncorrelated alpha sources.
 </ConceptCard>
 
-<InteractiveExample title="Signal Correlation Matrix" description="Lower correlation = better diversification">
+<InteractiveExample title="Signal Correlation Matrix" description="Lower correlation = better diversification. Notice Momentum-Value is negative!">
   <Heatmap
-    data={[
-      { x: "Momentum", y: "Momentum", value: 1.0 },
-      { x: "Momentum", y: "Value", value: -0.3 },
-      { x: "Momentum", y: "Quality", value: 0.1 },
-      { x: "Momentum", y: "Volatility", value: 0.2 },
-      { x: "Value", y: "Momentum", value: -0.3 },
-      { x: "Value", y: "Value", value: 1.0 },
-      { x: "Value", y: "Quality", value: 0.4 },
-      { x: "Value", y: "Volatility", value: 0.0 },
-      { x: "Quality", y: "Momentum", value: 0.1 },
-      { x: "Quality", y: "Value", value: 0.4 },
-      { x: "Quality", y: "Quality", value: 1.0 },
-      { x: "Quality", y: "Volatility", value: -0.1 },
-      { x: "Volatility", y: "Momentum", value: 0.2 },
-      { x: "Volatility", y: "Value", value: 0.0 },
-      { x: "Volatility", y: "Quality", value: -0.1 },
-      { x: "Volatility", y: "Volatility", value: 1.0 }
-    ]}
-    xLabel="Signal"
-    yLabel="Signal"
+    data={{
+      rowLabels: ["Momentum", "Value", "Quality", "Volatility"],
+      columnLabels: ["Momentum", "Value", "Quality", "Volatility"],
+      data: [
+        [1.0, -0.3, 0.1, 0.2],
+        [-0.3, 1.0, 0.4, 0.0],
+        [0.1, 0.4, 1.0, -0.1],
+        [0.2, 0.0, -0.1, 1.0]
+      ]
+    }}
     title="Factor Correlation Matrix"
+    diverging={true}
+    showValues={true}
   />
 </InteractiveExample>
 
