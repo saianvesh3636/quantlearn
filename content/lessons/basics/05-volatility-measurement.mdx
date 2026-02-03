@@ -11,6 +11,17 @@ prerequisites:
 
 Volatility measures the degree of variation in asset prices. It's the most important risk metric and a key input for position sizing, options pricing, and risk management.
 
+<WhyItMatters tldr="Your position size should be inversely proportional to volatility. Get volatility wrong, and you're either leaving money on the table or taking on catastrophic risk.">
+Volatility isn't just an academic concept - it's the core input for virtually every trading decision:
+
+- **Position sizing**: If volatility doubles, your position should halve (or your stop-loss widen)
+- **Options pricing**: The entire options market is really a volatility market
+- **Risk budgets**: Institutions allocate capital based on volatility forecasts
+- **Stop losses**: Your stops need to account for "normal" price movement
+
+Unlike returns (which are essentially random), **volatility is partially predictable**. This predictability is one of the few genuine edges in markets.
+</WhyItMatters>
+
 <ConceptCard title="What is Volatility?" type="definition">
 **Volatility** is the standard deviation of returns. High volatility means large price swings (risky). Low volatility means stable prices (safer). Unlike return (uncertain), volatility is somewhat predictable.
 </ConceptCard>
@@ -98,6 +109,45 @@ Volatility measures the degree of variation in asset prices. It's the most impor
   />
 </InteractiveExample>
 
+<RealWorldExample
+  title="Black Monday: Volatility Didn't Come Out of Nowhere"
+  date="October 19, 1987"
+  impact="S&P 500 fell 20.4% in one day"
+  sources={[
+    { name: "NBER Working Paper - Schwert", url: "https://www.nber.org/papers/w2954" },
+    { name: "NYU Stern Research" }
+  ]}
+  lesson="Volatility clusters. The days before a crash are often already unusually volatile - pay attention to the warning signs."
+>
+Black Monday remains the largest single-day percentage drop in stock market history. But here's what most people miss: **volatility was already elevated before the crash**.
+
+- Two weeks before October 19th, realized volatility had risen from 8% to 25%
+- The VXO (predecessor to VIX) was already setting records before the crash
+- The crash didn't come "out of nowhere" - the clustering pattern was visible
+
+**The lesson:** If you're using a volatility model that responds slowly (like a 30-day simple average), you would have underestimated risk going into the crash. An EWMA or GARCH model would have been screaming warnings.
+</RealWorldExample>
+
+<RealWorldExample
+  title="COVID Crash: VIX Hits All-Time High"
+  date="March 16, 2020"
+  impact="VIX spiked to 82.69 - highest ever recorded"
+  sources={[
+    { name: "SIFMA Research", url: "https://www.sifma.org/resources/research/the-vixs-wild-ride/" },
+    { name: "ScienceDirect - COVID Volatility Study" }
+  ]}
+  lesson="Volatility can exceed historical bounds. 'Never before seen' events happen regularly - your models need to account for this."
+>
+On March 16, 2020, the VIX hit **82.69** - surpassing even 2008 crisis levels. The S&P 500 and Nasdaq both dropped 12% in a single day.
+
+**The clustering pattern:**
+- February 2020: VIX averaged 19.63, peaked at 39.16
+- Early March: Volatility escalated daily
+- March 16: The spike to 82.69 didn't come from calm markets
+
+**What models predicted:** Most GARCH models would have started increasing volatility forecasts in late February. By early March, any reasonable model was signaling extreme caution. Traders who ignored the clustering pattern and assumed "it will calm down soon" suffered the worst losses.
+</RealWorldExample>
+
 ## GARCH Models
 
 <FormulaDisplay
@@ -142,6 +192,48 @@ Volatility measures the degree of variation in asset prices. It's the most impor
   />
 </InteractiveExample>
 
+<RealWorldExample
+  title="XIV 'Volmageddon': $4.1 Billion Destroyed in One Day"
+  date="February 5, 2018"
+  impact="XIV lost 96% of its value; terminated by Credit Suisse"
+  sources={[
+    { name: "CFA Institute Research", url: "https://rpc.cfainstitute.org/research/financial-analysts-journal/2021/volmageddon-failure-short-volatility-products" },
+    { name: "CNBC" }
+  ]}
+  lesson="Products that bet against volatility can generate steady gains for years, then lose everything in a single day. The VIX gap is NOT free money."
+>
+XIV was an inverse VIX ETN - it went up when volatility went down. For years, it generated steady returns as volatility stayed low. Many retail investors saw it as "free money."
+
+**What happened on February 5, 2018:**
+- VIX doubled during regular hours
+- XIV fell 14% by market close
+- After-hours: XIV collapsed another 80%
+- **$4.1 billion in shareholder value destroyed**
+
+**The death spiral:** Short volatility products had to *buy* VIX futures to rebalance as volatility spiked. This buying drove VIX even higher, requiring more buying. It was a feedback loop with no escape.
+
+**The warning in the prospectus (that nobody read):** "The long term expected value of your ETN is zero. If you hold your ETN as a long term investment, it is likely that you will lose all or a substantial portion of your investment."
+</RealWorldExample>
+
 <KeyTakeaway>
 Volatility measures risk through return variability. Use **historical volatility** for simple calculations, **EWMA** for faster reaction, and **GARCH** for sophisticated forecasting. **Implied volatility** from options reflects market expectations. Remember: volatility clusters - high vol follows high vol.
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "If volatility is predictable (it clusters), why can't everyone just trade volatility and make easy money?",
+    hint: "Predictable direction doesn't mean predictable magnitude. You might know vol will stay high, but not whether it goes from 30% to 25% or 30% to 80%. The VIX premium (implied > realized) also eats into profits."
+  },
+  {
+    question: "Why does implied volatility (VIX) usually exceed realized volatility? Is the market systematically wrong?",
+    hint: "It's not wrong - it's risk premium. Investors pay extra for protection against volatility spikes. Selling volatility is like selling insurance: profitable on average, but catastrophic when claims come in."
+  },
+  {
+    question: "If you're trading a strategy and volatility suddenly doubles, what should you do to your position size? Why?",
+    hint: "Cut it in half. If volatility doubles, the same dollar position now has twice the risk. To maintain constant risk, you need to reduce exposure. This is the core of volatility-targeting strategies."
+  },
+  {
+    question: "The XIV prospectus literally said 'the long term expected value is zero.' Why did people still invest?",
+    hint: "Recency bias. Years of steady gains made the risk seem theoretical. People extrapolated past performance into the future. This is a common trap with strategies that harvest risk premiums."
+  }
+]} />

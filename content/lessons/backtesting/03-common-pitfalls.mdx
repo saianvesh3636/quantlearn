@@ -11,6 +11,12 @@ prerequisites:
 
 Most backtests are wrong. Understanding common mistakes will save you from building strategies that only work in simulation.
 
+<WhyItMatters tldr="A strategy with a Sharpe ratio of 1.59 in backtesting delivered -0.18 in live trading. The difference between these outcomes is understanding the pitfalls in this lesson.">
+Here's a sobering fact from academic research: **the more optimization you do, the worse your live performance will be**. A Quantopian study of 888 strategies found that backtested Sharpe ratios had **nearly zero predictive power** for live returns.
+
+The strategies in this lesson aren't theoretical - they're the exact mistakes that have cost quantitative funds billions of dollars. Learn them, or repeat them.
+</WhyItMatters>
+
 <ConceptCard title="The Cardinal Sin" type="warning">
 **Lookahead Bias** is using information that wouldn't have been available at the time of the trade. This makes backtests look amazing but strategies fail live.
 </ConceptCard>
@@ -76,23 +82,88 @@ Testing only on stocks that still exist today ignores all the companies that wen
 
 <InteractiveExample title="Overfitting Visualization" description="Too many parameters fit noise, not signal">
   <SensitivityHeatmap
-    data={[
-      { x: 5, y: 10, value: 0.8 },
-      { x: 5, y: 20, value: 1.2 },
-      { x: 5, y: 30, value: 0.5 },
-      { x: 10, y: 10, value: 1.5 },
-      { x: 10, y: 20, value: 2.8 },
-      { x: 10, y: 30, value: 0.9 },
-      { x: 15, y: 10, value: 0.7 },
-      { x: 15, y: 20, value: 1.1 },
-      { x: 15, y: 30, value: 0.4 }
-    ]}
-    xLabel="Parameter A"
-    yLabel="Parameter B"
+    data={{
+      param1Values: [5, 10, 15],
+      param1Label: "Parameter A",
+      param2Values: [10, 20, 30],
+      param2Label: "Parameter B",
+      results: [
+        [0.8, 1.2, 0.5],
+        [1.5, 2.8, 0.9],
+        [0.7, 1.1, 0.4]
+      ],
+      metricLabel: "Sharpe Ratio"
+    }}
     title="Sharpe Ratio by Parameter Values"
+    highlightOptimal={true}
+    showOverfitZone={true}
+    overfitThreshold={2.0}
   />
 </InteractiveExample>
+
+<RealWorldExample
+  title="Academic Proof: Backtested Returns Are Meaningless"
+  date="2015-2020 Research"
+  impact="Sharpe 1.59 → -0.18 out-of-sample"
+  sources={[
+    { name: "Bailey & López de Prado", url: "https://www.davidhbailey.com/dhbpapers/overfit-tools-at.pdf" },
+    { name: "Lawrence Berkeley National Lab" }
+  ]}
+  lesson="With enough optimization, you can make any random data look profitable. The more parameters you tweak, the more you're fitting noise."
+>
+Researchers Bailey and López de Prado demonstrated this devastatingly:
+
+- A strategy optimized to show **Sharpe Ratio of 1.59** in-sample
+- Delivered **-0.18** on out-of-sample data (a losing strategy)
+- The more optimization performed, the worse live performance became
+
+**Why this happens:** Modern computers can test millions of strategy variations. Some will inevitably perform well by chance on historical data. These strategies are fitting noise, not signal - and noise doesn't persist.
+
+**Von Neumann's warning:** "With four parameters I can fit an elephant, and with five I can make him wiggle his trunk."
+</RealWorldExample>
+
+<RealWorldExample
+  title="Knight Capital: $440 Million Lost in 45 Minutes"
+  date="August 1, 2012"
+  impact="$440M loss, company acquired"
+  sources={[
+    { name: "SEC Press Release", url: "https://www.sec.gov/newsroom/press-releases/2013-222" },
+    { name: "SEC Administrative Order" }
+  ]}
+  lesson="Even after surviving backtesting pitfalls, implementation bugs can destroy you. This is why paper trading and incremental rollout matter."
+>
+Knight Capital's disaster wasn't about strategy - it was about deployment:
+
+- A technician failed to deploy new code to 1 of 8 servers
+- Old "Power Peg" code from 2005 was accidentally triggered
+- 212 customer orders generated **4 million erroneous market orders**
+- Knight accumulated $3.5B long and $3.15B short positions in 45 minutes
+- **$440 million loss** before they could stop it
+
+**The fatal flaw:** Legacy code was never removed. No kill switch existed to halt runaway trading. The strategy might have been fine - but the implementation killed the company.
+
+**SEC outcome:** First enforcement action under Rule 15c3-5. Knight paid $12M settlement and was acquired by Getco four months later.
+</RealWorldExample>
 
 <KeyTakeaway>
 The three deadly sins of backtesting: **Lookahead bias** (using future information), **Survivorship bias** (ignoring failures), and **Overfitting** (fitting noise). Always ask: "Would I have known this at the time?"
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "If you test 100 random strategies, about how many would you expect to show a 'statistically significant' result by pure chance?",
+    hint: "At a 5% significance level, about 5 strategies will look significant purely by chance. This is why multiple testing correction (like Bonferroni) is essential - but rarely used in practice."
+  },
+  {
+    question: "You find a strategy with Sharpe 2.0 in backtesting. What questions should you ask before trading it live?",
+    hint: "How many parameters were optimized? How many strategies were tested to find this one? What's the out-of-sample performance? Does it work across different time periods and markets? Is the signal economically sensible?"
+  },
+  {
+    question: "Why do you think survivorship bias causes bigger problems for small-cap stock strategies than large-cap?",
+    hint: "Small companies fail more often. If you're backtesting on today's small-cap universe, you're missing all the bankruptcies. A 'buy small distressed stocks' strategy would look amazing in backtest but terrible in reality."
+  },
+  {
+    question: "Knight Capital lost $440M due to a deployment bug. How would you design a system to prevent this?",
+    hint: "Consider: kill switches, position limits, gradual rollout, code review, removal of legacy code, monitoring alerts, human oversight for the first N minutes of new deployments."
+  }
+]} />

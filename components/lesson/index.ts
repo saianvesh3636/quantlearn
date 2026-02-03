@@ -3,3 +3,6 @@ export { default as FormulaDisplay } from './FormulaDisplay';
 export { default as InteractiveExample } from './InteractiveExample';
 export { default as KeyTakeaway } from './KeyTakeaway';
 export { default as SimpleChart } from './SimpleChart';
+export { default as RealWorldExample } from './RealWorldExample';
+export { default as ThinkAboutIt } from './ThinkAboutIt';
+export { default as WhyItMatters } from './WhyItMatters';

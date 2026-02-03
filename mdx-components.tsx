@@ -22,6 +22,9 @@ import {
   InteractiveExample,
   KeyTakeaway,
   SimpleChart,
+  RealWorldExample,
+  ThinkAboutIt,
+  WhyItMatters,
 } from '@/components/lesson';
 
 // Import Quiz component
@@ -66,6 +69,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     InteractiveExample,
     KeyTakeaway,
     SimpleChart,
+    RealWorldExample,
+    ThinkAboutIt,
+    WhyItMatters,
 
     // Custom styled components
     h1: ({ children, ...props }) => (

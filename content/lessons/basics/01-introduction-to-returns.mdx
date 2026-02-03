@@ -10,6 +10,13 @@ prerequisites: []
 
 Understanding returns is fundamental to quantitative finance. In this lesson, we'll explore different types of returns and how to calculate them.
 
+<WhyItMatters tldr="Incorrect return calculations compound into massive errors over time. Getting this wrong by even 1% annually means losing half your perceived gains over 20 years.">
+Returns are not just academic - they're the foundation of every trading decision you'll make. Hedge funds, pension funds, and individual traders all live and die by their return calculations. Use the wrong method, and you'll:
+- **Overestimate your strategy's performance** (leading to excessive risk-taking)
+- **Make incorrect position sizing decisions** (losing money you shouldn't)
+- **Fail to properly compare strategies** (choosing inferior approaches)
+</WhyItMatters>
+
 <ConceptCard title="What is a Return?" type="definition">
 A **return** measures the percentage change in the value of an investment over a period of time. Returns allow us to compare investments of different sizes on an equal footing.
 </ConceptCard>
@@ -87,9 +94,42 @@ Logarithmic (or continuously compounded) returns use natural logarithms:
   />
 </InteractiveExample>
 
+<RealWorldExample
+  title="Renaissance Technologies' Medallion Fund"
+  date="1988-2018"
+  impact="$100 → $398.7 million"
+  sources={[
+    { name: "Cornell Capital Group", url: "https://www.cornell-capital.com/blog/2020/02/medallion-fund-the-ultimate-counterexample.html" },
+    { name: "Visual Capitalist" }
+  ]}
+  lesson="Understanding compounding (and using log returns correctly) is essential for evaluating long-term performance."
+>
+The Medallion Fund achieved **66% average annual returns before fees** over 30 years. But here's where return math matters:
+
+- **Simple arithmetic average**: 66% per year sounds like 66% × 30 = 1,980% total
+- **Actual compounded result**: $100 became $398.7 million (398,700,000% return)
+
+The difference is staggering because **returns compound**. Log returns correctly capture this compounding effect, which is why quant professionals use them for multi-period analysis. If you averaged their returns incorrectly, you'd massively underestimate their actual performance.
+</RealWorldExample>
+
 <KeyTakeaway>
 For small returns (under 10%), simple and log returns are nearly identical. For larger returns or longer time periods, the difference becomes significant. Quant professionals typically use **log returns** for statistical analysis.
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "If a stock goes up 20% then down 20%, what's your actual return? Why isn't it 0%?",
+    hint: "$100 → $120 → $96. You lost 4%. This asymmetry is why log returns are useful - they treat gains and losses symmetrically."
+  },
+  {
+    question: "Why do you think most financial research papers use log returns instead of simple returns?",
+    hint: "Log returns can be summed across time periods and are approximately normally distributed - both properties make statistical analysis much easier."
+  },
+  {
+    question: "If you're comparing two trading strategies, one with high-frequency small returns and one with infrequent large returns, which return calculation method matters more?",
+    hint: "For the high-frequency strategy, the difference is negligible (small returns). For the large, infrequent returns, using the wrong method could significantly misrepresent performance."
+  }
+]} />
 
 ## Practice
 

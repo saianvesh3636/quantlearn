@@ -11,6 +11,10 @@ prerequisites:
 
 Trend following is one of the oldest and most robust trading strategies. The core idea: prices that are going up tend to keep going up.
 
+<WhyItMatters tldr="While stocks lost 50%+ in 2008, trend-following CTAs gained 13-21%. This 'crisis alpha' is why institutions allocate to trend strategies despite years of underperformance in bull markets.">
+Trend following is one of the few strategies with documented out-of-sample evidence across centuries of data (commodities since 1800s, multiple asset classes since 1900s). More importantly, it provides **crisis alpha** - positive returns during market crashes when everything else is losing money. This makes it invaluable for portfolio construction, even if it underperforms buy-and-hold during bull markets.
+</WhyItMatters>
+
 <ConceptCard title="The Trend Following Philosophy" type="definition">
 **"The trend is your friend."** Trend followers don't predict where prices will go - they react to what prices are doing. When a trend starts, they get on board. When it ends, they get off.
 </ConceptCard>
@@ -93,6 +97,49 @@ Trends persist because of:
 Trend following has a **low win rate** (often 30-40%) but **large winners**. You'll have many small losses waiting for trends, then occasional big wins when trends develop. Psychologically difficult but mathematically sound.
 </ConceptCard>
 
+<RealWorldExample
+  title="Managed Futures Shine in 2008 Crisis"
+  date="2008"
+  impact="CTAs gained 13-21% while S&P 500 lost 37%"
+  sources={[
+    { name: "CME Group - Lintner Revisited", url: "https://www.cmegroup.com/education/files/Lintner_Revisited_Quantitative_Analysis.pdf" },
+    { name: "ScienceDirect - Crisis Alpha" }
+  ]}
+  lesson="Trend following provides 'crisis alpha' - returns during market crashes. It's portfolio insurance, not a standalone get-rich strategy."
+>
+While equity markets lost 50%+ of their value in 2008, trend-following CTAs delivered positive returns:
+
+- **SG CTA Index:** +13% in 2008
+- **SG Trend Index:** +20.9% in 2008
+- **BTOP 50 Index:** +17.69% in 2008
+- Individual CTA returns ranged from +5% to +50%
+
+**How they profited:** As the crisis unfolded, trend systems went short equities and long government bonds - simply following the persistent downtrend rather than trying to predict reversals.
+
+**The catch:** From January 2009 to June 2013 (the recovery), the SG CTA Trend Sub-Index returned -0.8% annually. The strategy that protected in 2008 struggled in the subsequent bull market.
+
+**Industry response:** AUM in managed futures grew from $200B (2007) to $325B (2012) as institutions recognized the diversification value.
+</RealWorldExample>
+
 <KeyTakeaway>
 Trend following works because markets trend due to behavioral biases. The strategy has low win rates but high reward-to-risk. Use moving averages or breakouts to identify trends, and always use stop losses to limit the many small losses.
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "If trend following has centuries of evidence and provided crisis alpha in 2008, why doesn't everyone just use it?",
+    hint: "Because it underperforms buy-and-hold during bull markets (which are most of the time). Most investors can't stomach years of underperformance waiting for the crash that makes the strategy worthwhile. Career risk kills many good strategies."
+  },
+  {
+    question: "If everyone used the same 50/200 moving average crossover, would it still work? Why or why not?",
+    hint: "Crowded trades can self-destruct. If everyone buys at the same signal, the entry price gets worse. If everyone exits together, slippage destroys returns. However, trends exist for fundamental reasons (slow information diffusion), so some trend-following edge likely persists."
+  },
+  {
+    question: "Why do you think trend following has a low win rate but is still profitable overall?",
+    hint: "The wins are much larger than the losses. You might lose $1 on 6 out of 10 trades, but make $10 on 2 trades and $5 on 2 trades. Expected value: -6 + 20 + 10 = +$24. This 'convex payoff' is the opposite of strategies that win often but blow up occasionally."
+  },
+  {
+    question: "Should you add trend following to a portfolio of stocks and bonds? What's the trade-off?",
+    hint: "Yes, for diversification - but expect it to drag returns in normal years. You're essentially paying an 'insurance premium' for protection in crashes. The question is whether that insurance is worth the cost of underperformance."
+  }
+]} />

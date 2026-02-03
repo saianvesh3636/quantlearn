@@ -11,6 +11,10 @@ prerequisites:
 
 Correlation measures how assets move together. Understanding correlation is essential for portfolio diversification and risk management.
 
+<WhyItMatters tldr="Correlation assumptions are the #1 reason sophisticated investors blow up. When correlations spike in a crisis, your 'diversified' portfolio can lose 50% instead of the 20% you planned for.">
+Every portfolio optimization, every risk model, every hedge relies on correlation estimates. But here's the trap: **correlations measured in calm markets don't hold in crises**. The very moment you need diversification to protect you is exactly when it fails. Understanding this isn't optional - it's the difference between surviving a crash and being wiped out.
+</WhyItMatters>
+
 <ConceptCard title="Why Correlation Matters" type="definition">
 If two assets are perfectly correlated, owning both gives no diversification benefit. **Diversification works when correlations are low** - your losses in one asset are offset by gains in another.
 </ConceptCard>
@@ -112,6 +116,63 @@ With multiple assets, we use a **correlation matrix** to see all pairwise correl
   />
 </InteractiveExample>
 
+## Real-World Disasters: When Correlations Broke
+
+<RealWorldExample
+  title="Long-Term Capital Management (LTCM) Collapse"
+  date="August 1998"
+  impact="$4.6 billion loss, Federal Reserve bailout"
+  sources={[
+    { name: "Federal Reserve History", url: "https://www.federalreservehistory.org/essays/ltcm-near-failure" },
+    { name: "Journal of Economic Perspectives" }
+  ]}
+  lesson="Diversification based on historical correlations can fail catastrophically when market regimes change."
+>
+LTCM was run by Nobel Prize winners and had the most sophisticated risk models of its time. They held **$125 billion in leveraged positions** across "uncorrelated" markets worldwide.
+
+**What happened:** Russia defaulted on its debt in August 1998, triggering a global "flight to quality." Suddenly, every market moved in the same direction - investors sold *everything* to buy US Treasuries.
+
+**The correlation spike:** Markets that had been uncorrelated for years became perfectly correlated overnight. LTCM's "diversified" portfolio lost most of its value in weeks. The Federal Reserve had to coordinate a $3.6 billion bailout to prevent systemic collapse.
+
+**The fatal flaw:** Their models assumed historical correlations would hold. They didn't account for the fact that in a panic, **all correlations go to 1**.
+</RealWorldExample>
+
+<RealWorldExample
+  title="2008 Financial Crisis: Diversification Failure"
+  date="September-October 2008"
+  impact="Correlations spiked from 40% to 70%"
+  sources={[
+    { name: "Financial Analysts Journal - When Diversification Fails", url: "https://www.tandfonline.com/doi/full/10.2469/faj.v74.n3.3" },
+    { name: "Two Sigma Research" }
+  ]}
+  lesson="Always stress-test portfolios using crisis-period correlations, not calm-period averages."
+>
+During the 2008 crisis, researchers documented a dramatic correlation breakdown:
+
+- **Pre-crisis:** Pairwise equity correlations averaged ~40%
+- **During crisis:** Correlations spiked to nearly 70%
+- **Principal components:** The first 3 PCs explained 90% of variation (vs typical 60-70%)
+
+A "diversified" portfolio of US stocks, international stocks, emerging markets, and REITs saw its effective beta to equities rise from 0.65 to 0.95. The diversification benefit evaporated precisely when it was needed most.
+
+**Result:** The portfolio underperformed a simple 60/40 stock/bond mix by 9 percentage points - diversification made things *worse*, not better.
+</RealWorldExample>
+
 <KeyTakeaway>
 Correlation measures co-movement between assets. **Low correlations** enable diversification. Use **correlation matrices** to visualize relationships. But beware: **correlations spike during crises** when you need diversification most.
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "If you know correlations spike during crises, how would you build a portfolio that actually protects you when it matters?",
+    hint: "Consider using crisis-period correlations for stress tests, holding assets that are truly uncorrelated (like trend-following strategies), or accepting that diversification has limits and using options for tail protection instead."
+  },
+  {
+    question: "Why do you think correlations increase during market panics? What's the behavioral/mechanical explanation?",
+    hint: "During panics, investors sell everything to raise cash (forced liquidation). Margin calls force selling regardless of fundamentals. Everyone runs for the same exit at the same time."
+  },
+  {
+    question: "LTCM had Nobel Prize winners and sophisticated models. What does their failure teach us about the limits of quantitative finance?",
+    hint: "Models are based on historical data. History doesn't repeat exactly. 'Fat tail' events that are supposed to happen once in 10,000 years happen much more often. Leverage amplifies both gains AND model errors."
+  }
+]} />
