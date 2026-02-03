@@ -11,6 +11,10 @@ prerequisites:
 
 Backtesting simulates how a strategy would have performed historically. It's our primary tool for strategy evaluation - but it's easy to do wrong.
 
+<WhyItMatters tldr="A backtest showing 100% annual returns probably has bugs. A backtest showing 15% annual returns with realistic costs might actually work. Understanding the difference saves you from losing real money on fake strategies.">
+Backtesting is where most quant traders make their biggest mistakes. It's trivially easy to create a backtest that shows amazing returns - and almost impossible to know if those returns are real or artifacts of bugs, biases, and wishful thinking. The strategies that look best in backtest often perform worst in live trading. Learning to backtest properly is learning to be skeptical of your own work.
+</WhyItMatters>
+
 <ConceptCard title="What is Backtesting?" type="definition">
 **Backtesting** applies trading rules to historical data to see what returns would have been generated. It answers: "If I had traded this strategy from 2010-2020, what would have happened?"
 </ConceptCard>
@@ -91,6 +95,72 @@ A strategy with 0.5% annual return before costs often has -2% return after costs
   />
 </InteractiveExample>
 
+<RealWorldExample
+  title="Quantopian: 888 Backtests, Zero Predictive Power"
+  date="2011-2020"
+  impact="Platform shut down after backtested strategies failed live"
+  sources={[
+    { name: "Quantopian Blog - Research Findings" },
+    { name: "Journal of Financial Data Science" }
+  ]}
+  lesson="Backtested Sharpe ratios have almost no correlation with live trading performance. The more you optimize, the worse the relationship gets."
+>
+Quantopian was a platform where users could develop and backtest trading strategies. They conducted extensive research on 888 algorithms:
+
+**The finding was devastating:**
+- Backtested Sharpe ratios had **near-zero correlation** with live paper trading results
+- Strategies that looked best in backtest often performed worst live
+- The more parameters a strategy had, the worse the live/backtest gap
+
+**Why this happened:**
+- Overfitting to historical data
+- Survivorship bias in stock selection
+- Transaction cost underestimation
+- Look-ahead bias in data handling
+
+**The outcome:** Quantopian shut down its crowd-sourced hedge fund in 2020. The lesson: a good backtest is necessary but not sufficient. Most backtested strategies fail in live trading.
+</RealWorldExample>
+
+<RealWorldExample
+  title="The Hidden Cost: Market Impact"
+  date="Ongoing"
+  impact="Can turn profitable strategies unprofitable"
+  sources={[
+    { name: "Journal of Portfolio Management" },
+    { name: "Two Sigma Research" }
+  ]}
+  lesson="Your own trading moves the market. Backtests that ignore this systematically overstate returns."
+>
+When you trade, you affect prices:
+- **Buying** pushes prices up (you pay more than the current quote)
+- **Selling** pushes prices down (you receive less than the current quote)
+
+**Real-world example:**
+A strategy trading $1M in a stock with $50M daily volume might see:
+- Estimated slippage: 0.05-0.1% per trade
+- Annual turnover: 500% (many trades)
+- Hidden cost: 2.5-5% annually - often more than the strategy's edge
+
+**The trap:** Backtests use historical prices as if you could trade at those exact prices. In reality, your own orders would have moved those prices. The bigger your positions, the worse this problem gets.
+
+**AQR's research:** Many strategies that work at $10M stop working at $100M and become money-losers at $1B, purely due to market impact.
+</RealWorldExample>
+
 <KeyTakeaway>
 A backtest is only as good as its assumptions. Always use **realistic transaction costs**, account for **slippage**, and remember that past performance doesn't guarantee future results. The goal is to avoid obviously bad strategies, not to predict exact future returns.
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "Your backtest shows 50% annual returns. What's your first reaction?",
+    hint: "Skepticism. 50% annual returns would make you one of the best traders in history. More likely: there's a bug, lookahead bias, survivorship bias, or unrealistic cost assumptions. Check for errors before getting excited."
+  },
+  {
+    question: "A strategy has a Sharpe ratio of 2.5 in backtest and 0.8 in paper trading. Which number should you believe?",
+    hint: "The paper trading number is closer to reality, but even that's optimistic (no real money psychology, possibly smaller size than you'd actually trade). Expect live performance to be worse than paper trading. The backtest number is essentially fiction."
+  },
+  {
+    question: "You're backtesting a strategy that trades once per month. Someone else is testing one that trades 100 times per day. Whose backtest is more reliable?",
+    hint: "The monthly trader's, probably. The high-frequency backtest requires millisecond-accurate data, realistic bid-ask spreads, queue position modeling, and market impact estimation. Most HFT backtests are wildly optimistic because these are hard to model."
+  }
+]} />

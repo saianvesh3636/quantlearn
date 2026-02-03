@@ -11,6 +11,10 @@ prerequisites:
 
 Descriptive statistics help us summarize and understand the characteristics of return distributions.
 
+<WhyItMatters tldr="Your risk models assume a certain distribution. If you assume normal when reality has fat tails, you'll underestimate the probability of extreme losses by 100x or more.">
+Every risk calculation, every Value-at-Risk estimate, every position sizing decision depends on understanding return distributions. Get the statistics wrong, and you'll think a -20% day is a "once in 10,000 years" event when it actually happens every few years. That miscalculation has bankrupted hedge funds and nearly collapsed the global financial system.
+</WhyItMatters>
+
 <ConceptCard title="Why Statistics Matter" type="definition">
 Financial returns are random variables. **Descriptive statistics** summarize their behavior with just a few numbers: mean, variance, skewness, kurtosis. These metrics form the foundation of risk management.
 </ConceptCard>
@@ -109,6 +113,43 @@ The **mean** is sensitive to outliers. One huge loss can drag down the average. 
   />
 </InteractiveExample>
 
+<RealWorldExample
+  title="Black Monday: A '25-Sigma Event' That Happened"
+  date="October 19, 1987"
+  impact="S&P 500 fell 20.4% in one day"
+  sources={[
+    { name: "Journal of Portfolio Management" },
+    { name: "NBER - Stock Volatility and the Crash" }
+  ]}
+  lesson="If your model says something is impossible, the model is wrong - not reality."
+>
+On Black Monday, the S&P 500 fell 20.4%. Under a normal distribution with historical volatility, this was a **25-sigma event** - something that should happen once every 10^135 years (that's more than the age of the universe, raised to any power you can imagine).
+
+**The statistics said it was impossible. It happened anyway.**
+
+This is what fat tails (high kurtosis) means in practice. Financial returns have kurtosis of 5-10, not 3 (normal). Events that "can't happen" happen regularly:
+- 1987: -20.4% (25 sigma under normal assumptions)
+- 2008: Multiple -5% to -9% days
+- 2020: -12% on March 16
+
+**The lesson**: Never use normal distribution assumptions for risk management. Real returns have fatter tails.
+</RealWorldExample>
+
 <KeyTakeaway>
 Financial returns are characterized by: **positive mean** (stocks go up on average), **significant variance** (daily swings are large), **negative skewness** (crashes are worse than rallies), and **high kurtosis** (extreme events happen more than normal distribution predicts).
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "If financial returns aren't normally distributed, why do so many textbooks and risk models still assume normality?",
+    hint: "Convenience. Normal distributions are mathematically tractable - you can derive closed-form solutions. Fat-tailed distributions are harder to work with. Many practitioners know the assumption is wrong but use it anyway, then add 'safety factors' to compensate."
+  },
+  {
+    question: "A strategy has positive mean, low variance, positive skewness, and low kurtosis. Sounds perfect - what's the catch?",
+    hint: "This profile is characteristic of 'picking up pennies in front of a steamroller' strategies - they work great until they don't. The statistics hide the tail risk that eventually destroys the strategy (see: selling volatility, selling deep out-of-money puts)."
+  },
+  {
+    question: "Why do you think stock returns are negatively skewed (bigger crashes than rallies)?",
+    hint: "Panic is faster than greed. Fear spreads quickly - everyone runs for the exit at once. Optimism builds slowly. Also, leverage forces selling into falling markets (margin calls), amplifying downside moves."
+  }
+]} />

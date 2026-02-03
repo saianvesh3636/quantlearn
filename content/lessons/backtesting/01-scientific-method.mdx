@@ -11,6 +11,10 @@ prerequisites:
 
 Quantitative trading is applied science. We form hypotheses, test them against data, and let evidence guide our decisions.
 
+<WhyItMatters tldr="Without scientific discipline, you're gambling. With it, you can systematically discover edges that persist. The difference is the difference between Renaissance Technologies and the retail traders they profit from.">
+The best quantitative traders treat trading as science, not art. Jim Simons (Renaissance Technologies) employed mathematicians and physicists, not traders. They formed hypotheses, tested rigorously, and only traded strategies with strong statistical evidence. This approach generated $100+ billion in profits over 30 years. Meanwhile, traders who rely on intuition and gut feelings systematically lose to them.
+</WhyItMatters>
+
 <ConceptCard title="The Scientific Approach" type="definition">
 A **trading hypothesis** is a testable claim about market behavior. "Stocks that go up tend to keep going up" is a hypothesis (momentum). We test it with data, not gut feelings.
 </ConceptCard>
@@ -87,6 +91,49 @@ If you test 100 strategies, 5 will look great by pure chance (at 5% significance
   />
 </InteractiveExample>
 
+<RealWorldExample
+  title="Renaissance Technologies: Science Applied to Markets"
+  date="1988-Present"
+  impact="$100+ billion in trading profits"
+  sources={[
+    { name: "The Man Who Solved the Market - Gregory Zuckerman" },
+    { name: "MIT Technology Review" }
+  ]}
+  lesson="The most successful quant fund in history treats trading as pure science - hypotheses, rigorous testing, and statistical validation."
+>
+Renaissance Technologies' Medallion Fund has generated ~66% annual returns before fees for over 30 years - the best track record in investing history.
+
+**Their approach is pure scientific method:**
+- Hire scientists, not traders (physicists, mathematicians, astronomers)
+- Form testable hypotheses about market patterns
+- Require statistical significance before trading
+- Continuously test and invalidate strategies
+- Never rely on intuition or "market feel"
+
+**Key insight from Jim Simons:** "We don't hire people from Wall Street. We want people who think like scientists, who are skeptical and curious."
+
+**The contrast:** Most traders fail because they don't treat trading scientifically. They:
+- Trade on "feelings" about the market
+- Don't test hypotheses rigorously
+- Chase patterns that aren't statistically significant
+- Confuse luck with skill
+</RealWorldExample>
+
 <KeyTakeaway>
 Treat trading like science: form **testable hypotheses**, use **out-of-sample data** for validation, and account for **multiple testing bias**. Be skeptical of results that seem too good - they usually are.
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "If you test 100 strategies at a 5% significance level, you expect 5 false positives. How would you adjust for this?",
+    hint: "Use multiple testing corrections like Bonferroni (divide alpha by number of tests) or control the False Discovery Rate (FDR). A strategy that's significant at 5% after 100 tests should really be significant at 0.05% to maintain the same false positive rate."
+  },
+  {
+    question: "Why might a PhD physicist be better at quant trading than an experienced Wall Street trader?",
+    hint: "The physicist has training in forming hypotheses, testing them rigorously, and accepting when they're wrong. The trader may have experience, but also biases, overconfidence, and habits that worked in the past but may not work now. Science beats intuition at scale."
+  },
+  {
+    question: "You find a strategy that works on data from 2010-2020. How confident should you be it will work in 2024?",
+    hint: "Not very. You need to consider: (1) Was 2010-2020 a representative period? (2) Have market conditions changed? (3) Did you optimize specifically for this period? (4) What's the economic rationale - will it persist? Out-of-sample testing helps, but markets evolve."
+  }
+]} />

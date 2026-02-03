@@ -24,6 +24,9 @@ import {
   InteractiveExample,
   KeyTakeaway,
   SimpleChart,
+  RealWorldExample,
+  ThinkAboutIt,
+  WhyItMatters,
 } from '@/components/lesson';
 
 import Quiz from '@/components/Quiz';
@@ -48,6 +51,9 @@ const mdxComponents = {
   InteractiveExample,
   KeyTakeaway,
   SimpleChart,
+  RealWorldExample,
+  ThinkAboutIt,
+  WhyItMatters,
   // Quiz
   Quiz,
 };

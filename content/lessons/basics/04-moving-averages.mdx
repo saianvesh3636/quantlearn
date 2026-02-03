@@ -11,6 +11,10 @@ prerequisites:
 
 Moving averages smooth price data to identify trends and generate trading signals. They're the foundation of many quantitative strategies.
 
+<WhyItMatters tldr="The 200-day moving average is watched by virtually every institutional investor. When the S&P 500 breaks below it, billions of dollars move. Understanding MAs means understanding how the market actually works.">
+Moving averages aren't just technical indicators - they're self-fulfilling prophecies embedded in how institutions operate. Pension funds, mutual funds, and algorithmic traders all use MAs as decision rules. When the S&P 500 crosses its 200-day MA, it triggers actual buying and selling that moves markets. You're not just analyzing price history; you're understanding the rules that govern trillions of dollars.
+</WhyItMatters>
+
 <ConceptCard title="Why Smooth Prices?" type="definition">
 Raw prices are noisy - daily fluctuations obscure the underlying trend. **Moving averages** filter out noise by averaging recent prices, revealing whether the overall direction is up, down, or sideways.
 </ConceptCard>
@@ -121,6 +125,47 @@ The 200-day MA is closely watched - breaks above/below are significant events.
 - **MACD crosses zero**: Confirms trend direction
 </ConceptCard>
 
+<RealWorldExample
+  title="The 200-Day Moving Average: Market's Most Watched Line"
+  date="March 2020 & October 2022"
+  impact="Trillions in asset flows"
+  sources={[
+    { name: "Bloomberg - Trend Following Research" },
+    { name: "S&P Dow Jones Indices" }
+  ]}
+  lesson="Moving averages work partly because so many people watch them. It's a coordination mechanism, not just analysis."
+>
+The 200-day moving average is arguably the most important line in finance:
+
+**March 2020 COVID Crash:**
+- S&P 500 broke below its 200-day MA on February 27, 2020
+- This triggered systematic selling from trend-following funds
+- The index fell another 25%+ over the next three weeks
+- Traders who respected the signal avoided the worst of the crash
+
+**October 2022 Bear Market:**
+- S&P 500 spent 8 months below its 200-day MA
+- Each failed attempt to reclaim it triggered more selling
+- When it finally broke above in January 2023, it marked the start of a new bull market
+
+**Why it matters:** Vanguard, BlackRock, and countless pension funds use MA rules for asset allocation. When the market crosses the 200-day MA, billions of dollars actually move - making the indicator partly self-fulfilling.
+</RealWorldExample>
+
 <KeyTakeaway>
 Moving averages smooth price noise to reveal trends. **SMA** weights all prices equally; **EMA** emphasizes recent prices. **Crossover signals** (Golden/Death Cross) identify trend changes. The 200-day MA is the key long-term trend indicator watched by institutions.
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "If the 200-day MA works because everyone watches it, what happens if everyone stops watching it?",
+    hint: "It would lose its predictive power. Technical analysis works partly through self-fulfilling prophecy. However, as long as large institutions use it for risk management, it remains relevant. The bigger question: is there a 'better' indicator no one watches yet?"
+  },
+  {
+    question: "Why do you think the 200-day MA (roughly 10 months of data) became the standard, rather than 150 or 250 days?",
+    hint: "Partly convention, partly optimization. 200 days balances responsiveness (shorter is faster) with noise reduction (longer is smoother). But mostly it's convention - once enough people use it, switching creates coordination problems."
+  },
+  {
+    question: "If a stock gaps down 20% overnight on earnings, the moving average barely moves. Is this a feature or a bug?",
+    hint: "Feature for trend identification (you want to ignore one-day noise), bug for risk management (your stop-loss triggered, but the MA says 'still in trend'). This is why professional traders use MAs for direction but other tools for risk management."
+  }
+]} />

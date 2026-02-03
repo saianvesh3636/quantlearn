@@ -11,6 +11,10 @@ prerequisites:
 
 Market makers provide liquidity by continuously quoting buy and sell prices. They profit from the bid-ask spread while managing inventory risk.
 
+<WhyItMatters tldr="Market makers are the backbone of liquid markets. Understanding how they work helps you understand market microstructure, why spreads widen during volatility, and why your orders sometimes get worse prices than expected.">
+Even if you never become a market maker, understanding them is essential. They're on the other side of most of your trades. When you place a market order, you're paying the spread to a market maker. When spreads widen during volatility, it's because market makers are pricing in higher risk. Understanding their incentives helps you trade more efficiently.
+</WhyItMatters>
+
 <ConceptCard title="What is Market Making?" type="definition">
 A **market maker** posts both bid (buy) and ask (sell) orders simultaneously. They earn the spread when they buy at the bid and sell at the ask. They're always willing to trade - that's their service to the market.
 </ConceptCard>
@@ -99,6 +103,81 @@ This naturally pushes inventory back toward zero.
   />
 </InteractiveExample>
 
+<RealWorldExample
+  title="The Flash Crash: When Market Makers Disappeared"
+  date="May 6, 2010"
+  impact="Dow fell 1,000 points in minutes, then recovered"
+  sources={[
+    { name: "SEC/CFTC Flash Crash Report" },
+    { name: "Journal of Finance - Kirilenko et al." }
+  ]}
+  lesson="Market makers provide liquidity in normal times, but they can withdraw during extreme stress - precisely when you need them most."
+>
+On May 6, 2010, the Dow Jones fell nearly 1,000 points (~9%) in minutes before recovering. The SEC investigation revealed what happened:
+
+**The trigger:** A large sell order from a mutual fund was executed by an algorithm that didn't consider price or time - just volume. It kept selling regardless of price.
+
+**The withdrawal:** Market makers' algorithms detected unusual activity and widened spreads dramatically. Some pulled quotes entirely. Liquidity evaporated.
+
+**The cascade:** Without market makers to absorb selling, prices fell further, triggering more selling. Some stocks traded at $0.01, others at $100,000 - clearly erroneous prices.
+
+**Accenture example:** Shares fell from $40 to $0.01 in seconds as market makers stepped away.
+
+**The lesson:** Market making is profitable in normal conditions but risky in extreme ones. When volatility spikes, market makers protect themselves by widening spreads or withdrawing - leaving other traders stranded.
+</RealWorldExample>
+
+<RealWorldExample
+  title="Citadel Securities: Scale in Market Making"
+  date="2020-Present"
+  impact="Handles ~25% of all US equity trading volume"
+  sources={[
+    { name: "Citadel Securities Website" },
+    { name: "SEC 606 Reports" }
+  ]}
+  lesson="Modern market making requires massive technology investment. Retail traders can't compete - they're the customers, not competitors."
+>
+Citadel Securities demonstrates what modern market making looks like:
+
+**Scale:**
+- Executes ~25% of all US equity volume
+- Handles ~40% of retail equity orders
+- Makes markets in thousands of securities simultaneously
+
+**Infrastructure:**
+- Microsecond-level execution (millions spent on speed)
+- Sophisticated inventory management algorithms
+- Massive data centers near exchanges
+
+**Business model:**
+- Pays brokers for retail order flow (Payment for Order Flow)
+- Profits from the spread on those orders
+- Economies of scale make small spreads profitable at high volume
+
+**What this means for you:**
+- You can't compete with Citadel as a market maker
+- When you trade, you're likely trading against their algorithms
+- Understanding their incentives helps you get better execution
+</RealWorldExample>
+
 <KeyTakeaway>
 Market making earns the bid-ask spread by providing liquidity. Success requires managing **inventory risk** through quote skewing and protecting against **adverse selection** from informed traders. It's a high-frequency, low-margin business requiring sophisticated technology.
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "Why do market makers exist at all? Why doesn't the market just match buyers and sellers directly?",
+    hint: "Because buyers and sellers don't arrive at exactly the same time. Someone needs to hold inventory between when a seller wants to sell and a buyer wants to buy. Market makers provide this timing service and earn the spread as compensation."
+  },
+  {
+    question: "During high volatility, spreads widen. Is this market makers being 'greedy' or is there an economic reason?",
+    hint: "Economic reason: volatility means more risk. If a market maker buys stock and the price immediately drops 5%, they lose money. Higher volatility = higher chance of this happening = need wider spreads to compensate. It's risk pricing, not greed."
+  },
+  {
+    question: "If you're trading a stock with a wide spread, should you use market orders or limit orders?",
+    hint: "Limit orders, almost always. A market order pays the full spread immediately. A limit order might save half the spread if another trader crosses it. The wider the spread, the more valuable patience becomes."
+  },
+  {
+    question: "Why would a broker pay Citadel to execute their customers' orders (Payment for Order Flow)?",
+    hint: "Because Citadel can execute at better prices than the broker could get on exchanges (or at least claims to). Citadel profits from the spread, the broker gets paid, and the customer gets 'price improvement' over the quoted price. Whether this is good for customers is debated."
+  }
+]} />

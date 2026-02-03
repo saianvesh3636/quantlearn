@@ -11,6 +11,10 @@ prerequisites:
 
 Mean reversion is the opposite of trend following. The core idea: prices that deviate from their average tend to return to it.
 
+<WhyItMatters tldr="Mean reversion has higher win rates than trend following, but its failures are catastrophic. Understanding when it works and when it kills you is the difference between steady profits and total wipeout.">
+Mean reversion is seductive because it feels right - buy low, sell high. Win rates of 60-80% feel good. But this strategy has destroyed more hedge funds than any other. The 2007 Quant Crisis, LTCM, and countless prop desks blew up running mean reversion. The problem: when the "mean" shifts, your small consistent wins become one massive loss that wipes out years of gains.
+</WhyItMatters>
+
 <ConceptCard title="Mean Reversion Philosophy" type="definition">
 **"What goes up must come down."** Mean reversion traders bet that extreme moves will reverse. They buy dips and sell rallies, profiting from prices returning to "normal" levels.
 </ConceptCard>
@@ -98,6 +102,74 @@ Mean reversion fails when:
 Famous blow-ups (LTCM, 2008 quant crisis) often involved mean reversion strategies that faced unprecedented moves.
 </ConceptCard>
 
+<RealWorldExample
+  title="The August 2007 Quant Crisis"
+  date="August 6-9, 2007"
+  impact="Multi-billion dollar losses across quant funds"
+  sources={[
+    { name: "Journal of Investment Management - Khandani & Lo" },
+    { name: "Journal of Portfolio Management" }
+  ]}
+  lesson="When everyone runs the same mean reversion strategy, the exit door is too small. Crowded trades unwind violently."
+>
+In August 2007, quantitative hedge funds experienced unprecedented losses in just four days:
+
+- **Goldman Sachs Global Alpha**: Lost $1.6 billion in one week
+- **Renaissance Technologies**: Lost ~$1 billion before recovering
+- **AQR, DE Shaw, and others**: Multi-hundred million dollar losses
+
+**What happened:** Most quant funds were running similar mean reversion / statistical arbitrage strategies. When one large fund needed to liquidate (reportedly a multi-strategy fund facing losses elsewhere), it sold positions that other quants also held. This triggered their risk limits, forcing more selling.
+
+**The death spiral:** Everyone was short the same "expensive" stocks and long the same "cheap" stocks. When forced selling began, the expensive stocks they were short went UP, and the cheap stocks they were long went DOWN - the exact opposite of mean reversion.
+
+**Recovery:** By August 10th, stocks had reverted and most funds recovered their losses. But the lesson was clear: mean reversion + crowded positioning = systemic risk.
+</RealWorldExample>
+
+<RealWorldExample
+  title="Pairs Trading Gone Wrong: Volkswagen-Porsche 2008"
+  date="October 2008"
+  impact="VW became world's most valuable company briefly; billions in short squeeze losses"
+  sources={[
+    { name: "Financial Times Archive" },
+    { name: "Reuters - VW Short Squeeze" }
+  ]}
+  lesson="Mean reversion assumes the relationship will hold. When fundamentals change, the spread can go to infinity."
+>
+In October 2008, hedge funds ran a classic pairs trade: short Volkswagen, long Porsche (they were related companies with a predictable spread).
+
+**The setup looked perfect:**
+- Historical correlation: Very high
+- VW seemed overpriced relative to Porsche
+- Spread had widened beyond normal levels
+
+**Then Porsche revealed it controlled 74% of VW:**
+- Only 6% of VW shares were actually floating for trading
+- Hedge funds were short 12% of VW - more than existed
+- VW stock exploded from €200 to €1,000 in two days
+- Volkswagen briefly became the world's most valuable company
+
+**The losses:** Estimated $30+ billion in short squeeze losses across hedge funds. The "mean" they were betting on didn't exist anymore - the fundamental relationship had permanently changed.
+</RealWorldExample>
+
 <KeyTakeaway>
 Mean reversion profits from prices returning to average. It has **high win rates** but **occasional large losses** when means shift. Use z-scores to identify extremes, pairs trading for market neutrality, and always have stop losses for when "cheap" gets cheaper.
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "Mean reversion has higher win rates than trend following. Why would anyone choose trend following?",
+    hint: "Win rate isn't everything - expected value is. Mean reversion wins often but loses big when it fails. Trend following loses often but wins big when it works. They have opposite risk profiles. Most importantly, trend following provides 'crisis alpha' during crashes, while mean reversion gets crushed."
+  },
+  {
+    question: "How would you know if a 'cheap' stock is mean-reverting to fair value, or if fair value has permanently changed?",
+    hint: "This is the core problem. Fundamentals analysis helps (is the business changing?), but you can never be certain. That's why stop losses are essential - they limit losses when you're wrong about the mean."
+  },
+  {
+    question: "In the 2007 Quant Crisis, funds recovered within days. Does that mean mean reversion worked?",
+    hint: "Yes and no. The strategy eventually worked, but many funds had been forced to liquidate at the worst prices due to risk limits or margin calls. Being 'right eventually' doesn't help if you're bankrupt in the meantime. Survival is the first rule."
+  },
+  {
+    question: "If you're running a pairs trade and the spread keeps widening, should you add to the position (it's 'cheaper') or cut it (something's wrong)?",
+    hint: "This is the key decision. Adding to losers ('averaging down') can work if the relationship is intact, but it's catastrophic if the relationship broke. Most professional pairs traders have strict limits on position size and will cut losses rather than average down."
+  }
+]} />

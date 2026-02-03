@@ -11,6 +11,10 @@ prerequisites:
 
 Walk-forward testing simulates how a strategy would be developed and traded in real-time, avoiding many backtesting pitfalls.
 
+<WhyItMatters tldr="Standard backtests overestimate returns by 30-100% because they use future information to optimize. Walk-forward testing gives you realistic performance estimates - what you'd actually experience trading live.">
+The difference between walk-forward and simple backtesting is often the difference between a profitable strategy and a losing one. Simple backtests let you "peek" at the future when choosing parameters. Walk-forward testing eliminates this cheat by strictly separating what you knew from what you're testing. It's slower and more complex, but it's the only way to get realistic performance estimates.
+</WhyItMatters>
+
 <ConceptCard title="Walk-Forward Testing" type="definition">
 **Walk-forward analysis** repeatedly trains a model on past data, then tests on the next period. This mimics real trading where you only have historical data to learn from.
 </ConceptCard>
@@ -82,6 +86,47 @@ Walk-forward testing simulates how a strategy would be developed and traded in r
   />
 </InteractiveExample>
 
+<RealWorldExample
+  title="AQR's Research: Why Parameters Decay"
+  date="Ongoing Research"
+  impact="Optimal parameters drift over time"
+  sources={[
+    { name: "AQR Capital Management Research" },
+    { name: "Journal of Portfolio Management" }
+  ]}
+  lesson="Parameters that worked in the past often don't work in the future. Walk-forward testing reveals this decay; simple backtesting hides it."
+>
+AQR's research has documented a persistent phenomenon: **parameter decay**.
+
+**What they found:**
+- Optimal parameters from one period rarely remain optimal in the next
+- A moving average strategy optimized on 2010-2015 data might use 23-day and 67-day periods
+- Re-optimized on 2015-2020 data, the optimal periods might be 18-day and 84-day
+- Using the old parameters on new data underperforms the re-optimized parameters
+
+**Why this matters:**
+- Simple backtesting uses the "best" parameters across all data - parameters you couldn't have known in advance
+- Walk-forward testing uses only parameters you would have actually known at each point
+- The difference can be 30-100% in annualized returns
+
+**Their conclusion:** Any strategy with more than 2-3 parameters needs walk-forward testing. Simple backtests on optimized strategies are essentially fiction.
+</RealWorldExample>
+
 <KeyTakeaway>
 Walk-forward analysis provides **realistic performance estimates** by simulating real-time strategy development. It's slower than simple backtesting but much more reliable. Always use walk-forward before committing real capital.
 </KeyTakeaway>
+
+<ThinkAboutIt questions={[
+  {
+    question: "You run walk-forward analysis and the combined out-of-sample performance is much worse than the in-sample performance of each window. What does this tell you?",
+    hint: "Your strategy is overfitting. Each training window finds parameters that work great on that specific data but don't generalize. This is actually valuable information - you've discovered the strategy doesn't work before losing real money."
+  },
+  {
+    question: "Should you use anchored (expanding) or rolling windows? What's the trade-off?",
+    hint: "Expanding windows give more data (good for statistical power) but assume old data is still relevant (bad if markets change). Rolling windows adapt to regime changes but use less data. There's no universal answer - it depends on whether you believe market dynamics are stable or evolving."
+  },
+  {
+    question: "Walk-forward testing takes 10x longer than simple backtesting. When is it NOT worth the extra effort?",
+    hint: "When your strategy has no optimized parameters (pure rules-based with fixed values). If there's nothing to optimize, there's no lookahead bias to correct. But most strategies have at least a few parameters, making walk-forward essential."
+  }
+]} />
