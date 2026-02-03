@@ -73,7 +73,7 @@ export function FindYourEdge({ concept, strategies }: FindYourEdgeProps) {
 
             {expandedIndex === index && (
               <div className="px-4 pb-4 space-y-3">
-                <p className="text-sm text-gray-600 dark:text-gray-400 ml-9">
+                <p className="text-sm text-gray-600 dark:text-gray-400 ml-9 font-serif leading-relaxed">
                   {strategy.description}
                 </p>
 
@@ -86,7 +86,7 @@ export function FindYourEdge({ concept, strategies }: FindYourEdgeProps) {
                       </svg>
                       Implementation
                     </h5>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <p className="text-sm text-slate-600 dark:text-slate-400 font-serif leading-relaxed">
                       {strategy.implementation}
                     </p>
                     {strategy.parameters && (
@@ -104,7 +104,7 @@ export function FindYourEdge({ concept, strategies }: FindYourEdgeProps) {
                       </svg>
                       Evidence
                     </h5>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <p className="text-sm text-slate-600 dark:text-slate-400 font-serif leading-relaxed">
                       {strategy.evidence}
                     </p>
                   </div>
@@ -118,7 +118,7 @@ export function FindYourEdge({ concept, strategies }: FindYourEdgeProps) {
                     </svg>
                     Risks & Limitations
                   </h5>
-                  <p className="text-sm text-amber-800 dark:text-amber-300">
+                  <p className="text-sm text-amber-800 dark:text-amber-300 font-serif leading-relaxed">
                     {strategy.risks}
                   </p>
                 </div>

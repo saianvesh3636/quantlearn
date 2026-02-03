@@ -27,15 +27,15 @@ export function WhyItMatters({ children, tldr }: WhyItMattersProps) {
       </div>
 
       {/* Content */}
-      <div className="px-4 pb-4 text-gray-700 dark:text-gray-300">
+      <div className="px-4 pb-4 text-gray-700 dark:text-gray-300 font-serif leading-relaxed">
         {children}
       </div>
 
       {/* TL;DR */}
       {tldr && (
         <div className="mx-4 mb-4 p-3 rounded-md bg-blue-100/50 dark:bg-blue-900/20 border border-blue-200/50 dark:border-blue-800/50">
-          <p className="text-sm text-blue-800 dark:text-blue-200">
-            <span className="font-semibold">TL;DR: </span>
+          <p className="text-sm text-blue-800 dark:text-blue-200 font-serif leading-relaxed">
+            <span className="font-semibold font-sans">TL;DR: </span>
             {tldr}
           </p>
         </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { ProgressProvider } from '@/providers/ProgressProvider'
 import { Sidebar } from '@/components/Sidebar'
@@ -8,6 +8,18 @@ import { getCurriculum } from '@/lib/lessons'
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
+})
+
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -24,7 +36,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${inter.variable} ${sourceSerif.variable} ${jetbrainsMono.variable} antialiased`}>
         <ProgressProvider>
           <div className="flex min-h-screen">
             <Sidebar curriculum={curriculum} />

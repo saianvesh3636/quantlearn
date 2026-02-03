@@ -22,7 +22,7 @@ export default function KeyTakeaway({ children }: KeyTakeawayProps) {
             Key Takeaway
           </span>
         </div>
-        <div className="text-gray-700 dark:text-gray-300 ml-8">
+        <div className="text-gray-700 dark:text-gray-300 ml-8 font-serif leading-relaxed">
           {children}
         </div>
       </div>

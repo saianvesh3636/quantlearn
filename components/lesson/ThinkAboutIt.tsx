@@ -48,7 +48,7 @@ export function ThinkAboutIt({ questions }: ThinkAboutItProps) {
           </div>
         </div>
         <p className="mt-1 ml-10 text-sm text-gray-500 dark:text-gray-400">
-          These questions don't have simple answers. Take a moment to think critically.
+          These questions don&apos;t have simple answers. Take a moment to think critically.
         </p>
       </div>
 
@@ -56,8 +56,8 @@ export function ThinkAboutIt({ questions }: ThinkAboutItProps) {
       <div className="divide-y divide-gray-100 dark:divide-gray-700">
         {questions.map((q, i) => (
           <div key={i} className="px-4 py-4">
-            <p className="text-gray-800 dark:text-gray-200 font-medium">
-              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm mr-2">
+            <p className="text-gray-800 dark:text-gray-200 font-serif leading-relaxed">
+              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm mr-2 font-sans font-medium">
                 {i + 1}
               </span>
               {q.question}
@@ -80,8 +80,8 @@ export function ThinkAboutIt({ questions }: ThinkAboutItProps) {
                 </button>
                 {revealedHints.has(i) && (
                   <div className="mt-2 p-3 rounded-md bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
-                    <p className="text-sm text-slate-600 dark:text-slate-400">
-                      <span className="font-medium text-slate-700 dark:text-slate-300">Hint: </span>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 font-serif leading-relaxed">
+                      <span className="font-semibold font-sans text-slate-700 dark:text-slate-300">Hint: </span>
                       {q.hint}
                     </p>
                   </div>

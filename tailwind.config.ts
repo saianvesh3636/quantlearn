@@ -25,7 +25,13 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif)', 'Georgia', 'serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+      },
+      fontSize: {
+        // Optimized for reading
+        'prose-body': ['1.0625rem', { lineHeight: '1.75' }], // 17px
+        'prose-lg': ['1.125rem', { lineHeight: '1.8' }], // 18px
       },
       keyframes: {
         'fade-in': {

@@ -67,7 +67,7 @@ export default function ConceptCard({ title, children, type = 'definition' }: Co
         </span>
       </div>
       <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2 ml-8">{title}</h4>
-      <div className="text-gray-700 dark:text-gray-300 ml-8">
+      <div className="text-gray-700 dark:text-gray-300 ml-8 font-serif leading-relaxed">
         {children}
       </div>
     </div>

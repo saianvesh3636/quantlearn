@@ -17,5 +17,212 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Typography for lesson content - optimized for studying */
+@layer components {
+  .prose {
+    /* Use serif font for body text - easier on eyes for long reading */
+    font-family: var(--font-serif), Georgia, serif;
+    font-size: 1.0625rem; /* 17px - optimal for reading */
+    line-height: 1.75;
+    letter-spacing: -0.01em;
+  }
+
+  .prose p {
+    margin-bottom: 1.25em;
+  }
+
+  /* Headings use sans-serif for contrast and clarity */
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+  }
+
+  .prose h1 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .prose h2 {
+    font-size: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgb(229 231 235);
+  }
+
+  .dark .prose h2 {
+    border-bottom-color: rgb(55 65 81);
+  }
+
+  .prose h3 {
+    font-size: 1.25rem;
+  }
+
+  .prose h4 {
+    font-size: 1.125rem;
+  }
+
+  /* Code blocks - monospace with good contrast */
+  .prose code {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.875em;
+    font-weight: 500;
+    background-color: rgb(243 244 246);
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+  }
+
+  .dark .prose code {
+    background-color: rgb(31 41 55);
+  }
+
+  .prose pre {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    background-color: rgb(31 41 55);
+    color: rgb(229 231 235);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+  }
+
+  .prose pre code {
+    background: transparent;
+    padding: 0;
+    font-weight: 400;
+  }
+
+  /* Lists with better spacing */
+  .prose ul,
+  .prose ol {
+    padding-left: 1.5em;
+    margin-bottom: 1.25em;
+  }
+
+  .prose li {
+    margin-bottom: 0.5em;
+  }
+
+  .prose li::marker {
+    color: rgb(156 163 175);
+  }
+
+  /* Blockquotes */
+  .prose blockquote {
+    font-style: italic;
+    border-left: 3px solid rgb(209 213 219);
+    padding-left: 1em;
+    margin-left: 0;
+    color: rgb(107 114 128);
+  }
+
+  .dark .prose blockquote {
+    border-left-color: rgb(75 85 99);
+    color: rgb(156 163 175);
+  }
+
+  /* Links */
+  .prose a {
+    color: rgb(37 99 235);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .prose a:hover {
+    color: rgb(29 78 216);
+  }
+
+  .dark .prose a {
+    color: rgb(96 165 250);
+  }
+
+  .dark .prose a:hover {
+    color: rgb(147 197 253);
+  }
+
+  /* Strong and emphasis */
+  .prose strong {
+    font-weight: 600;
+    color: rgb(17 24 39);
+  }
+
+  .dark .prose strong {
+    color: rgb(243 244 246);
+  }
+
+  /* Tables */
+  .prose table {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-size: 0.9375rem;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+  }
+
+  .prose th {
+    font-weight: 600;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background-color: rgb(249 250 251);
+    border-bottom: 2px solid rgb(229 231 235);
+  }
+
+  .dark .prose th {
+    background-color: rgb(31 41 55);
+    border-bottom-color: rgb(55 65 81);
+  }
+
+  .prose td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgb(229 231 235);
+  }
+
+  .dark .prose td {
+    border-bottom-color: rgb(55 65 81);
+  }
+
+  /* Images */
+  .prose img {
+    border-radius: 0.5rem;
+    margin: 1.5em 0;
+  }
+
+  /* Horizontal rules */
+  .prose hr {
+    border: 0;
+    border-top: 1px solid rgb(229 231 235);
+    margin: 2em 0;
+  }
+
+  .dark .prose hr {
+    border-top-color: rgb(55 65 81);
+  }
+}
+
+/* KaTeX formula styling */
+.katex {
+  font-size: 1.1em;
+}
+
+.katex-display {
+  margin: 1.5em 0;
+  overflow-x: auto;
+  padding: 1rem;
+  background-color: rgb(249 250 251);
+  border-radius: 0.5rem;
+}
+
+.dark .katex-display {
+  background-color: rgb(31 41 55 / 0.5);
 }

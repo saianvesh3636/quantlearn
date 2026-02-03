@@ -68,15 +68,15 @@ export function RealWorldExample({
       </div>
 
       {/* Content */}
-      <div className="px-4 py-4 text-gray-700 dark:text-gray-300 prose-sm dark:prose-invert max-w-none">
+      <div className="px-4 py-4 text-gray-700 dark:text-gray-300 font-serif leading-relaxed">
         {children}
       </div>
 
       {/* Key Lesson */}
       {lesson && (
         <div className="mx-4 mb-4 p-3 rounded-md bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
-          <p className="text-sm text-slate-700 dark:text-slate-300">
-            <span className="font-semibold text-slate-900 dark:text-slate-100">Key Lesson: </span>
+          <p className="text-sm text-slate-700 dark:text-slate-300 font-serif leading-relaxed">
+            <span className="font-semibold font-sans text-slate-900 dark:text-slate-100">Key Lesson: </span>
             {lesson}
           </p>
         </div>
