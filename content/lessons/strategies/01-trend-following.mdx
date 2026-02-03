@@ -125,6 +125,28 @@ While equity markets lost 50%+ of their value in 2008, trend-following CTAs deli
 Trend following works because markets trend due to behavioral biases. The strategy has low win rates but high reward-to-risk. Use moving averages or breakouts to identify trends, and always use stop losses to limit the many small losses.
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Time Series Momentum"
+  strategies={[
+    {
+      name: "12-Month Time Series Momentum",
+      description: "The most documented momentum strategy: go long assets with positive 12-month returns, short those with negative returns. Simple, robust, diversified.",
+      implementation: "Each month, calculate 12-month excess return for each asset. Go long if positive, short if negative. Equal-weight across 20+ liquid futures markets. Rebalance monthly.",
+      parameters: "Lookback: 12 months. Holding period: 1 month. Universe: Equity indices, bonds, commodities, currencies (futures).",
+      evidence: "Moskowitz, Ooi, Pedersen (2012) documented significant momentum across 58 futures. AQR makes the dataset publicly available. Effect persists for 1-12 months.",
+      risks: "Underperforms in choppy, trendless markets. Whipsaw losses during V-shaped reversals. Requires discipline to stay short during bear market rallies. Monthly rebalancing has tax implications."
+    },
+    {
+      name: "Trend Following as Portfolio Insurance",
+      description: "Instead of buying puts, allocate to trend following for 'crisis alpha' - the tendency to go short during prolonged declines.",
+      implementation: "Allocate 15-20% of portfolio to a diversified trend strategy (DIY or via CTA/managed futures fund). Accept underperformance in normal years as the 'insurance premium' for crash protection.",
+      parameters: "Allocation: 15-20% of portfolio. Rebalance annually. Accept 5+ years of potential underperformance.",
+      evidence: "Hurst, Ooi, Pedersen showed trend following explains nearly all CTA returns. CTAs gained 13-21% in 2008 while equities lost 50%+. The 'CTA smile' shows positive returns in both best and worst equity periods.",
+      risks: "Expensive insurance - trend strategies underperformed 2010-2019. May feel like a waste during bull markets. Requires long-term commitment through years of negative relative performance."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "If trend following has centuries of evidence and provided crisis alpha in 2008, why doesn't everyone just use it?",

@@ -219,6 +219,28 @@ XIV was an inverse VIX ETN - it went up when volatility went down. For years, it
 Volatility measures risk through return variability. Use **historical volatility** for simple calculations, **EWMA** for faster reaction, and **GARCH** for sophisticated forecasting. **Implied volatility** from options reflects market expectations. Remember: volatility clusters - high vol follows high vol.
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Volatility Trading"
+  strategies={[
+    {
+      name: "Volatility Risk Premium (VRP) Harvesting",
+      description: "Implied volatility consistently exceeds realized volatility. Carefully harvest this premium by selling volatility when conditions are favorable.",
+      implementation: "When VIX > 20 AND VIX futures in contango (front month < second month), sell VIX futures or sell SPX put spreads. Size small (1-3% of portfolio max). Close when VIX < 15 or futures flip to backwardation.",
+      parameters: "Entry: VIX > 20, daily roll yield > 0.10. Exit: VIX < 15 or backwardation. Max position: 3% of portfolio. Hard stop at 50% loss on position.",
+      evidence: "Bakshi & Kapadia (2003), Bollerslev et al. (2009) documented significant VRP. Quantpedia documents systematic profits from VIX contango trading.",
+      risks: "EXTREME BLOW-UP RISK: Can lose 50-90% in a single event (Feb 2018, March 2020). Position sizing is critical. Recent research suggests premium may be shrinking. This is NOT a core strategy - only satellite allocation."
+    },
+    {
+      name: "Volatility-Targeting Position Sizing",
+      description: "Scale your positions inversely with volatility to maintain constant risk. When volatility spikes, reduce exposure; when it drops, increase exposure.",
+      implementation: "Calculate trailing 20-day realized volatility of your asset. Set target volatility (e.g., 10% annualized). Position size = Target Vol / Realized Vol. If realized vol doubles, cut position in half.",
+      parameters: "Lookback: 20 days. Target vol: 10-15% annualized. Min position: 25% of normal. Max position: 150% of normal.",
+      evidence: "Moreira & Muir (2017 JFE) showed volatility-managed portfolios have higher Sharpe ratios. AQR implements volatility targeting across their strategies.",
+      risks: "You'll be reducing exposure during crashes (selling low) and adding during calm (buying high). Works for risk management, not necessarily for returns. Requires frequent rebalancing."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "If volatility is predictable (it clusters), why can't everyone just trade volatility and make easy money?",

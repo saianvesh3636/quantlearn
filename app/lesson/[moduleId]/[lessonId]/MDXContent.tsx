@@ -27,6 +27,7 @@ import {
   RealWorldExample,
   ThinkAboutIt,
   WhyItMatters,
+  FindYourEdge,
 } from '@/components/lesson';
 
 import Quiz from '@/components/Quiz';
@@ -54,6 +55,7 @@ const mdxComponents = {
   RealWorldExample,
   ThinkAboutIt,
   WhyItMatters,
+  FindYourEdge,
   // Quiz
   Quiz,
 };

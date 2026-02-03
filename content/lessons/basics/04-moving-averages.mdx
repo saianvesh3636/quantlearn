@@ -155,6 +155,28 @@ The 200-day moving average is arguably the most important line in finance:
 Moving averages smooth price noise to reveal trends. **SMA** weights all prices equally; **EMA** emphasizes recent prices. **Crossover signals** (Golden/Death Cross) identify trend changes. The 200-day MA is the key long-term trend indicator watched by institutions.
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Moving Average Timing"
+  strategies={[
+    {
+      name: "10-Month SMA Timing (Faber Strategy)",
+      description: "Be long equities when price is above the 10-month (≈200-day) simple moving average; move to cash or bonds when below. Reduces drawdowns with minimal complexity.",
+      implementation: "Check S&P 500 price vs. 10-month SMA at month-end. If price > SMA, hold equities. If price < SMA, hold T-bills or short-term bonds. Trade only at month-end to reduce whipsaws.",
+      parameters: "Lookback: 10 months (or 200 trading days). Check frequency: Monthly. Add 1% band to reduce false signals.",
+      evidence: "Jeremy Siegel backtested 1886-2006: improved both returns AND risk. Faber (2007) confirmed across asset classes. Multiple academic studies validate 6-14 month lookbacks.",
+      risks: "Generates false signals in sideways markets. Underperforms buy-and-hold in strong bull markets (you miss some gains while whipsawed). Tax inefficiency from trading. Works by avoiding prolonged declines, NOT by timing bottoms."
+    },
+    {
+      name: "Multi-Asset Trend Following",
+      description: "Apply moving average timing across multiple asset classes to diversify the timing signal and reduce whipsaws.",
+      implementation: "Track 10-month SMA for 4-8 asset classes (US stocks, intl stocks, bonds, REITs, commodities, gold). Be long each asset only when above its own SMA. This naturally shifts allocation toward trending assets.",
+      parameters: "Universe: SPY, EFA, AGG, VNQ, DBC, GLD. Check monthly. Equal weight within 'long' assets.",
+      evidence: "Faber's 'Global Tactical Asset Allocation' showed this approach reduced max drawdown from 50%+ to ~20% while maintaining similar returns (backtested 1973-2012).",
+      risks: "More complex to implement. Some assets (commodities) may be below SMA for years, leaving you underinvested. Requires discipline to stay in cash when everything looks like it's recovering."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "If the 200-day MA works because everyone watches it, what happens if everyone stops watching it?",

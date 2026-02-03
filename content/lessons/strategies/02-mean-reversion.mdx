@@ -155,6 +155,28 @@ In October 2008, hedge funds ran a classic pairs trade: short Volkswagen, long P
 Mean reversion profits from prices returning to average. It has **high win rates** but **occasional large losses** when means shift. Use z-scores to identify extremes, pairs trading for market neutrality, and always have stop losses for when "cheap" gets cheaper.
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Statistical Arbitrage"
+  strategies={[
+    {
+      name: "Short-Term Mean Reversion (RSI)",
+      description: "Over 1-5 day horizons, stocks that move sharply tend to reverse. Use RSI or similar indicators to identify extreme short-term moves.",
+      implementation: "Calculate 2-day RSI for liquid stocks. Buy when RSI(2) < 10 (extreme oversold). Sell when RSI(2) > 90 (extreme overbought). Hold for 1-5 days or until RSI normalizes.",
+      parameters: "RSI period: 2 days. Entry: RSI < 10 (long) or > 90 (short). Exit: RSI crosses 50 or 5-day holding limit.",
+      evidence: "Larry Connors documented 2-period RSI mean reversion in 'Short-Term Trading Strategies That Work'. Works best in uptrending markets (buy dips).",
+      risks: "Fails in trending markets - oversold can get more oversold. Requires strict stop-losses. Transaction costs eat into small-edge trades. Works best as supplement to trend filter (only buy dips in uptrends)."
+    },
+    {
+      name: "Pairs Trading with Cointegration",
+      description: "Find two stocks that move together (cointegrated) and trade their spread when it deviates from normal.",
+      implementation: "Screen for cointegrated pairs using Augmented Dickey-Fuller test. Calculate z-score of spread. Enter when z > 2 or z < -2. Exit when spread returns to mean (z near 0).",
+      parameters: "Cointegration p-value < 0.05. Entry: |z| > 2. Exit: |z| < 0.5 or |z| > 4 (stop loss). Mean reversion speed κ > 252/30.",
+      evidence: "Gatev, Goetzmann, Rouwenhorst (2006) documented 11% annualized excess returns 1962-2002. Avellaneda & Lee (2010) formalized the statistical framework.",
+      risks: "Cointegration breaks down - pairs that work in-sample often fail out-of-sample. Strategy returns have declined significantly since original study. Crowded trade - many quants run similar strategies. 2007 Quant Crisis showed systematic risk."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "Mean reversion has higher win rates than trend following. Why would anyone choose trend following?",

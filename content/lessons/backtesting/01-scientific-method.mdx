@@ -123,6 +123,28 @@ Renaissance Technologies' Medallion Fund has generated ~66% annual returns befor
 Treat trading like science: form **testable hypotheses**, use **out-of-sample data** for validation, and account for **multiple testing bias**. Be skeptical of results that seem too good - they usually are.
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Research Edge"
+  strategies={[
+    {
+      name: "Deflated Sharpe Ratio (Avoid False Discoveries)",
+      description: "Adjust your reported Sharpe ratio for the number of strategies you tested. A Sharpe of 2.0 after testing 100 strategies might actually be 0.5.",
+      implementation: "Track how many strategies/parameters you tested. Apply Bailey & López de Prado's deflated Sharpe formula. Only trade strategies that remain significant after adjustment.",
+      parameters: "DSR = SR × sqrt(1 - (trials - 1) / (2 × observations)). For 100 trials on 5 years of monthly data, multiply SR by ~0.8.",
+      evidence: "Bailey & López de Prado (2014, JFE) showed most academic strategies fail because of multiple testing. Deflated Sharpe corrects for this systematically.",
+      risks: "You'll reject many strategies that 'look good'. May lead to analysis paralysis. Requires discipline to track all tests, not just successful ones."
+    },
+    {
+      name: "Pre-Registration (Lock In Before Testing)",
+      description: "Define your strategy rules completely BEFORE looking at the test data. This prevents unconscious data snooping.",
+      implementation: "Write down exact entry/exit rules, parameters, and universe before any backtesting. Date-stamp the document. Only test what you pre-specified. Any changes require new out-of-sample data.",
+      parameters: "Document: Universe, entry rules, exit rules, position sizing, all parameters. Date-stamp. No modifications after seeing data.",
+      evidence: "Standard in medical research to prevent p-hacking. Increasingly adopted in quantitative finance. Eliminates the 'researcher degrees of freedom' problem.",
+      risks: "Inflexible - you can't improve the strategy based on what you learn. Requires truly holding out data, which is hard with limited history. May reject good ideas that need minor tweaks."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "If you test 100 strategies at a 5% significance level, you expect 5 false positives. How would you adjust for this?",

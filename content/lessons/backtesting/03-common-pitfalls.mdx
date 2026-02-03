@@ -149,6 +149,28 @@ Knight Capital's disaster wasn't about strategy - it was about deployment:
 The three deadly sins of backtesting: **Lookahead bias** (using future information), **Survivorship bias** (ignoring failures), and **Overfitting** (fitting noise). Always ask: "Would I have known this at the time?"
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Robustness Testing"
+  strategies={[
+    {
+      name: "Parameter Sensitivity Analysis",
+      description: "A robust strategy works across a range of parameters. If only one exact parameter combination works, you've fit noise.",
+      implementation: "Vary each parameter ±20%. Plot performance surface. Look for smooth 'plateaus' of good performance, not sharp 'peaks'. Only trade parameters in the middle of stable regions.",
+      parameters: "Test: lookback ± 20%, thresholds ± 20%, all combinations. Require: >50% of nearby parameters also profitable.",
+      evidence: "AQR, Two Sigma, and academic research all emphasize parameter stability as key robustness indicator. Sharp peaks indicate overfitting.",
+      risks: "You'll reject many 'good' backtests. May end up with more conservative strategies. But stable strategies are more likely to work out-of-sample."
+    },
+    {
+      name: "Sub-Period Consistency",
+      description: "Split your data into 3-5 sub-periods. A robust strategy should work in each period, not just overall.",
+      implementation: "Divide data into sub-periods: pre-2000, 2000-2007, 2008-2009, 2010-2019, 2020+. Test strategy in each. Require positive Sharpe in majority of periods.",
+      parameters: "Minimum: 3 sub-periods. Require: Positive returns in at least 2/3 of periods. Flag: Any period with losses > 20%.",
+      evidence: "Strategies that only work in one period are likely fit to that specific regime. Multi-period consistency is a strong indicator of genuine edge.",
+      risks: "Reduces statistical power by splitting data. May reject strategies that are 'right for current regime'. Requires judgment about what periods to use."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "If you test 100 random strategies, about how many would you expect to show a 'statistically significant' result by pure chance?",

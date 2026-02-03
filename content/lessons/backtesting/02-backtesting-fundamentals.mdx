@@ -150,6 +150,28 @@ A strategy trading $1M in a stock with $50M daily volume might see:
 A backtest is only as good as its assumptions. Always use **realistic transaction costs**, account for **slippage**, and remember that past performance doesn't guarantee future results. The goal is to avoid obviously bad strategies, not to predict exact future returns.
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Realistic Backtesting"
+  strategies={[
+    {
+      name: "Conservative Cost Assumptions",
+      description: "Use 2x your estimated transaction costs. If the strategy still works, it might be real. If it doesn't, you've saved yourself from a losing strategy.",
+      implementation: "Estimate realistic costs: commissions + spread + slippage + market impact. Double this estimate. Run backtest with inflated costs. Only proceed if still profitable.",
+      parameters: "Retail: 0.1-0.2% round-trip for liquid stocks. Add 0.05-0.1% for slippage. Double total for safety margin.",
+      evidence: "AQR research shows many strategies that work at $10M fail at $100M due to market impact. Being conservative on costs is the cheapest form of robustness testing.",
+      risks: "You'll reject some strategies that might have worked. Overly conservative assumptions may cause you to miss opportunities. But false negatives are much cheaper than false positives."
+    },
+    {
+      name: "Capacity-Constrained Position Sizing",
+      description: "Limit position size based on daily volume to avoid market impact that wasn't in your backtest.",
+      implementation: "Calculate average daily volume (ADV) for each stock. Limit position to 1-2% of ADV. If your strategy requires larger positions, expect worse execution than backtest shows.",
+      parameters: "Max position = 1% of 20-day average daily volume. For $100K portfolio in stock with $10M ADV, max position = $100K (1% × $10M).",
+      evidence: "Two Sigma, AQR, and other institutional quants all model capacity constraints. Ignoring capacity is the #1 reason retail backtests don't replicate.",
+      risks: "Limits the size you can trade, potentially reducing absolute returns. May force you to trade more stocks (diversification cost). Requires ongoing monitoring of liquidity."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "Your backtest shows 50% annual returns. What's your first reaction?",

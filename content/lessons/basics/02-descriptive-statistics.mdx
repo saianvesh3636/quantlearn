@@ -139,6 +139,28 @@ This is what fat tails (high kurtosis) means in practice. Financial returns have
 Financial returns are characterized by: **positive mean** (stocks go up on average), **significant variance** (daily swings are large), **negative skewness** (crashes are worse than rallies), and **high kurtosis** (extreme events happen more than normal distribution predicts).
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Fat Tails & Distribution"
+  strategies={[
+    {
+      name: "Tail Risk Hedging (Indirect via Trend Following)",
+      description: "Instead of buying expensive put options, use trend-following strategies that naturally go short during prolonged declines - providing 'crisis alpha' without the constant negative carry.",
+      implementation: "Allocate 10-20% of portfolio to a diversified trend-following strategy (or CTA fund). When markets crash, trend systems go short, providing positive returns that offset equity losses.",
+      parameters: "Trend lookback: 12 months. Position: Long if trailing return positive, short if negative. Apply across 20+ markets (equities, bonds, commodities, currencies).",
+      evidence: "AQR research shows trend following provides 'crisis alpha' similar to put options but without the 7.4% annual premium decay. CTAs gained +13-21% in 2008 while stocks lost 50%+.",
+      risks: "Underperforms in choppy, trendless markets (2010-2019 for many assets). Whipsaws during V-shaped recoveries. Requires discipline through years of underperformance."
+    },
+    {
+      name: "Position Sizing Based on True Distributions",
+      description: "Use fat-tailed distributions (not normal) to calculate position sizes and stop losses, avoiding blow-ups from 'impossible' events.",
+      implementation: "Calculate historical kurtosis of your asset. If kurtosis > 3, multiply your risk estimates by 1.5-2x. Set stop losses based on worst historical drawdowns, not standard deviation assumptions.",
+      parameters: "Risk multiplier = 1 + (kurtosis - 3) / 10. For kurtosis of 6, use 1.3x wider stops than normal distribution suggests.",
+      evidence: "Mandelbrot's work showed financial returns have kurtosis 5-10. Position sizing based on normal assumptions underestimates tail risk by 10-100x.",
+      risks: "Wider stops mean smaller positions and potentially lower returns. You're sacrificing upside for protection. Requires discipline to accept lower returns in normal times."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "If financial returns aren't normally distributed, why do so many textbooks and risk models still assume normality?",

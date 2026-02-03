@@ -116,6 +116,28 @@ The difference is staggering because **returns compound**. Log returns correctly
 For small returns (under 10%), simple and log returns are nearly identical. For larger returns or longer time periods, the difference becomes significant. Quant professionals typically use **log returns** for statistical analysis.
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Compounding & Returns"
+  strategies={[
+    {
+      name: "Rebalancing Premium (Volatility Harvesting)",
+      description: "Exploit the mathematical fact that rebalancing volatile, uncorrelated assets can generate excess returns beyond buy-and-hold.",
+      implementation: "Combine volatile, uncorrelated assets (stocks + bonds + commodities). Rebalance monthly or when allocations drift >5% from targets. The act of selling winners and buying losers harvests the 'volatility drag' that hurts individual assets.",
+      parameters: "Target allocation: e.g., 60% stocks / 30% bonds / 10% commodities. Rebalance threshold: 5% drift or monthly.",
+      evidence: "Booth & Fama (1992), Bernstein & Wilkinson (1997) documented 85-138 basis points annual premium. Known as Shannon's Demon in information theory.",
+      risks: "Underperforms in strong trending markets (you're selling winners). Transaction costs can erode premium. Correlations spike during crises, reducing benefit exactly when you need it most."
+    },
+    {
+      name: "Avoid Leveraged ETF Decay",
+      description: "Understand that leveraged ETFs suffer from volatility drag over time, creating opportunities for those who understand returns math.",
+      implementation: "Never hold leveraged ETFs (2x, 3x, -1x) for more than a day. For longer-term bearish or bullish bets, use options or unleveraged positions instead. The math of daily rebalancing guarantees long-term decay in volatile markets.",
+      parameters: "Hold period: Intraday only for leveraged products.",
+      evidence: "Leveraged ETF decay is mathematically guaranteed. A 2x ETF on an asset that goes +10% then -10% returns -2% (not 0%). This compounds daily.",
+      risks: "You might miss short-term moves. Alternatives (options) have their own complexities. Understanding doesn't equal profit - this is defensive knowledge."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "If a stock goes up 20% then down 20%, what's your actual return? Why isn't it 0%?",

@@ -116,6 +116,28 @@ AQR's research has documented a persistent phenomenon: **parameter decay**.
 Walk-forward analysis provides **realistic performance estimates** by simulating real-time strategy development. It's slower than simple backtesting but much more reliable. Always use walk-forward before committing real capital.
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Realistic Testing"
+  strategies={[
+    {
+      name: "Combinatorial Purged Cross-Validation (CPCV)",
+      description: "A more robust alternative to walk-forward that tests all possible train/test combinations while avoiding data leakage.",
+      implementation: "Split data into k folds. Test all combinations of training on n folds and testing on remaining folds, while purging overlapping data. Average performance across all combinations.",
+      parameters: "K = 5-10 folds. Purge window = max lookback of strategy. Require: Positive Sharpe in >60% of combinations.",
+      evidence: "López de Prado showed CPCV produces more reliable performance estimates than standard walk-forward. Bailey et al. (2014) developed the theoretical framework.",
+      risks: "Computationally intensive. Can still overfit if you iterate too many times. Requires careful implementation to avoid data leakage."
+    },
+    {
+      name: "Paper Trading Requirement",
+      description: "After backtesting, REQUIRE a minimum period of paper trading before live capital. This catches implementation bugs and market changes.",
+      implementation: "After all backtesting is complete, paper trade for minimum 3-6 months. Track execution vs. theoretical fills. Compare live signals to historical. Only go live if paper matches backtest within 20%.",
+      parameters: "Minimum paper period: 3-6 months (longer for low-frequency strategies). Acceptable deviation: <20% from backtest Sharpe.",
+      evidence: "Knight Capital lost $440M due to implementation bugs that would have been caught in paper trading. Quantopian data shows live performance systematically worse than backtest.",
+      risks: "Delays deployment, possibly missing opportunities. Market conditions during paper period may not be representative. Requires discipline to not skip this step when backtests look great."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "You run walk-forward analysis and the combined out-of-sample performance is much worse than the in-sample performance of each window. What does this tell you?",

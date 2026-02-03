@@ -6,3 +6,4 @@ export { default as SimpleChart } from './SimpleChart';
 export { default as RealWorldExample } from './RealWorldExample';
 export { default as ThinkAboutIt } from './ThinkAboutIt';
 export { default as WhyItMatters } from './WhyItMatters';
+export { default as FindYourEdge } from './FindYourEdge';

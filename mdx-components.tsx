@@ -25,6 +25,7 @@ import {
   RealWorldExample,
   ThinkAboutIt,
   WhyItMatters,
+  FindYourEdge,
 } from '@/components/lesson';
 
 // Import Quiz component
@@ -72,6 +73,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     RealWorldExample,
     ThinkAboutIt,
     WhyItMatters,
+    FindYourEdge,
 
     // Custom styled components
     h1: ({ children, ...props }) => (

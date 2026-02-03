@@ -162,6 +162,28 @@ A "diversified" portfolio of US stocks, international stocks, emerging markets, 
 Correlation measures co-movement between assets. **Low correlations** enable diversification. Use **correlation matrices** to visualize relationships. But beware: **correlations spike during crises** when you need diversification most.
 </KeyTakeaway>
 
+<FindYourEdge
+  concept="Correlation & Diversification"
+  strategies={[
+    {
+      name: "Dispersion Trading (Correlation Premium)",
+      description: "Implied correlation (from index options) consistently exceeds realized correlation. Sell index volatility and buy single-stock volatility to harvest this premium.",
+      implementation: "Sell ATM straddle on S&P 500 index. Buy ATM straddles on weighted basket of component stocks. Delta-hedge the combined portfolio. Profit when realized correlation is lower than implied.",
+      parameters: "Entry when implied correlation > 0.6. Exit when spread normalizes. Use weighting proportional to index weights.",
+      evidence: "Driessen, Maenhout & Vilkov found 18-point correlation risk premium (1996-2003). CBOE launched DSPX index in 2023 to track dispersion opportunities.",
+      risks: "BLOW-UP RISK: During market stress (2008, 2020), correlations spike to 1.0 and you lose on both legs. Requires significant capital and options expertise. Premium has compressed as more participants entered."
+    },
+    {
+      name: "Crisis-Period Stress Testing",
+      description: "Use crisis-period correlations (not average) for portfolio construction to build truly resilient portfolios.",
+      implementation: "Calculate correlations from 2008-2009, March 2020, and other crisis periods. Use these higher correlations for risk budgeting. Add truly uncorrelated assets: managed futures, gold, long volatility.",
+      parameters: "Use correlation matrix from worst 5% of market days, not all days. Assume equity-like assets reach 0.8+ correlation in crises.",
+      evidence: "Page & Panariello (2018 FAJ) showed diversified portfolios underperformed 60/40 by 9% in 2008 due to correlation spikes. Crisis correlations are more predictive of tail risk.",
+      risks: "Portfolio will be more conservative and may underperform in normal times. Truly uncorrelated assets (trend following) often have negative expected returns as the cost of protection."
+    }
+  ]}
+/>
+
 <ThinkAboutIt questions={[
   {
     question: "If you know correlations spike during crises, how would you build a portfolio that actually protects you when it matters?",
