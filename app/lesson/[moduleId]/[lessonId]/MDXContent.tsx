@@ -32,8 +32,13 @@ import {
 
 import Quiz from '@/components/Quiz';
 
-// MDX components mapping
+// Import base MDX components for HTML elements (strong, p, ul, etc.)
+import { mdxComponents as baseMdxComponents } from '@/lib/mdx-components';
+
+// MDX components mapping - merge base components with custom ones
 const mdxComponents = {
+  // Base HTML element overrides (strong, p, ul, li, etc.)
+  ...baseMdxComponents,
   // Visualizations
   LineChart,
   Histogram,

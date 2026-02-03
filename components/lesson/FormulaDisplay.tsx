@@ -13,7 +13,7 @@ export default function FormulaDisplay({ formula, explanation, variables }: Form
   return (
     <div className="my-8 p-6 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
       {/* Formula */}
-      <div className="text-center py-4 text-2xl">
+      <div className="text-center py-4 text-2xl text-slate-900 dark:text-slate-100">
         <BlockMath math={formula} />
       </div>
 

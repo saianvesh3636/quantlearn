@@ -60,10 +60,6 @@ body {
     border-bottom: 1px solid rgb(229 231 235);
   }
 
-  .dark .prose h2 {
-    border-bottom-color: rgb(55 65 81);
-  }
-
   .prose h3 {
     font-size: 1.25rem;
   }
@@ -80,10 +76,6 @@ body {
     background-color: rgb(243 244 246);
     padding: 0.2em 0.4em;
     border-radius: 0.25rem;
-  }
-
-  .dark .prose code {
-    background-color: rgb(31 41 55);
   }
 
   .prose pre {
@@ -127,11 +119,6 @@ body {
     color: rgb(107 114 128);
   }
 
-  .dark .prose blockquote {
-    border-left-color: rgb(75 85 99);
-    color: rgb(156 163 175);
-  }
-
   /* Links */
   .prose a {
     color: rgb(37 99 235);
@@ -143,23 +130,7 @@ body {
     color: rgb(29 78 216);
   }
 
-  .dark .prose a {
-    color: rgb(96 165 250);
-  }
-
-  .dark .prose a:hover {
-    color: rgb(147 197 253);
-  }
-
-  /* Strong and emphasis */
-  .prose strong {
-    font-weight: 600;
-    color: rgb(17 24 39);
-  }
-
-  .dark .prose strong {
-    color: rgb(243 244 246);
-  }
+  /* Note: strong/emphasis styled in mdx-components.tsx */
 
   /* Tables */
   .prose table {
@@ -178,18 +149,9 @@ body {
     border-bottom: 2px solid rgb(229 231 235);
   }
 
-  .dark .prose th {
-    background-color: rgb(31 41 55);
-    border-bottom-color: rgb(55 65 81);
-  }
-
   .prose td {
     padding: 0.75rem 1rem;
     border-bottom: 1px solid rgb(229 231 235);
-  }
-
-  .dark .prose td {
-    border-bottom-color: rgb(55 65 81);
   }
 
   /* Images */
@@ -205,24 +167,51 @@ body {
     margin: 2em 0;
   }
 
-  .dark .prose hr {
-    border-top-color: rgb(55 65 81);
+  /* Dark mode overrides using media query */
+  @media (prefers-color-scheme: dark) {
+    .prose h2 {
+      border-bottom-color: rgb(55 65 81);
+    }
+
+    .prose code {
+      background-color: rgb(31 41 55);
+    }
+
+    .prose blockquote {
+      border-left-color: rgb(75 85 99);
+      color: rgb(156 163 175);
+    }
+
+    .prose a {
+      color: rgb(96 165 250);
+    }
+
+    .prose a:hover {
+      color: rgb(147 197 253);
+    }
+
+    .prose th {
+      background-color: rgb(31 41 55);
+      border-bottom-color: rgb(55 65 81);
+    }
+
+    .prose td {
+      border-bottom-color: rgb(55 65 81);
+    }
+
+    .prose hr {
+      border-top-color: rgb(55 65 81);
+    }
   }
 }
 
-/* KaTeX formula styling */
+/* KaTeX formula styling - inherit color from parent */
 .katex {
   font-size: 1.1em;
+  color: inherit;
 }
 
 .katex-display {
   margin: 1.5em 0;
   overflow-x: auto;
-  padding: 1rem;
-  background-color: rgb(249 250 251);
-  border-radius: 0.5rem;
-}
-
-.dark .katex-display {
-  background-color: rgb(31 41 55 / 0.5);
 }
