@@ -50,20 +50,28 @@ The **mean** is sensitive to outliers. One huge loss can drag down the average. 
   ]}
 />
 
-<InteractiveExample title="Return Distribution" description="Histogram of daily returns showing spread">
+<InteractiveExample title="Return Distribution" description="Notice the fat left tail - extreme losses occur more often than a normal distribution predicts">
   <Histogram
     data={[
-      { bin: "-3%", count: 2 },
-      { bin: "-2%", count: 8 },
-      { bin: "-1%", count: 22 },
-      { bin: "0%", count: 35 },
-      { bin: "+1%", count: 20 },
-      { bin: "+2%", count: 10 },
-      { bin: "+3%", count: 3 }
+      { bin: "-6%", count: 3 },
+      { bin: "-5%", count: 5 },
+      { bin: "-4%", count: 8 },
+      { bin: "-3%", count: 14 },
+      { bin: "-2%", count: 28 },
+      { bin: "-1%", count: 58 },
+      { bin: "-0.5%", count: 72 },
+      { bin: "0%", count: 85 },
+      { bin: "+0.5%", count: 68 },
+      { bin: "+1%", count: 52 },
+      { bin: "+2%", count: 24 },
+      { bin: "+3%", count: 11 },
+      { bin: "+4%", count: 5 },
+      { bin: "+5%", count: 2 }
     ]}
     xLabel="Daily Return"
-    yLabel="Frequency"
-    title="S&P 500 Daily Return Distribution"
+    yLabel="Frequency (days)"
+    title="S&P 500 Daily Returns: Fat Tails & Negative Skew"
+    subtitle="Based on 500 trading days - notice asymmetry"
   />
 </InteractiveExample>
 

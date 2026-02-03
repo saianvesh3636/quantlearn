@@ -39,24 +39,32 @@ Raw prices are noisy - daily fluctuations obscure the underlying trend. **Moving
 The 200-day MA is closely watched - breaks above/below are significant events.
 </ConceptCard>
 
-<InteractiveExample title="Price with Moving Averages" description="Short and long-term trends revealed">
+<InteractiveExample title="Price with Moving Averages" description="Watch for the Golden Cross (short MA crosses above long MA) in March - a classic buy signal">
   <CandlestickChart
     data={[
-      { date: "Jan", open: 100, high: 105, low: 98, close: 103, volume: 1200000 },
-      { date: "Feb", open: 103, high: 108, low: 101, close: 106, volume: 1400000 },
-      { date: "Mar", open: 106, high: 112, low: 104, close: 110, volume: 1600000 },
-      { date: "Apr", open: 110, high: 115, low: 108, close: 113, volume: 1800000 },
-      { date: "May", open: 113, high: 116, low: 109, close: 111, volume: 1500000 },
-      { date: "Jun", open: 111, high: 114, low: 105, close: 107, volume: 1700000 },
-      { date: "Jul", open: 107, high: 110, low: 102, close: 104, volume: 1300000 },
-      { date: "Aug", open: 104, high: 109, low: 100, close: 108, volume: 1100000 }
+      { date: "Jan-W1", open: 142.5, high: 145.2, low: 140.8, close: 144.3, volume: 52400000 },
+      { date: "Jan-W2", open: 144.1, high: 146.8, low: 142.5, close: 143.2, volume: 48200000 },
+      { date: "Jan-W3", open: 143.5, high: 147.2, low: 141.8, close: 146.5, volume: 55100000 },
+      { date: "Jan-W4", open: 146.2, high: 149.5, low: 145.1, close: 148.8, volume: 61300000 },
+      { date: "Feb-W1", open: 148.5, high: 151.2, low: 146.8, close: 150.4, volume: 58700000 },
+      { date: "Feb-W2", open: 150.1, high: 152.8, low: 148.5, close: 149.2, volume: 52400000 },
+      { date: "Feb-W3", open: 149.5, high: 153.1, low: 147.8, close: 152.6, volume: 64200000 },
+      { date: "Feb-W4", open: 152.3, high: 155.8, low: 151.2, close: 154.9, volume: 71500000 },
+      { date: "Mar-W1", open: 154.5, high: 158.2, low: 153.1, close: 157.4, volume: 68900000 },
+      { date: "Mar-W2", open: 157.1, high: 160.5, low: 155.8, close: 159.2, volume: 72300000 },
+      { date: "Mar-W3", open: 159.5, high: 161.8, low: 156.2, close: 158.1, volume: 65400000 },
+      { date: "Mar-W4", open: 158.4, high: 162.1, low: 157.5, close: 161.5, volume: 69800000 },
+      { date: "Apr-W1", open: 161.2, high: 164.5, low: 159.8, close: 163.8, volume: 74200000 },
+      { date: "Apr-W2", open: 163.5, high: 165.2, low: 160.1, close: 161.4, volume: 58600000 },
+      { date: "Apr-W3", open: 161.8, high: 164.8, low: 158.5, close: 159.2, volume: 62100000 },
+      { date: "Apr-W4", open: 159.5, high: 162.1, low: 156.8, close: 157.5, volume: 55800000 }
     ]}
     signals={[
-      { date: "Apr", type: "buy", price: 113, label: "Golden Cross" },
-      { date: "Jun", type: "sell", price: 107, label: "Death Cross" }
+      { date: "Mar-W1", type: "buy", price: 157.4, label: "Golden Cross" }
     ]}
-    title="Price with 20-day and 50-day Moving Averages"
-    movingAverages={[3, 5]}
+    title="Weekly Price with 4-Week and 8-Week Moving Averages"
+    subtitle="Golden Cross in early March signals bullish trend"
+    movingAverages={[4, 8]}
     showVolume={true}
   />
 </InteractiveExample>

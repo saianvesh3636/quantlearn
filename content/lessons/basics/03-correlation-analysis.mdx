@@ -73,19 +73,23 @@ Covariance is hard to interpret because it depends on the units/scale of the var
 With multiple assets, we use a **correlation matrix** to see all pairwise correlations at once. The diagonal is always 1 (asset correlated with itself). Look for low/negative correlations for diversification.
 </ConceptCard>
 
-<InteractiveExample title="Asset Correlation Matrix" description="Pairwise correlations between asset classes">
+<InteractiveExample title="Asset Correlation Matrix" description="Look for blue cells (low/negative) - these provide diversification benefits">
   <Heatmap
     data={{
-      rowLabels: ["US Stocks", "Int'l Stocks", "Bonds", "Gold"],
-      columnLabels: ["US Stocks", "Int'l Stocks", "Bonds", "Gold"],
+      rowLabels: ["US Stocks", "Intl Dev", "EM Stocks", "US Bonds", "Corp Bonds", "Gold", "REITs"],
+      columnLabels: ["US Stocks", "Intl Dev", "EM Stocks", "US Bonds", "Corp Bonds", "Gold", "REITs"],
       data: [
-        [1.0, 0.85, -0.2, 0.05],
-        [0.85, 1.0, -0.1, 0.15],
-        [-0.2, -0.1, 1.0, 0.3],
-        [0.05, 0.15, 0.3, 1.0]
+        [1.00, 0.82, 0.72, -0.18, 0.32, 0.02, 0.68],
+        [0.82, 1.00, 0.78, -0.12, 0.28, 0.08, 0.62],
+        [0.72, 0.78, 1.00, -0.08, 0.35, 0.12, 0.55],
+        [-0.18, -0.12, -0.08, 1.00, 0.65, 0.15, -0.05],
+        [0.32, 0.28, 0.35, 0.65, 1.00, 0.08, 0.42],
+        [0.02, 0.08, 0.12, 0.15, 0.08, 1.00, 0.18],
+        [0.68, 0.62, 0.55, -0.05, 0.42, 0.18, 1.00]
       ]
     }}
-    title="Asset Class Correlation Matrix"
+    title="Asset Class Correlations (2015-2023 Normal Periods)"
+    subtitle="Gold and Bonds provide best diversification vs stocks"
     diverging={true}
     showValues={true}
   />

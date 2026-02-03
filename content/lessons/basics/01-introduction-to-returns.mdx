@@ -73,22 +73,29 @@ Logarithmic (or continuously compounded) returns use natural logarithms:
 
 <InteractiveExample
   title="Compare Simple vs Log Returns"
-  description="See how cumulative returns differ between simple and log methods over time"
+  description="Hover over points to see how compounding makes the gap widen over time"
 >
   <SimpleChart
     data={[
-      { label: "T=0", value1: 0, value2: 0 },
-      { label: "T=1", value1: 10, value2: 9.53 },
-      { label: "T=2", value1: 21, value2: 19.06 },
-      { label: "T=3", value1: 33.1, value2: 28.6 },
-      { label: "T=4", value1: 46.41, value2: 38.13 },
-      { label: "T=5", value1: 61.05, value2: 47.67 }
+      { label: "Y0", value1: 0, value2: 0 },
+      { label: "Y1", value1: 12.3, value2: 11.6 },
+      { label: "Y2", value1: 26.1, value2: 23.2 },
+      { label: "Y3", value1: 41.5, value2: 34.7 },
+      { label: "Y4", value1: 58.7, value2: 46.3 },
+      { label: "Y5", value1: 78.0, value2: 57.9 },
+      { label: "Y6", value1: 99.5, value2: 69.5 },
+      { label: "Y7", value1: 123.4, value2: 81.1 },
+      { label: "Y8", value1: 150.1, value2: 92.7 },
+      { label: "Y9", value1: 179.7, value2: 104.3 },
+      { label: "Y10", value1: 212.5, value2: 115.9 },
+      { label: "Y15", value1: 435.0, value2: 173.8 },
+      { label: "Y20", value1: 864.6, value2: 231.8 }
     ]}
-    xLabel="Time Period"
+    xLabel="Years (assuming 12% annual return)"
     yLabel="Cumulative Return (%)"
-    title="Simple vs Log Returns Over Time"
-    series1Name="Simple Return"
-    series2Name="Log Return"
+    title="Simple vs Log Returns: The Compounding Gap"
+    series1Name="Simple (Arithmetic)"
+    series2Name="Log (Geometric)"
     series1Color="#3b82f6"
     series2Color="#10b981"
   />

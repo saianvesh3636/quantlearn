@@ -30,26 +30,34 @@ Portfolio optimization finds the best allocation across assets or strategies. Th
 
 <InteractiveExample title="Efficient Frontier" description="Optimal portfolios for different risk levels">
   <EfficientFrontier
-    data={{
-      frontier: [
-        { risk: 5, return: 4 },
-        { risk: 6, return: 5.5 },
-        { risk: 7, return: 6.8 },
-        { risk: 8, return: 7.8 },
-        { risk: 10, return: 9 },
-        { risk: 12, return: 10 },
-        { risk: 15, return: 11 },
-        { risk: 18, return: 11.5 }
-      ],
-      assets: [
-        { risk: 8, return: 5, name: "Bonds" },
-        { risk: 15, return: 9, name: "Stocks" },
-        { risk: 20, return: 11, name: "EM" },
-        { risk: 12, return: 7, name: "REIT" }
-      ],
-      optimal: { risk: 10, return: 9, name: "Tangency" }
-    }}
+    frontier={[
+      { risk: 5.2, return: 3.8 },
+      { risk: 5.8, return: 4.9 },
+      { risk: 6.5, return: 5.8 },
+      { risk: 7.4, return: 6.7 },
+      { risk: 8.5, return: 7.5 },
+      { risk: 9.8, return: 8.2 },
+      { risk: 11.2, return: 8.8 },
+      { risk: 12.8, return: 9.3 },
+      { risk: 14.5, return: 9.7 },
+      { risk: 16.4, return: 10.1 },
+      { risk: 18.5, return: 10.4 },
+      { risk: 20.8, return: 10.6 }
+    ]}
+    assets={[
+      { name: "US Bonds", risk: 5.5, return: 3.2 },
+      { name: "Corp Bonds", risk: 7.8, return: 4.5 },
+      { name: "US Stocks", risk: 16.2, return: 9.8 },
+      { name: "Intl Stocks", risk: 18.5, return: 8.9 },
+      { name: "EM Stocks", risk: 23.4, return: 10.2 },
+      { name: "REITs", risk: 19.1, return: 8.4 },
+      { name: "Gold", risk: 15.3, return: 5.1 }
+    ]}
+    optimalPortfolio={{ risk: 9.8, return: 8.2, sharpe: 0.84 }}
+    riskFreeRate={2.0}
+    showCML={true}
     title="Efficient Frontier with Individual Assets"
+    subtitle="Tangency portfolio maximizes Sharpe ratio"
   />
 </InteractiveExample>
 
@@ -61,22 +69,22 @@ Optimization is only as good as your inputs. Small errors in expected returns ca
 **Result**: Optimized portfolios often perform worse than simple equal-weight!
 </ConceptCard>
 
-<InteractiveExample title="Estimation Error Impact" description="How input errors affect optimal weights">
+<InteractiveExample title="Estimation Error Impact" description="Small errors in return estimates cause large swings in optimal weights">
   <SensitivityHeatmap
-    data={[
-      { x: -0.5, y: "Asset A", value: 60 },
-      { x: 0, y: "Asset A", value: 40 },
-      { x: 0.5, y: "Asset A", value: 20 },
-      { x: -0.5, y: "Asset B", value: 20 },
-      { x: 0, y: "Asset B", value: 30 },
-      { x: 0.5, y: "Asset B", value: 45 },
-      { x: -0.5, y: "Asset C", value: 20 },
-      { x: 0, y: "Asset C", value: 30 },
-      { x: 0.5, y: "Asset C", value: 35 }
-    ]}
-    xLabel="Return Estimate Error (%)"
-    yLabel="Asset"
+    data={{
+      param1Values: [-1.0, -0.5, 0, 0.5, 1.0],
+      param1Label: "Return Estimate Error (%)",
+      param2Values: [1, 2, 3],
+      param2Label: "Asset",
+      results: [
+        [72, 58, 40, 22, 8],
+        [18, 24, 30, 38, 52],
+        [10, 18, 30, 40, 40]
+      ],
+      metricLabel: "Optimal Weight (%)"
+    }}
     title="Optimal Weights vs Return Estimate Errors"
+    subtitle="Notice how a 1% error flips the allocation dramatically"
   />
 </InteractiveExample>
 

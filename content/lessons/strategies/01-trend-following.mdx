@@ -75,21 +75,36 @@ Trends persist because of:
 - **Slow information diffusion**: News takes time to fully reflect in prices
 </ConceptCard>
 
-<InteractiveExample title="Trend Strategy Equity Curve" description="Trend following performance over multiple market cycles">
+<InteractiveExample title="Trend Strategy Equity Curve" description="Notice how the strategy gains during crisis periods (shaded) when stocks crash">
   <EquityCurve
     data={[
-      { date: "2018-01", equity: 100000, drawdown: 0 },
-      { date: "2018-06", equity: 95000, drawdown: -5 },
-      { date: "2019-01", equity: 105000, drawdown: 0 },
-      { date: "2019-06", equity: 120000, drawdown: 0 },
-      { date: "2020-01", equity: 115000, drawdown: -4.2 },
-      { date: "2020-06", equity: 140000, drawdown: 0 },
-      { date: "2021-01", equity: 165000, drawdown: 0 },
-      { date: "2021-06", equity: 155000, drawdown: -6.1 },
-      { date: "2022-01", equity: 145000, drawdown: -12.1 },
-      { date: "2022-06", equity: 170000, drawdown: 0 }
+      { date: "2007-01", equity: 100000, drawdown: 0 },
+      { date: "2007-06", equity: 98500, drawdown: -1.5 },
+      { date: "2007-12", equity: 103200, drawdown: 0 },
+      { date: "2008-03", equity: 108700, drawdown: 0 },
+      { date: "2008-06", equity: 115400, drawdown: 0 },
+      { date: "2008-09", equity: 124800, drawdown: 0 },
+      { date: "2008-12", equity: 138500, drawdown: 0 },
+      { date: "2009-03", equity: 132100, drawdown: -4.6 },
+      { date: "2009-06", equity: 128400, drawdown: -7.3 },
+      { date: "2009-12", equity: 135600, drawdown: -2.1 },
+      { date: "2010-06", equity: 142300, drawdown: 0 },
+      { date: "2011-01", equity: 138900, drawdown: -2.4 },
+      { date: "2011-08", equity: 151200, drawdown: 0 },
+      { date: "2012-06", equity: 148700, drawdown: -1.7 },
+      { date: "2015-01", equity: 162400, drawdown: 0 },
+      { date: "2018-01", equity: 171800, drawdown: 0 },
+      { date: "2018-12", equity: 165300, drawdown: -3.8 },
+      { date: "2019-06", equity: 158900, drawdown: -7.5 },
+      { date: "2020-01", equity: 163200, drawdown: -5.0 },
+      { date: "2020-03", equity: 189400, drawdown: 0 },
+      { date: "2020-06", equity: 182100, drawdown: -3.9 },
+      { date: "2022-01", equity: 178500, drawdown: -5.8 },
+      { date: "2022-06", equity: 198700, drawdown: 0 },
+      { date: "2022-12", equity: 215300, drawdown: 0 }
     ]}
-    title="Trend Following: Big Wins, Many Small Losses"
+    title="Trend Following: Crisis Alpha in Action"
+    subtitle="Strategy gained +38.5% during 2008 crash, +16% during March 2020"
   />
 </InteractiveExample>
 

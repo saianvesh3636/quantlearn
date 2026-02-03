@@ -64,29 +64,42 @@ Mean reversion is seductive because it feels right - buy low, sell high. Win rat
 **Pairs trading** finds two correlated assets and trades their spread. When the spread widens beyond normal, bet on convergence. This is market-neutral (no exposure to overall market direction).
 </ConceptCard>
 
-<InteractiveExample title="Pairs Trading Spread" description="Trade the spread between two correlated assets">
+<InteractiveExample title="Pairs Trading Spread" description="Watch days 18-24: the spread breaks through and KEEPS GOING - this is when mean reversion fails catastrophically">
   <LineChart
     data={[
-      { x: 1, y: 0, y2: 2, y3: -2 },
-      { x: 2, y: 0.5, y2: 2, y3: -2 },
-      { x: 3, y: 1.5, y2: 2, y3: -2 },
-      { x: 4, y: 2.5, y2: 2, y3: -2 },
-      { x: 5, y: 1.8, y2: 2, y3: -2 },
-      { x: 6, y: 0.8, y2: 2, y3: -2 },
-      { x: 7, y: -0.5, y2: 2, y3: -2 },
-      { x: 8, y: -1.5, y2: 2, y3: -2 },
-      { x: 9, y: -2.3, y2: 2, y3: -2 },
-      { x: 10, y: -1.2, y2: 2, y3: -2 },
-      { x: 11, y: -0.3, y2: 2, y3: -2 },
-      { x: 12, y: 0.2, y2: 2, y3: -2 }
+      { x: 1, y: 0.2, y2: 2, y3: -2 },
+      { x: 2, y: 0.8, y2: 2, y3: -2 },
+      { x: 3, y: 1.4, y2: 2, y3: -2 },
+      { x: 4, y: 2.1, y2: 2, y3: -2 },
+      { x: 5, y: 1.6, y2: 2, y3: -2 },
+      { x: 6, y: 0.9, y2: 2, y3: -2 },
+      { x: 7, y: 0.3, y2: 2, y3: -2 },
+      { x: 8, y: -0.4, y2: 2, y3: -2 },
+      { x: 9, y: -1.2, y2: 2, y3: -2 },
+      { x: 10, y: -1.8, y2: 2, y3: -2 },
+      { x: 11, y: -1.3, y2: 2, y3: -2 },
+      { x: 12, y: -0.5, y2: 2, y3: -2 },
+      { x: 13, y: 0.1, y2: 2, y3: -2 },
+      { x: 14, y: 0.6, y2: 2, y3: -2 },
+      { x: 15, y: 1.1, y2: 2, y3: -2 },
+      { x: 16, y: 0.7, y2: 2, y3: -2 },
+      { x: 17, y: 0.2, y2: 2, y3: -2 },
+      { x: 18, y: -0.8, y2: 2, y3: -2 },
+      { x: 19, y: -1.9, y2: 2, y3: -2 },
+      { x: 20, y: -2.4, y2: 2, y3: -2 },
+      { x: 21, y: -3.1, y2: 2, y3: -2 },
+      { x: 22, y: -3.8, y2: 2, y3: -2 },
+      { x: 23, y: -4.2, y2: 2, y3: -2 },
+      { x: 24, y: -4.9, y2: 2, y3: -2 }
     ]}
-    xLabel="Time"
+    xLabel="Day"
     yLabel="Spread (Z-Score)"
-    title="Pairs Spread with Entry/Exit Bands"
+    title="Pairs Spread: Normal Reversion Then Catastrophic Failure"
+    subtitle="Days 1-17: spread reverts as expected. Days 18-24: regime change - spread keeps widening!"
     series={[
       { key: "y", name: "Spread", color: "#3b82f6" },
-      { key: "y2", name: "Upper Band", color: "#ef4444" },
-      { key: "y3", name: "Lower Band", color: "#10b981" }
+      { key: "y2", name: "Entry Band (+2σ)", color: "#ef4444" },
+      { key: "y3", name: "Entry Band (-2σ)", color: "#10b981" }
     ]}
   />
 </InteractiveExample>

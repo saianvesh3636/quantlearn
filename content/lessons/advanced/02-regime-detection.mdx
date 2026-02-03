@@ -52,9 +52,9 @@ The model learns transition probabilities: P(Bull→Bear), P(Bear→Bull)
     ]}
     title="S&P 500 with Detected Regimes"
     regimes={[
-      { name: "bull", color: "#10b981", label: "Bull Market" },
-      { name: "bear", color: "#ef4444", label: "Bear Market" },
-      { name: "recovery", color: "#f59e0b", label: "Recovery" }
+      { name: "bull", color: "#10b981", description: "Bull Market" },
+      { name: "bear", color: "#ef4444", description: "Bear Market" },
+      { name: "recovery", color: "#f59e0b", description: "Recovery" }
     ]}
   />
 </InteractiveExample>
@@ -72,20 +72,17 @@ No fancy model needed - just conditional on observable volatility.
 
 <InteractiveExample title="Strategy Performance by Regime" description="Different strategies excel in different regimes">
   <Heatmap
-    data={[
-      { x: "Trend", y: "Low Vol", value: 1.8 },
-      { x: "Trend", y: "Normal", value: 1.2 },
-      { x: "Trend", y: "High Vol", value: 0.4 },
-      { x: "Mean Rev", y: "Low Vol", value: 0.6 },
-      { x: "Mean Rev", y: "Normal", value: 1.0 },
-      { x: "Mean Rev", y: "High Vol", value: 1.5 },
-      { x: "Carry", y: "Low Vol", value: 1.4 },
-      { x: "Carry", y: "Normal", value: 0.9 },
-      { x: "Carry", y: "High Vol", value: -0.5 }
-    ]}
-    xLabel="Strategy"
-    yLabel="Volatility Regime"
+    data={{
+      rowLabels: ["Trend", "Mean Rev", "Carry"],
+      columnLabels: ["Low Vol", "Normal", "High Vol"],
+      data: [
+        [1.8, 1.2, 0.4],
+        [0.6, 1.0, 1.5],
+        [1.4, 0.9, -0.5]
+      ]
+    }}
     title="Sharpe Ratio by Strategy and Regime"
+    diverging={true}
   />
 </InteractiveExample>
 
